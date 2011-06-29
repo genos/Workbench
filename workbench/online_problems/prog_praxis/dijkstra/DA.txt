@@ -1,0 +1,38 @@
+We've worked with directed graphs in a
+<a href="http://programmingpraxis.com/2010/11/19/topological-sort/">recent
+</a> exercise. Today's exercise is another graph theoretical procedure with many
+applications: Dijkstra's Algorithm.
+
+Published by Edgar Dijkstra in 1959, this algorithm searches a digraph for the
+shortest paths beginning at a specified vertex; to quote the
+<a href="http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Wikipedia</a>
+article,
+    "For example, if the vertices of the graph represent cities and edge path
+    costs represent driving distances between pairs of cities connected by a
+    direct road, Dijkstra's algorithm can be used to find the shortest route
+    between one city and all other cities. As a result, the shortest path first
+    is widely used in network routing protocols, most notably IS-IS and OSPF
+    (Open Shortest Path First)."
+For instance, in the digraph pictured <<<Include Picture>>>, the shortest path
+from vertex <code>a</code> to <code>e</code> is <code>[a, c, e]</code>. This
+path has a length of 7, which is shorter than the path <code>[a, d, e]</code>
+(which has a distance of 16).
+
+The algorithm works its way through the vertices, indexed by their estimated
+distance from the starting point. At each vertex, the procedure "relaxes" all
+its outward edges, updating distance and predecessor estimates accordingly.
+Once complete, the algorithm has in effect constructed a subtree of the graph
+that gives all the shortest distance paths from the starting vertex to any
+other vertex in the graph via the predecessor attribute. The shortest path to
+the desired finishing vertex can then be reconstructed by traversing the
+predecessor subtree backwards. See Dijkstra's 1959 paper "A Note on Two Problems
+in Connexion with Graphs," available
+<a href="http://www.springerlink.com/content/uu8608u0u27k7256/">here
+</a>, for more information.
+
+Your task: given a weighted digraph G = (V, E) where the edge weights represent
+distances between two vertices, a starting vertex s, and a destination vertex f,
+use Dijkstra's Algorithm to find the shortest path from s to f in G.  When you
+are finished, you are welcome to read or
+<a href="http://codepad.org/puNsVO1H">run</a> a suggested solution, or to post
+your own solution or discuss the exercise in the comments below.

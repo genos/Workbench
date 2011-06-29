@@ -1,0 +1,92 @@
+graph----Graham Enos----Fall 2010
+ITCS 6114 Programming Project
+
+
+==Overview==
+This is my submission to ITCS 6114's programming project. After compilation, the
+executable "graph" will take in a formatted file (specified as a command line
+argument), construct an internal representation of a digraph from this file, and
+perform user-specified actions with this digraph.
+
+To run the program from the command line, where "network.txt" is the input file
+describing the digraph:
+    ./graph network.txt
+During execution, the user has three options:
+    1.  output all vertices (in alphabetical order) and their adjacency lists:
+            print
+    2.  find the shortest path (and its weight) between from_vert and to_vert:
+            path from_vert to_vert
+    3.  halt execution:
+            quit
+
+
+
+==Compilation==
+Since the code is broken over several files, I've supplied a makefile (for use
+with GNU Make or equivalent) to make compilation easier. Simply calling
+    make
+will compile and link all the necessary files. Then
+    make clean
+will remove all the object files created during compilation.
+
+Without the makefile, compilation can be accomplished with:
+c++ -Wall -O2 -c -o FILENAME.o FILENAME.cpp
+c++ binary_min_heap.o digraph.o graph.o min_priority_queue.o vertex.o -o graph 
+where FILENAME is "binary_min_heap, digraph, graph, min_priority_queue," and
+"vertex." 
+
+Compilation has been tested on Mac OS X (10.6.5) with the GNU C Compiler's g++
+(version 4.2.1) and on Linux (Ubuntu 10.04) with g++ version 4.4.3. It should
+compile on any standard C++ installation (e.g. Windows), since it only relies
+on the C++ STL.
+
+
+==Files==
+This project is made up of the following files:
+binary_min_heap.cpp (and binary_min_heap.h):
+    binary min heap implemented on top of a C++ vector
+digraph.cpp, h:
+    directed graph with weighed edges
+graph.cpp:
+    main file
+min_priority_queue.cpp, h:
+    builds upon binary min heap to implement a min priority queue
+vertex.cpp, h:
+    vertices with adjacency lists (map of string --> double)
+
+
+==Program Design==
+I've strived to make this as modular as possible, breaking each logical
+component off into its own file with header files to hide implementation
+details. This made it easier to focus on individual portions of the problem.
+After that, I've strived for efficiency where I could.
+
+
+==Data Structure Design==
+As we were warned, the binary min heap was the most challenging part. I've
+followed our textbook's lead on this one, basically translating its max heap and
+max priority queue into min versions (and C++). I've used a vector instead of an
+array as the underlying container, since vectors can be dynamically allocated
+easily.
+
+The digraph's vertex set the adjacency list of each vertex have been built out
+of C++ maps; these are associative arrays (like a hash table) and have constant
+time access. Moreover, they automatically sort on the key value which makes
+alphabetical output of vertex names simple.
+
+
+==Final Thoughts==
+I've tested this program rather extensively, but only on the supplied input file
+network.txt. The logic of the program is sound, so it should work on an
+arbitrary input file (as long as it's properly formatted). The size of the graph
+described by the input file will obviously affect the speed of execution; it'd
+be interesting to see by how much.
+
+The other possible area for improvement is robustness/stability. I've put in
+some checks to ensure needed conditions are met; for instance, before grabbing
+the minimum element of a queue we first make sure it's not empty. However, the
+whole program does rely on the input file being formatted correctly. There may
+be other places to tighten up the code.
+
+All in all, this program meets all the requirements set for it and does so in
+the way prescribed by the project description.

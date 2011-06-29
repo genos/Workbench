@@ -1,0 +1,133 @@
+Apologies to those expecting beautiful Scheme code; this guest author knows
+Python best.
+
+We follow the third edition of Cormen et. al.'s seminal "Introduction to
+Algorithms" (hereafter referred to as CLRS). In it, vertices are given a number
+of attributes; we begin with a simple vertex class to collect them all in one
+spot:
+<code>
+class Vertex(object):
+
+    def __init__(self, adj={}, dist=float("inf"), name=None, pred=None):
+        self.adj = adj
+        self.dist = dist
+        self.name = name
+        self.pred = pred
+        return
+    </code>
+A vertex has a distance parameter, a name, and a predecessor. In CLRS, vertices
+also have an adjacency list and edge weights are recorded in an external 
+structure. We instead opt to have each vertex's <code>adj</code> attribute be a
+Python dictionary, where each key is an adjacent vertex and each value is the
+weight of the edge between them. We also give vertices a <code>__cmp__</code>
+method to compare vertices by distance:
+<code>
+    def __cmp__(self, other):
+        return cmp(self.dist, other.dist)
+</code>
+The <code>__repr__</code> method is included to give human readable print out:
+<code>
+    def __repr__(self):
+        return self.name
+</code>
+
+The implementation of Dijkstra's Algorithm in CLRS requires a min-priority
+queue; interestingly, this queue determines the speed of the algorithm as a
+whole, because we need to constantly retrieve the vertex of minimum distance
+and update the key of a node in the queue whenever a vertex's distance estimate
+changes. While CLRS recommends a Fibonacci heap, we've covered pairing-heaps in
+a <a href="http://programmingpraxis.com/2009/08/14/pairing-heaps/">previous</a>
+exercise. Pairing heaps have most of the efficiency of Fibonacci heaps, while
+being easier to implement.
+
+We'll represent a digraph with a Python dictionary of string --> vertex pairs.
+First off, we have two procedures to build our digraph <code>D</code> out of
+edges:
+<code>
+def add_edge(D, u, v, weight):
+    if u not in D:
+        D[u] = Vertex(name=u, adj={})
+    if v not in D:
+        D[v] = Vertex(name=v, adj={})
+    D[u].adj[v] = weight
+    return
+
+def add_edges(D, edges):
+    for edge in edges:
+        add_edge(D, *edge)
+    return
+</code>
+When adding an edge, we first ensure both vertices are in the graph. Then the
+head vertex's adjacency list is updated with tail vertex and the weight of the
+edge between them. The <code>add_edges</code> procedure is included for
+convenience's sake, so we don't have to build the digraph one edge at a time.
+
+Next, our two helper functions: <code>init_single_source</code> and
+<code>relax</code>. The first readies the digraph for work on the single
+source shortest path problem, while the latter updates each vertex when a
+shorter path is found to it:
+<code>
+def init_single_source(D, s):
+    for v in D:
+        D[v].dist = float("inf")
+        D[v].pred = None
+    D[s].dist = 0
+    return
+
+def relax(D, u, v):
+    d = D[u].dist + D[u].adj[v]
+    if D[v].dist > d:
+        D[v].dist = d
+        D[v].pred = u
+    return
+</code>
+
+<code>dijkstra</code> is the main procedure. First, we add each vertex
+(<code>D.values()</code> is a list of all the vertices in <code>D</code>) to
+the priority queue. Next we iteratively step through all the vertices of the
+digraph (indexed by distance from the source), relaxing each outward edge. We
+also clean up the queue with <code>merge_pairs</code> so that the queue is
+again ordered by distance after relaxing edges.
+<code>
+def dijkstra(D, s):
+    init_single_source(D, s)
+    Q = make_heap()
+    for v in D.values():
+        Q = insert(v, Q)
+    while Q:
+        u, Q = find_min(Q), delete_min(Q)
+        for v in u.adj:
+            relax(D, u.name, v)
+        Q = merge_pairs(Q)
+    return
+</code>
+
+Finally, we build the shortest path by traversing backwards through the
+predecessor subtree created by the algorithm. We record the path with a list,
+appending on the right, and then reverse the list to get the path in order:
+<code>
+def find_shortest_path(D, s, f):
+    dijkstra(D, s)
+    path, v = [f], D[f].pred
+    while v is not None:
+        path.append(v)
+        v = D[v].pred
+    path.reverse()
+    return path
+</code>
+
+Testing on the digraph given in our picture:
+<code>
+if __name__ == "__main__":
+    D = {}
+    add_edges(D, [('a', 'c', 2), ('a', 'd', 6),
+                  ('b', 'a', 3), ('b', 'd', 8),
+                  ('c', 'd', 7), ('c', 'e', 5),
+                  ('d', 'e', 10)])
+    print find_shortest_path(D, 'a', 'e')
+
+# Output: ['a', 'c', 'e']
+</code>
+
+All the code, with the pairing-heap implementation pasted in, is available
+on <a href="http://codepad.org/lRUh1tq8">codepad.org</a>.

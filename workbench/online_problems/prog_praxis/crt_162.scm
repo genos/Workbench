@@ -1,0 +1,11 @@
+(define (tester m)
+  (define (iter x)
+    (cond ((> x m) (display "Ran out of test subjects\n"))
+          ((and (= 12 (modulo x 13))
+                (= 4  (modulo x 12))
+                (= 10 (modulo x 11))  )
+           (display x) (display "\n")  )
+          (else (iter (+ 1 x))) ))
+  (iter 0) )
+
+(define main (tester 1716))
