@@ -1,0 +1,25 @@
+(defun combinations (xs k)
+  (cond ((or (zerop k) (null xs)) nil)
+        ((= k 1) (mapcar #'list xs))
+        (t (append (mapcar #'(lambda (c) (cons (first xs) c))
+                           (combinations (rest xs) (1- k)))
+                   (combinations (rest xs) k)))))
+
+(defun sums (n)
+  (list (/ (* n (1+ n)) 2)
+        (/ (* n (1+ n) (1+ (* 2 n))) 6)
+        (expt (/ (* n (1+ n)) 2) 2)))
+
+(defun sum (seq) (reduce #'+ seq :initial-value 0))
+(defun square (x) (* x x))
+(defun cube (x) (* x x x))
+
+(defun prop (subseq)
+  (equal (mapcar #'(lambda (x) (/ x 2)) (sums 16))
+         (list (sum subseq)
+               (sum (mapcar #'square subseq))
+               (sum (mapcar #'cube subseq)))))
+
+(let ((xs (loop for i from 1 to 16 collect i)))
+  (dolist (c (remove-if-not #'prop (combinations xs 8)))
+    (print (cons c (list (set-difference xs c))))))
