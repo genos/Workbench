@@ -41,10 +41,37 @@ def primes(n):
     return takewhile(lambda p: p < n, erat2())
 
 
+import itertools as it
+def erat3( ):
+    D = { 9: 3, 25: 5 }
+    yield 2
+    yield 3
+    yield 5
+    MASK= 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0,
+    MODULOS= frozenset( (1, 7, 11, 13, 17, 19, 23, 29) )
+
+    for q in it.compress(
+            it.islice(it.count(7), 0, None, 2),
+            it.cycle(MASK)):
+        p = D.pop(q, None)
+        if p is None:
+            D[q*q] = q
+            yield q
+        else:
+            x = q + 2*p
+            while x in D or (x%30) not in MODULOS:
+                x += 2*p
+            D[x] = p
+
+def new_prime(n):
+    return takewhile(lambda p: p < n, erat3())
+
 if __name__ == "__main__":
     from timeit import Timer
-    t1 = Timer("sieve(1000)", "from __main__ import sieve")
-    t2 = Timer("list(primes(1000))", "from __main__ import primes")
-    n = 1000
+    t1 = Timer("sieve(int(1e6))", "from __main__ import sieve")
+    t2 = Timer("list(primes(int(1e6)))", "from __main__ import primes")
+    t3 = Timer("list(new_prime(int(1e6)))", "from __main__ import new_prime")
+    n = 10
     print t1.timeit(number=n) / n
     print t2.timeit(number=n) / n
+    print t3.timeit(number=n) / n

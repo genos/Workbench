@@ -1,0 +1,188 @@
+(1, 1113491139767L)
+(2, 1113491139767L)
+         964046 function calls (963776 primitive calls) in 3.863 seconds
+
+   Ordered by: internal time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+   442175    2.045    0.000    2.045    0.000 {pow}
+   112324    0.656    0.000    1.687    0.000 praxis_elliptic.py:63(double)
+   104812    0.630    0.000    1.611    0.000 praxis_elliptic.py:57(add)
+     7897    0.186    0.000    3.671    0.000 praxis_elliptic.py:70(mul)
+     7897    0.127    0.000    0.194    0.000 praxis_elliptic.py:71(bits)
+        2    0.043    0.021    3.839    1.919 praxis_elliptic.py:91(factor)
+   112322    0.041    0.000    0.041    0.000 {divmod}
+   113195    0.026    0.000    0.026    0.000 {method 'append' of 'list' objects}
+    14741    0.025    0.000    0.058    0.000 praxis_elliptic.py:8(genPrimes)
+        2    0.018    0.009    0.018    0.009 praxis_elliptic.py:16(init)
+        1    0.014    0.014    0.014    0.014 praxis_elliptic.py:29(advance)
+     7895    0.014    0.000    0.020    0.000 praxis_elliptic.py:6(ilog)
+    14739    0.007    0.000    0.064    0.000 {next}
+    15790    0.006    0.000    0.006    0.000 {math.log}
+        1    0.004    0.004    0.018    0.018 decimal.py:116(<module>)
+     1484    0.002    0.000    0.003    0.000 sre_parse.py:182(__next)
+        1    0.002    0.002    0.023    0.023 fractions.py:4(<module>)
+     46/7    0.002    0.000    0.007    0.001 sre_parse.py:379(_parse)
+        1    0.002    0.002    0.004    0.004 collections.py:1(<module>)
+        1    0.002    0.002    0.002    0.002 heapq.py:31(<module>)
+        1    0.001    0.001    0.002    0.002 threading.py:1(<module>)
+     1365    0.001    0.000    0.003    0.000 sre_parse.py:201(get)
+        1    0.001    0.001    3.863    3.863 praxis_elliptic.py:3(<module>)
+     84/7    0.001    0.000    0.002    0.000 sre_compile.py:32(_compile)
+        1    0.001    0.001    0.001    0.001 collections.py:237(namedtuple)
+3409/3370    0.001    0.000    0.001    0.000 {len}
+      381    0.001    0.000    0.001    0.000 praxis_elliptic.py:9(isPrime)
+        1    0.001    0.001    0.001    0.001 bisect.py:1(<module>)
+   109/40    0.000    0.000    0.001    0.000 sre_parse.py:140(getwidth)
+       23    0.000    0.000    0.000    0.000 sre_compile.py:207(_optimize_charset)
+      319    0.000    0.000    0.001    0.000 sre_parse.py:130(__getitem__)
+       12    0.000    0.000    0.000    0.000 {built-in method __new__ of type object at 0x10017df20}
+     40/7    0.000    0.000    0.007    0.001 sre_parse.py:301(_parse_sub)
+        6    0.000    0.000    0.001    0.000 abc.py:86(__new__)
+        1    0.000    0.000    0.000    0.000 decimal.py:506(Decimal)
+      307    0.000    0.000    0.000    0.000 {getattr}
+      365    0.000    0.000    0.000    0.000 {isinstance}
+      270    0.000    0.000    0.000    0.000 sre_parse.py:195(match)
+      299    0.000    0.000    0.000    0.000 {method 'insert' of 'list' objects}
+      9/5    0.000    0.000    0.000    0.000 abc.py:148(__subclasscheck__)
+        1    0.000    0.000    0.000    0.000 numbers.py:295(Integral)
+       23    0.000    0.000    0.001    0.000 sre_compile.py:178(_compile_charset)
+        3    0.000    0.000    0.000    0.000 fractions.py:18(gcd)
+        7    0.000    0.000    0.010    0.001 re.py:226(_compile)
+      119    0.000    0.000    0.000    0.000 sre_parse.py:138(append)
+        3    0.000    0.000    0.000    0.000 decimal.py:3776(__init__)
+        2    0.000    0.000    0.000    0.000 sre_compile.py:258(_mk_bitmap)
+       84    0.000    0.000    0.000    0.000 sre_parse.py:90(__init__)
+       33    0.000    0.000    0.000    0.000 sre_compile.py:354(_simple)
+       19    0.000    0.000    0.000    0.000 sre_parse.py:216(isname)
+      148    0.000    0.000    0.000    0.000 sre_parse.py:126(__len__)
+       24    0.000    0.000    0.000    0.000 _weakrefset.py:36(__init__)
+      159    0.000    0.000    0.000    0.000 {min}
+       47    0.000    0.000    0.000    0.000 abc.py:89(<genexpr>)
+       23    0.000    0.000    0.000    0.000 sre_parse.py:72(opengroup)
+        7    0.000    0.000    0.001    0.000 sre_compile.py:361(_compile_info)
+        1    0.000    0.000    0.001    0.001 numbers.py:6(<module>)
+        7    0.000    0.000    0.009    0.001 sre_compile.py:495(compile)
+        7    0.000    0.000    0.007    0.001 sre_parse.py:663(parse)
+       14    0.000    0.000    0.000    0.000 _weakrefset.py:58(__iter__)
+        1    0.000    0.000    0.000    0.000 threading.py:435(__init__)
+        1    0.000    0.000    0.000    0.000 fractions.py:44(Fraction)
+       26    0.000    0.000    0.000    0.000 sre_parse.py:257(_escape)
+      104    0.000    0.000    0.000    0.000 sre_parse.py:210(isident)
+        6    0.000    0.000    0.000    0.000 decimal.py:515(__new__)
+       47    0.000    0.000    0.000    0.000 {_sre.getlower}
+        1    0.000    0.000    0.000    0.000 <string>:1(<module>)
+       37    0.000    0.000    0.000    0.000 abc.py:15(abstractmethod)
+        2    0.000    0.000    0.000    0.000 threading.py:185(__init__)
+    20/11    0.000    0.000    0.000    0.000 {issubclass}
+        7    0.000    0.000    0.003    0.000 sre_compile.py:480(_code)
+       82    0.000    0.000    0.000    0.000 {method 'add' of 'set' objects}
+        1    0.000    0.000    0.000    0.000 decimal.py:3757(Context)
+        9    0.000    0.000    0.000    0.000 _weakrefset.py:26(__exit__)
+       34    0.000    0.000    0.000    0.000 collections.py:277(<genexpr>)
+       59    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
+        7    0.000    0.000    0.000    0.000 {_sre.compile}
+       14    0.000    0.000    0.000    0.000 _weakrefset.py:81(add)
+        1    0.000    0.000    0.000    0.000 numbers.py:34(Complex)
+        5    0.000    0.000    0.000    0.000 abc.py:105(register)
+        1    0.000    0.000    0.000    0.000 __future__.py:48(<module>)
+        1    0.000    0.000    0.000    0.000 threading.py:423(Thread)
+       23    0.000    0.000    0.000    0.000 sre_parse.py:83(closegroup)
+        9    0.000    0.000    0.000    0.000 _weakrefset.py:20(__enter__)
+        1    0.000    0.000    0.000    0.000 keyword.py:11(<module>)
+        1    0.000    0.000    0.000    0.000 warnings.py:45(filterwarnings)
+        1    0.000    0.000    0.000    0.000 collections.py:25(OrderedDict)
+       33    0.000    0.000    0.000    0.000 sre_parse.py:134(__setitem__)
+       72    0.000    0.000    0.000    0.000 {ord}
+       27    0.000    0.000    0.000    0.000 decimal.py:3810(<genexpr>)
+        1    0.000    0.000    0.000    0.000 threading.py:763(__init__)
+       16    0.000    0.000    0.000    0.000 sre_compile.py:51(fixup)
+       12    0.000    0.000    0.000    0.000 _weakrefset.py:68(__contains__)
+        3    0.000    0.000    0.000    0.000 {method 'match' of '_sre.SRE_Pattern' objects}
+       27    0.000    0.000    0.000    0.000 decimal.py:3803(<genexpr>)
+       23    0.000    0.000    0.000    0.000 {method 'remove' of 'list' objects}
+        1    0.000    0.000    0.000    0.000 decimal.py:235(DivisionByZero)
+        4    0.000    0.000    0.000    0.000 {all}
+        5    0.000    0.000    0.000    0.000 fractions.py:280(_operator_fallbacks)
+        1    0.000    0.000    0.000    0.000 <string>:1(DecimalTuple)
+        1    0.000    0.000    0.000    0.000 numbers.py:270(Rational)
+       13    0.000    0.000    0.000    0.000 {method 'items' of 'dict' objects}
+       14    0.000    0.000    0.000    0.000 sre_compile.py:474(isstring)
+        1    0.000    0.000    0.000    0.000 collections.py:356(Counter)
+        7    0.000    0.000    0.000    0.000 sre_parse.py:178(__init__)
+        9    0.000    0.000    0.000    0.000 _weakrefset.py:52(_commit_removals)
+        7    0.000    0.000    0.010    0.001 re.py:188(compile)
+        2    0.000    0.000    0.000    0.000 threading.py:180(Condition)
+        9    0.000    0.000    0.000    0.000 _weakrefset.py:16(__init__)
+        1    0.000    0.000    0.000    0.000 decimal.py:225(ConversionSyntax)
+        1    0.000    0.000    0.000    0.000 {repr}
+        7    0.000    0.000    0.000    0.000 sre_parse.py:67(__init__)
+       30    0.000    0.000    0.000    0.000 {method 'isalnum' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 numbers.py:169(Real)
+        1    0.000    0.000    0.000    0.000 threading.py:370(__init__)
+        1    0.000    0.000    0.000    0.000 threading.py:384(set)
+        2    0.000    0.000    0.000    0.000 {method 'replace' of 'str' objects}
+        4    0.000    0.000    0.000    0.000 collections.py:294(<genexpr>)
+        1    0.000    0.000    0.000    0.000 {method 'join' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 {map}
+        4    0.000    0.000    0.000    0.000 threading.py:57(__init__)
+        1    0.000    0.000    0.000    0.000 threading.py:183(_Condition)
+        1    0.000    0.000    0.000    0.000 {locals}
+        6    0.000    0.000    0.000    0.000 {method 'extend' of 'list' objects}
+        7    0.000    0.000    0.000    0.000 __future__.py:75(__init__)
+        1    0.000    0.000    0.000    0.000 threading.py:366(_Event)
+        1    0.000    0.000    0.000    0.000 threading.py:530(_set_ident)
+        1    0.000    0.000    0.000    0.000 threading.py:294(notifyAll)
+       10    0.000    0.000    0.000    0.000 {method 'group' of '_sre.SRE_Match' objects}
+        1    0.000    0.000    0.000    0.000 threading.py:276(notify)
+        1    0.000    0.000    0.000    0.000 threading.py:363(Event)
+        1    0.000    0.000    0.000    0.000 {hasattr}
+        2    0.000    0.000    0.000    0.000 {method 'setter' of 'property' objects}
+        1    0.000    0.000    0.000    0.000 threading.py:103(_RLock)
+        1    0.000    0.000    0.000    0.000 threading.py:55(_Verbose)
+        1    0.000    0.000    0.000    0.000 {method 'split' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 numbers.py:13(Number)
+        9    0.000    0.000    0.000    0.000 {method '__subclasshook__' of 'object' objects}
+        1    0.000    0.000    0.000    0.000 {sys._getframe}
+       18    0.000    0.000    0.000    0.000 sre_compile.py:24(_identityfunction)
+        3    0.000    0.000    0.000    0.000 {method 'strip' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 threading.py:801(_DummyThread)
+        1    0.000    0.000    0.000    0.000 threading.py:761(_MainThread)
+        3    0.000    0.000    0.000    0.000 {thread.allocate_lock}
+        1    0.000    0.000    0.000    0.000 decimal.py:3742(_ContextManager)
+        4    0.000    0.000    0.000    0.000 {method '__contains__' of 'frozenset' objects}
+        1    0.000    0.000    0.000    0.000 __future__.py:74(_Feature)
+        2    0.000    0.000    0.000    0.000 {method 'acquire' of 'thread.lock' objects}
+        9    0.000    0.000    0.000    0.000 {method '__subclasses__' of 'type' objects}
+        1    0.000    0.000    0.000    0.000 threading.py:303(_Semaphore)
+        3    0.000    0.000    0.000    0.000 {method 'startswith' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 threading.py:351(_BoundedSemaphore)
+        1    0.000    0.000    0.000    0.000 {method 'lstrip' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 decimal.py:5412(_WorkRep)
+        1    0.000    0.000    0.000    0.000 decimal.py:251(DivisionImpossible)
+        1    0.000    0.000    0.000    0.000 threading.py:225(_is_owned)
+        1    0.000    0.000    0.000    0.000 decimal.py:285(InvalidContext)
+        7    0.000    0.000    0.000    0.000 {max}
+        1    0.000    0.000    0.000    0.000 decimal.py:262(DivisionUndefined)
+        1    0.000    0.000    0.000    0.000 decimal.py:5666(_Log10Memoize)
+        1    0.000    0.000    0.000    0.000 threading.py:732(_Timer)
+        1    0.000    0.000    0.000    0.000 decimal.py:322(Overflow)
+        2    0.000    0.000    0.000    0.000 {iter}
+        1    0.000    0.000    0.000    0.000 threading.py:62(_note)
+        1    0.000    0.000    0.000    0.000 decimal.py:196(InvalidOperation)
+        1    0.000    0.000    0.000    0.000 decimal.py:5670(__init__)
+        1    0.000    0.000    0.000    0.000 {method 'release' of 'thread.lock' objects}
+        9    0.000    0.000    0.000    0.000 {method 'remove' of 'set' objects}
+        1    0.000    0.000    0.000    0.000 decimal.py:273(Inexact)
+        1    0.000    0.000    0.000    0.000 decimal.py:360(Underflow)
+        1    0.000    0.000    0.000    0.000 decimal.py:311(Subnormal)
+        2    0.000    0.000    0.000    0.000 {thread.get_ident}
+        1    0.000    0.000    0.000    0.000 decimal.py:299(Rounded)
+        1    0.000    0.000    0.000    0.000 decimal.py:184(Clamped)
+        1    0.000    0.000    0.000    0.000 threading.py:770(_set_daemon)
+        4    0.000    0.000    0.000    0.000 {method 'isdigit' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 decimal.py:161(DecimalException)
+        3    0.000    0.000    0.000    0.000 {abs}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+

@@ -1,0 +1,14 @@
+Knuth 4A: paritions in reverse lexicographic order
+
+Generates all partitions a_1 >= ... >= a_m >= 1 with sum(a_i) = n and 1 <= m <=
+n, assuming n >= 1
+
+P1. [Initialize.] Set a_0 <- 0 and m <- 1
+P2. [Store the final part.] Set a_m <- n and q <- m - [n = 1].
+P3. [Visit.] Visit the partition a_1a_2...a_m. Then go to P4 if a_q /= 2.
+P4. [Change 2 to 1 + 1.] Set a_1 <- 1, q <- q - 1, m <- m + 1, a_m <- 1, and
+    return to P3.
+P5. [Decrease a_q.] Terminate the algorithm if q = 0. Otherwise set x <- a_q -
+    1, a_q <- x, n <- m - q + 1, and m <- q + 1
+P6. [Copy x if necessary.] If n <= x, return to set P2. Otherwise set a_m <- x,
+    m <- m + 1, n <- n - x, and repeat this step.

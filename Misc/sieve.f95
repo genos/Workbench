@@ -1,20 +1,20 @@
 integer i,j,imax,prime_max
-integer, allocatable :: primes(:)
+logical, allocatable :: primes(:)
 
 write(*,*) 'Input largest number for search'
 read(*,*) prime_max
 
 allocate(primes(prime_max))
-primes=1 ! Sets all elements of array to 1
+primes=.true. ! Sets all elements of array to 1
 imax=sqrt(real(prime_max))
 
 do i=2,imax 
     do j=2*i,prime_max,i
-        primes(j)=0
+        primes(j)=.false.
     enddo
 enddo
 
 do i=2,prime_max 
-    if (primes(i)==1) write(*,*)i
+    if (primes(i)) write(*,*)i
 enddo
 end

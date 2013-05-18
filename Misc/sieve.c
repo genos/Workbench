@@ -9,35 +9,36 @@
  * GRE, 1/20/10
  */
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <math.h>                      
 
-#define N 2000000                              /* Limited only by memory size */
+#define N 2000000                             /* Limited only by memory size */
 #define SQRTN ((long) sqrt(N)) 
 
 int main(void)                                    
 {
-    int prime[N + 1];                         /* n is prime <=> prime[n] == 1 */
-    long n;                                       /* Index of possible primes */
-    long s;                                                     /* Step index */
+    bool prime[N + 1];                       /* n is prime <=> prime[n] == 1 */
+    long n;                                      /* Index of possible primes */
+    long s;                                                    /* Step index */
 
-                                                      /* Initialize the sieve */
-    prime[0] = 0;
-    prime[1] = 0;
+                                                     /* Initialize the sieve */
+    prime[0] = false;
+    prime[1] = false;
     for (n = 2; n <= N; n++) {
-        prime[n] = 1;
+        prime[n] = true;
     }
 
-    for (n = 2; n <= SQRTN; n++) {                /* Search all possibilities */
-        if (prime[n]) {                                  /* If n is prime,... */
+    for (n = 2; n <= SQRTN; n++) {               /* Search all possibilities */
+        if (prime[n]) {                                 /* If n is prime,... */
             for (s = 2; s <= (N / n); s++) {
-                                            /* ...sn can't be prime for any s */
-                prime[s * n] = 0;
+                                           /* ...sn can't be prime for any s */
+                prime[s * n] = false;
             }
         }
     }
   
-                                                                    /* Output */
+                                                                   /* Output */
     for (n = 2; n <= N; n++) {
         if (prime[n])  {
             printf("%7ld\n", n);
