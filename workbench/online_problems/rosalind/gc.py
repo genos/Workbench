@@ -18,6 +18,5 @@ def max_gc_content(d):
 
 
 if __name__ == "__main__":
-    filename = "data/rosalind_gc.txt"
-    with open(filename) as f:
+    with open("data/rosalind_gc.txt") as f:
         print(max_gc_content(fasta(f)))

@@ -16,7 +16,6 @@ def fib_memo(nk):
 
 
 if __name__ == "__main__":
-    filename = 'data/rosalind_fib.txt'
-    with open(filename) as f:
+    with open("data/rosalind_fib.txt") as f:
         nk = tuple(map(int, f.read().strip().split()))
         print(fib_memo(nk))
