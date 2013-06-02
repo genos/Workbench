@@ -27,12 +27,8 @@ def iprb(k, m, n):
         'RH': first(n) * second(m),
         'RR': first(n) * second(n - 1)
     }
-    prob_recessive = {
-        'DD': 0,    'DH': 0,    'DR': 0,
-        'HD': 0,    'HH': .25,  'HR': .5,
-        'RD': 0,    'RH': .5,   'RR': 1
-    }
-    return 1 - sum(prob_pair[p] * prob_recessive[p] for p in prob_pair)
+    prob_recessive = {'HH': .25, 'HR': .5, 'RH': .5, 'RR': 1}
+    return 1 - sum(prob_pair[p] * prob_recessive.get(p, 0) for p in prob_pair)
 
 
 
