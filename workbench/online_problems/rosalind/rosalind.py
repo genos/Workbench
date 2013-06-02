@@ -2,6 +2,7 @@
 # coding: utf-8
 
 import functools
+import operator
 
 
 def memoize(func):
@@ -33,3 +34,8 @@ def fasta(open_file):
         body = body.replace('\n', '')
         ret[header] = body
     return ret
+
+
+def binom(n, k):
+    factorial = lambda n: functools.reduce(operator.mul, range(1, n + 1), 1)
+    return factorial(n) / (factorial(k) * factorial(n - k))

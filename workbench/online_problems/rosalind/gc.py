@@ -7,7 +7,7 @@ from rosalind import fasta
 
 def gc_content(s):
     c = Counter(s)
-    total = sum(map(float, c.values()))
+    total = sum(c.values())
     return 100 * ((c['G'] + c['C']) / total)
 
 
