@@ -1,16 +1,19 @@
+#!/usr/bin/env python3
+# coding: utf-8
+
 from collections import Counter
 from rosalind import fasta
 
 
 def gc_content(s):
     c = Counter(s)
-    total = sum(map(float, c.itervalues()))
+    total = sum(map(float, c.values()))
     return 100 * ((c['G'] + c['C']) / total)
 
 
 def max_gc_content(d):
     keys_vals = map(lambda k: (k, gc_content(d[k])), d)
-    (k, v) = max(keys_vals, key=lambda (x, y): y)
+    (k, v) = max(keys_vals, key=lambda xy: xy[1])
     return "{0}\n{1}".format(k, v)
 
 

@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# coding: utf-8
+
 from rosalind import memoize
 
 
@@ -16,4 +19,4 @@ if __name__ == "__main__":
     filename = 'data/rosalind_fib.txt'
     with open(filename) as f:
         nk = tuple(map(int, f.read().strip().split()))
-        print fib_memo(nk)
+        print(fib_memo(nk))
