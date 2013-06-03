@@ -31,7 +31,6 @@ def iprb(k, m, n):
     return 1 - sum(prob_pair[p] * prob_recessive.get(p, 0) for p in prob_pair)
 
 
-
 if __name__ == "__main__":
     with open("data/rosalind_iprb.txt") as f:
         k, m, n = map(int, f.readline().split(' '))

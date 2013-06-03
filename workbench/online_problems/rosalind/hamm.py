@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 
+
 def hamming_dist(s1, s2):
     return sum(int(x != y) for (x, y) in zip(s1, s2))
 
