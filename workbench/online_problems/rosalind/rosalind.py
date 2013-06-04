@@ -19,7 +19,7 @@ def memoize(func):
     return functools.update_wrapper(memoizer, func)
 
 
-def fasta(open_file):
+def fasta(string):
     """>DATA_1
     ABCDEFG
     HIJKLMNOP
@@ -29,7 +29,7 @@ def fasta(open_file):
     --> {'DATA_1': 'ABCDEFGHIJKLMNOP',
          'DATA_2': '1234567890'}
     """
-    strings = filter(None, open_file.read().strip().split('>'))
+    strings = filter(None, string.strip().split('>'))
     ret = {}
     for s in strings:
         header, body = s.split('\n', 1)
