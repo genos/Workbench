@@ -3,11 +3,11 @@
 
 import functools
 import operator
+import math
 
 
 def binom(n, k):
-    factorial = lambda n: functools.reduce(operator.mul, range(1, n + 1), 1)
-    return factorial(n) / (factorial(k) * factorial(n - k))
+    return math.factorial(n) // (math.factorial(k) * math.factorial(n - k))
 
 
 def fasta(string):
