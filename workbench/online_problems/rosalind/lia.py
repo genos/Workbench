@@ -1,10 +1,10 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # coding: utf-8
 
 from rosalind import binom
 
 
-def dbinom(n, p, r):
+def pbinom(n, p, r):
     return binom(n, r) * pow(p, r) * pow(1 - p, n - r)
 
 

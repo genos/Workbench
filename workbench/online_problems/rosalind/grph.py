@@ -1,7 +1,6 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 # coding: utf-8
 
-from __future__ import division, print_function, with_statement
 from itertools import permutations
 from networkx import DiGraph
 from rosalind import fasta
@@ -22,8 +21,8 @@ def build_digraph(fasta_dict, k):
     is_edge predicate.
     """
     d = DiGraph()
-    d.add_nodes_from(fasta_dict.iteritems())
-    for (s, t) in permutations(fasta_dict.iteritems(), 2):
+    d.add_nodes_from(fasta_dict.items())
+    for (s, t) in permutations(fasta_dict.items(), 2):
         if is_edge(s, t, k):
             d.add_edge(s, t)
     return d
