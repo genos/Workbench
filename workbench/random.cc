@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
 
     for (auto i = 0; i < 1200; ++i) ++mn.at(round(norm()));
 
-    for (auto i = 0; i < mn.size(); ++i) {
+    for (decltype(mn.size()) i = 0; i < mn.size(); ++i) {
         std::cout << i << '\t';
         for (auto j = 0; j < mn[i]; ++j) std::cout <<  '*';
         std::cout << std::endl;
