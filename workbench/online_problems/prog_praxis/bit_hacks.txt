@@ -1,0 +1,32 @@
+My same_sign isn't that imaginative, but if you have a <code>sign</code> function that
+returns -1, 0, or 1, then <code>abs(n)</code> is just <code>sign(n) * n</code>. Is multiplication more
+expensive than branching? Though I've written a decent amount of C++, I tend
+to use it as a reasonably high-level language; I'm somewhat ruined when it
+comes to bit-hackery.
+
+[sourcecode lang="cpp"]
+#include <array>
+#include <iostream>
+
+auto sign(intmax_t n) -> intmax_t { return (n > 0) - (n < 0); }
+auto same_sign(intmax_t m, intmax_t n) -> bool { return sign(m) == sign(n); }
+auto abs(intmax_t n) -> intmax_t { return sign(n) * n; }
+
+auto main() -> int
+{
+    std::array<intmax_t, 3> ns{-17, 0, 17};
+    std::cout << std::boolalpha;
+    for (auto n : ns) {
+        std::cout << "sign(" << n << ") = " << sign(n) << std::endl;
+    }
+    for (auto m : ns) {
+        for (auto n: ns) {
+            std::cout << "sign(" << m << ") == sign(" << n <<")?\t" <<
+                same_sign(m, n) << std::endl;
+        }
+    }
+    for (auto n : ns) {
+        std::cout << "|" << n << "| = " << abs(n) << std::endl;
+    }
+}
+[/sourcecode]
