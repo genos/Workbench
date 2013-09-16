@@ -11,21 +11,6 @@ binom n k = product [k + 1..n] `div` product [1..n - k]
 factorial :: Integer -> Integer
 factorial n = product [2..n]
 
-cof :: [Double]
-cof = [76.18009172947146, -86.50532032941677, 24.01409824083091,
-       -1.231739572450155, 0.001208650973866179, -0.000005395239384953]
- 
-ser :: Double
-ser = 1.000000000190015
- 
-gammaln :: Double -> Double
-gammaln xx = let tmp' = (xx+5.5) - (xx+0.5)*log(xx+5.5)
-                 ser' = ser + sum (zipWith (/) cof [xx+1..])
-             in -tmp' + log(2.5066282746310005 * ser' / xx)
-
-gamma :: Double -> Double
-gamma = exp . gammaln
-
 pairs :: [a] -> [[a]]
 pairs = filter ((2 ==) . length) . subsequences
 
@@ -56,16 +41,10 @@ cat6 :: [Integer]
 cat6 = map c [0..] where
     c n = factorial (2 * n) `div` (factorial (n + 1) * factorial n)
 
-cat7 :: [Integer]
-cat7 = map c [0..]
-    where c n     = round $ num n / denom n
-          num n   = (4 ^ n) * gamma (fromInteger n + 0.5)
-          denom n = sqrt pi * gamma (fromInteger n + 2)
-
 -- Check that these look the same
 prop_equal :: Int -> Bool
 prop_equal n = all p $ pairs cats where
-    cats = [cat0, cat1, cat2, cat3, cat4, cat5, cat6, cat7]
+    cats = [cat0, cat1, cat2, cat3, cat4, cat5, cat6]
     p [xs, ys] = xs !! n' == ys !! n'
     n' = n `mod` 1000
 
