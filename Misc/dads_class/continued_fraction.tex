@@ -1,0 +1,149 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath, amssymb, color, fullpage, listings, upquote, xfrac}
+\definecolor{dkgreen}{rgb}{0, 0.6, 0}
+\definecolor{mauve}{rgb}{0.58, 0, 0.82}
+\lstset{backgroundcolor=\color{white},
+        basicstyle=\footnotesize\ttfamily,
+        breaklines=false,
+        columns=[l]flexible,
+        commentstyle=\color{dkgreen},
+        keywordstyle=\color{blue},
+        language=Python,
+        numbers=none,
+        showspaces=false,
+        showstringspaces=false,
+        stringstyle=\color{mauve}
+}
+
+\begin{document}
+
+\section*{What are Continued Fractions?}
+
+I was reading a great book recently, and it got me thinking about continued
+fractions.\footnote{Yeah, yeah, sometimes I read really nerdy books.}
+A continued fraction is something that looks like
+\[
+    n_0 +
+        \cfrac{n_1}
+            {d_1 + \cfrac{n_2}
+                {d_2 + \cfrac{n_3}
+                    {d_3 + \cfrac{n_4}
+                        {d_4 + \cfrac{n_5}
+                            {\ddots}
+                        }
+                    }
+                }
+            }
+\]
+where the diagonal dots mean the process goes on forever like a bottomless
+well.
+At this point we have no idea what kind of criteria the $\left(n_i, d_i\right)$
+pairs need to satisfy for this to come out to an actual number, but don't worry
+about that.
+We won't go into lots of detail about continued fractions; we'll just play with
+a very special one.
+
+\section*{A Special Continued Fraction}
+
+Let's look at the following:
+\[
+    1 +
+        \cfrac{1}
+            {1 + \cfrac{1}
+                {1 + \cfrac{1}
+                    {1 + \cfrac{1}
+                        {1 + \cfrac{1}
+                            {\ddots}
+                        }
+                    }
+                }
+            }
+\]
+Since we have no idea what it is, we might as well give it a name; call it $x$.
+At the end of this note you'll find a \texttt{Python} program that will
+approximate $x$ by going down the bottomless only a finite number of steps; you
+might be able to run it on your own computer, or there are a number of
+\texttt{Python} interpreters online---a few are listed in a comment above the
+program's main code.
+Don't run it yet, though!
+You'll ruin the surprise.
+
+\section*{Now what?}
+
+I'm not an expert in continued fractions, so (perhaps like you) I don't know
+the first thing about dealing with them in general.
+I found something that will help us with this particular one, but more on that
+later.
+
+I had an incredible math teacher in High school\footnote{Ask Mr. Bill about
+Paul Machemer sometime.} who had a great attitude about tackling hard problems:
+\begin{quotation}
+    \textit{If you don't know what to do, do something.}
+\end{quotation}
+The wisdom of continually trying things until something works can't be
+overstated; you're bound to get somewhere eventually.
+Even if you don't, you will end up knowing more about the problem than you did
+before, and that's just as important.
+
+\section*{OK $x$, just what are you?}
+Let's look at $x$ again:
+\[
+    x = 1 +
+        \cfrac{1}
+            {1 + \cfrac{1}
+                {1 + \cfrac{1}
+                    {1 + \cfrac{1}
+                        {1 + \cfrac{1}
+                            {\ddots}
+                        }
+                    }
+                }
+            }
+\]
+Remember that the dots mean that the fractions continue on forever and ever.
+If you look closely, you might notice something strange: the stuff under the
+first fraction bar is just $x$ all over again!
+This means
+\[
+    x = 1 + \frac{1}{x}
+\]
+with which I feel much more comfortable.
+Multiplying through by $x$ to get rid of the denominators, we have
+\begin{equation*}
+    \begin{aligned}
+        &x^2 = x + 1\\
+        \implies &x^2 - x - 1 = 0
+    \end{aligned}
+\end{equation*}
+Using the handy-dandy quadratic formula\footnote{Did you know that it fits to
+\textit{Jingle Bells}? True story.}, we have
+\begin{equation*}
+    \begin{aligned}
+        x &= \frac{1 \pm \sqrt{1^2 - 4 \cdot 1 \cdot 1}}{2}\\
+          &= \frac{1 + \sqrt{5}}{2} \textrm{ or } \frac{1 - \sqrt{5}}{2}
+    \end{aligned}
+\end{equation*}
+
+Although we have two possible answers for $x$, only one makes sense.
+Note that the first one is positive, while the second one is negative (check it
+with your calculator, don't just take my word for it); there was no subtraction
+or negative numbers or any of that nonsense in our original continued fraction,
+so the negative value doesn't make sense as an answer.\footnote{There's room
+for a whole lot more detail here, but I'll skip it. If you're really
+interested, I have a short book (covered with my own notes and scribbles,
+sorry) that explores this much more in depth.}
+That means that we have
+\[
+    x = \frac{1 + \sqrt{5}}{2}
+\]
+also known as the $\varphi$, golden ratio!
+That thing pops up everywhere!\footnote{If you don't believe me, check out
+``Donald Duck in Mathmagic Land,'' arguably the greatest movie of all time. I
+wouldn't be surprised if there was a copy up on YouTube, not that I endorse
+copyright infringement of course.}
+
+
+\textbf{Happy Mathing!}\textit{---Mr. Bill's son Dr. E}
+\pagebreak
+\lstinputlisting{x.py}
+\end{document}
