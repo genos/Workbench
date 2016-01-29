@@ -6,7 +6,7 @@ iamtrask.github.io/2015/07/12/basic-python-network/
 and
 rolisz.ro/2013/04/18/neural-networks-in-python
 and
-mattmazur.com/2015/03/17/a-step-yb-step-backpropagation-example/
+mattmazur.com/2015/03/17/a-step-by-step-backpropagation-example/
 """
 import numpy as np
 
