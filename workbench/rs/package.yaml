@@ -1,0 +1,25 @@
+name:                rs
+version:             0.1.0.0
+synopsis:            Recursion Schemes by Example
+description:         Talk by Tim Williams at Londong HUG (2013)
+homepage:            N/A
+license:             BSD3
+author:              Graham Enos
+maintainer:          graham.enos@gmail.com
+copyright:           Graham Enos
+category:            Math
+
+dependencies:
+  - base >= 4.7 && < 5
+  - mtl
+  - containers
+  - bool-extras
+  - hashable
+  - wl-pprint
+  - hashtables
+  - parsec
+
+executables:
+  rs:
+    source-dirs:      src
+    main:             Main.hs

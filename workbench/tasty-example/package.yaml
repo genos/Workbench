@@ -1,0 +1,31 @@
+name:                tasty-example
+version:             0.1.0.0
+synopsis:            Simple project template from stack
+description:         Please see README.md
+homepage:            https://github.com/genos/tasty-example#readme
+license:             MIT
+author:              Graham Enos
+maintainer:          graham.enos@gmail.com
+copyright:           Graham Enos
+category:            Math
+
+dependencies:
+  - base >= 4.7 && < 5
+
+library:
+  source-dirs:
+    - src
+  exposed-modules:
+    - MyLib
+
+tests:
+  test:
+    source-dirs:
+      - test
+    main: Test.hs
+    dependencies:
+      - tasty >= 0.7
+      - tasty-hunit
+      - tasty-quickcheck
+      - tasty-smallcheck
+      - tasty-example
