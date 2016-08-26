@@ -1,15 +1,13 @@
 module QCPlay where
 
-import qualified Data.Foldable    as F
 import           Data.Monoid      ((<>))
-import qualified Data.Traversable as T
 
 data Tree a = Null
             | Fork a (Tree a) (Tree a)
   deriving (Eq, Show)
 
 instance Functor Tree where
-  fmap f Null = Null
+  fmap _ Null = Null
   fmap f (Fork x l r) = Fork (f x) (fmap f l) (fmap f r)
 
 instance Applicative Tree where
@@ -31,7 +29,7 @@ invariant Null = True
 invariant (Fork x l r) = smaller x l && smaller x r
 
 smaller :: (Ord a) => a -> Tree a -> Bool
-smaller x Null = True
+smaller _ Null = True
 smaller x (Fork y l r) = x <= y && invariant (Fork y l r)
 
 minElem :: Tree a -> a
@@ -47,7 +45,7 @@ makeTree = foldr insert Null
 
 deleteMin :: (Ord a) => Tree a -> Tree a
 deleteMin Null = undefined
-deleteMin (Fork x l r) = merge l r
+deleteMin (Fork _ l r) = merge l r
 
 merge :: Ord a => Tree a -> Tree a -> Tree a
 merge Null Null = Null
@@ -57,4 +55,5 @@ merge l r
   | minElem l <= minElem r = join l r
   | otherwise = join r l
   where
-    join (Fork x l r) t = Fork x r (merge l t)
+    join (Fork x a b) t = Fork x b (merge a t)
+    join Null _ = undefined

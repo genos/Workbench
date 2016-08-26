@@ -19,6 +19,8 @@ dependencies:
   - hashtables
   - parsec
 
+ghc-options: -Wall -Werror
+
 executables:
   rs:
     source-dirs:      src

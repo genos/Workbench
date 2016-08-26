@@ -16,6 +16,8 @@ dependencies:
 library:
   source-dirs: src
 
+ghc-options: -Wall -Werror
+
 tests:
   spec:
     source-dirs: test
