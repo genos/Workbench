@@ -10,7 +10,7 @@ category:       System
 homepage:       https://github.com/genos/du#readme
 author:         Graham Enos
 maintainer:     graham.enos@gmail.com
-copyright:      Copyright (c) 2016 Graham Enos
+copyright:      Graham Enos
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple

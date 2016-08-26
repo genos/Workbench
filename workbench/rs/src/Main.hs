@@ -485,9 +485,9 @@ eval' env = (`runReaderT` env) . cataM algM
     algM :: ExprF Int -> ReaderT Env Maybe Int
     algM (Const c) = return c
     algM (Var i) = ask >>= lift . M.lookup i
-    algM (Add x y) = return $ x + y
-    algM (Mul x y) = return $ x * y
-    algM (IfNeg t x y) = return $ bool x y (t < 0)
+    algM (Add x y) = return $! x + y
+    algM (Mul x y) = return $! x * y
+    algM (IfNeg t x y) = return $! bool x y (t < 0)
 
 memoize :: Memo k v m => (k -> m v) -> k -> m v
 memoize f x = lookup x >>=
@@ -602,6 +602,7 @@ main = do
     print $ fib 100
     print $ evens [1 .. 6]
     print $ takeS 10 $ exch s1
+
 -- JSON Appendix
 pJSValueF :: CharParser () r -> CharParser () (JSValueF r)
 pJSValueF r = spaces *> pValue r

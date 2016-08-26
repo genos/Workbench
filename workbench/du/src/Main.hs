@@ -49,7 +49,7 @@ du :: FilePath -> IO Integer
 du = hyloM getFiles sumFiles
   where
     getFiles path = isDir path >>=
-        \b -> if b then Dir path <$> dirEntries path else return $ File path
+        \b -> if b then Dir path <$> dirEntries path else return $! File path
     sumFiles (File x) = fileSize x
     sumFiles (Dir x ys) = (sum ys +) <$> dirSize x
 
