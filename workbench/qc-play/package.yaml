@@ -1,0 +1,27 @@
+name:                qc-play
+version:             0.1.0.0
+synopsis:            John Hughes, "QuickCheck Testing for Fun and Profit"
+description:         http://people.inf.elte.hu/center/fulltext.pdf
+homepage:            http://people.inf.elte.hu/center/fulltext.pdf
+license:             MIT
+author:              Graham Enos
+maintainer:          graham@quantifind.com
+copyright:           Quantifind
+category:            Math
+
+dependencies:
+  - base >= 4.7 && < 5
+
+library:
+  source-dirs: src
+  exposed-modules:
+    - QCPlay
+
+tests:
+  qc-play-test:
+    main: QCPlayTest.hs
+    source-dirs:
+      - test
+      - src
+    dependencies:
+      - QuickCheck
