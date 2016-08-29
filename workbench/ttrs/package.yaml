@@ -1,0 +1,22 @@
+name:                ttrs
+version:             0.1.0.0
+synopsis:            Time Traveling Recursion Schemes
+description:         http://jtobin.ca/time-traveling-recursion
+homepage:            http://jtobin.ca/time-traveling-recursion
+license:             MIT
+author:              Graham Enos
+maintainer:          graham@quantifind.com
+copyright:           Quantifind
+category:            Math
+
+ghc-options: -Wall
+
+dependencies:
+  - base >= 4.7 && < 5
+  - free
+  - recursion-schemes
+
+executables:
+  ttrs:
+    source-dirs: src
+    main: Main.hs
