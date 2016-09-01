@@ -1,9 +1,9 @@
 module Main where
 
-import qualified Data.Foldable   as F
-import qualified Data.List       as L
-import           QCPlay
-import           Test.QuickCheck
+import qualified Data.Foldable as F
+import qualified Data.List as L
+import QCPlay
+import Test.QuickCheck
 
 balanced :: Tree a -> Bool
 balanced Null = True
@@ -24,11 +24,14 @@ prop_invariant_0 = invariant . makeTree
 prop_balanced_0 :: [Int] -> Bool
 prop_balanced_0 = balanced . makeTree
 
-data Op = Insert Int
-        | DeleteMin
-  deriving Show
+data Op
+  = Insert Int
+  | DeleteMin
+  deriving (Show)
 
-make :: (Foldable f) => f Op -> Tree Int
+make
+  :: (Foldable f)
+  => f Op -> Tree Int
 make = F.foldl' op Null
   where
     op h (Insert n) = insert n h
@@ -36,7 +39,9 @@ make = F.foldl' op Null
     op h DeleteMin = deleteMin h
 
 instance Arbitrary Op where
-  arbitrary = frequency [(2, arbitrary >>= \n -> return $! Insert n), (1, return DeleteMin)]
+  arbitrary =
+    frequency
+      [(2, arbitrary >>= \n -> return $! Insert n), (1, return DeleteMin)]
 
 prop_invariant_1 :: [Op] -> Bool
 prop_invariant_1 = invariant . make

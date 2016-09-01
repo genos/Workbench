@@ -1,29 +1,32 @@
 module Date
-    ( Date(..)
-    , Error(..) -- ^ our errors
-    , parse -- ^ smart constructor
-    , isBefore
-    ) where
+  ( Date(..)
+  , Error(..) -- ^ our errors
+  , parse -- ^ smart constructor
+  , isBefore
+  ) where
 
 import Text.Read (readMaybe)
 import Data.Validation
 
 -- | Dummy 'Date' type for illustration only.
-newtype Date = Date { getSeconds :: Int }
-    deriving (Eq)
+newtype Date = Date
+  { getSeconds :: Int
+  } deriving (Eq)
 
 instance Show Date where
-    show (Date s) = show s
+  show (Date s) = show s
 
-data Error = BadParse String -- ^ what failed to parse
-    deriving (Eq)
+data Error =
+  BadParse String -- ^ what failed to parse
+  deriving (Eq)
 
 instance Show Error where
-    show (BadParse s) = "failed to parse date string " ++ s
+  show (BadParse s) = "failed to parse date string " ++ s
 
 -- | Try to parse @s@ into a valid 'Date', using 'readMaybe'
 parse :: String -> Validation Error Date
-parse s = case readMaybe s of
+parse s =
+  case readMaybe s of
     Nothing -> Failure $ BadParse s
     Just seconds -> Success $ Date seconds
 
