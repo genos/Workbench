@@ -1,0 +1,29 @@
+-- This file has been generated from package.yaml by hpack version 0.14.0.
+--
+-- see: https://github.com/sol/hpack
+
+name:           tfatf
+version:        0.1.0.0
+synopsis:       Free Monads & Codensity to Improve Asymptotics
+description:    The Fast and the Furious
+category:       Math
+homepage:       https://gist.github.com/queertypes/8cb225ee1df57bd8b339585a3365ef84 & https://vimeo.com/146374255
+author:         Graham Enos
+maintainer:     graham@quantifind.com
+copyright:      Quantifind
+license:        MIT
+license-file:   LICENSE
+build-type:     Simple
+cabal-version:  >= 1.10
+
+executable tfatf
+  main-is: Main.hs
+  hs-source-dirs:
+      src
+  default-extensions: DeriveFunctor FlexibleContexts OverloadedStrings
+  ghc-options: -Wall -O2
+  build-depends:
+      base >= 4.7 && < 5
+    , free
+    , text
+  default-language: Haskell2010

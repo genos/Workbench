@@ -1,0 +1,27 @@
+name:                tfatf
+version:             0.1.0.0
+synopsis:            Free Monads & Codensity to Improve Asymptotics
+description:         The Fast and the Furious
+homepage:            https://gist.github.com/queertypes/8cb225ee1df57bd8b339585a3365ef84 & https://vimeo.com/146374255
+license:             MIT
+author:              Graham Enos
+maintainer:          graham@quantifind.com
+copyright:           Quantifind
+category:            Math
+
+ghc-options: -Wall -O2
+
+default-extensions:
+  - DeriveFunctor
+  - FlexibleContexts
+  - OverloadedStrings
+
+dependencies:
+  - base >= 4.7 && < 5
+  - free
+  - text
+
+executables:
+  tfatf:
+    source-dirs: src
+    main: Main.hs
