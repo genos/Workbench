@@ -1,7 +1,7 @@
 module Main where
+
 -- https://gist.github.com/queertypes/8cb225ee1df57bd8b339585a3365ef84 &
 -- https://vimeo.com/146374255
-
 import Control.Monad (when)
 import Control.Monad.Free
 import qualified Control.Monad.Free.Church as C
@@ -57,7 +57,7 @@ echo = do
        echo
 
 mkMain :: Teletype a -> IO ()
-mkMain f = print . runPure f $ replicate 100000 "cat"
+mkMain f = mapM_ T.putStrLn . runPure f $ replicate 100 "cat"
 
 regMain :: IO ()
 regMain = mkMain echo
