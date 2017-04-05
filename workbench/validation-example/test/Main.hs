@@ -3,11 +3,11 @@ module Main
   , spec
   ) where
 
-import Test.Hspec
-import Data.Validation
 import qualified BookingRequest
+import           Data.Validation
 import qualified Date
 import qualified Seats
+import           Test.Hspec
 
 main :: IO ()
 main = hspec spec
@@ -30,4 +30,4 @@ spec = do
 
 isAccSuccess :: AccValidation e a -> Bool
 isAccSuccess (AccSuccess _) = True
-isAccSuccess _ = False
+isAccSuccess _              = False

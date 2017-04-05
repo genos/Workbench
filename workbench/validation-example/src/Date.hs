@@ -5,8 +5,8 @@ module Date
   , isBefore
   ) where
 
-import Text.Read (readMaybe)
 import Data.Validation
+import Text.Read       (readMaybe)
 
 -- | Dummy 'Date' type for illustration only.
 newtype Date = Date
@@ -27,7 +27,7 @@ instance Show Error where
 parse :: String -> Validation Error Date
 parse s =
   case readMaybe s of
-    Nothing -> Failure $ BadParse s
+    Nothing      -> Failure $ BadParse s
     Just seconds -> Success $ Date seconds
 
 -- | Is @date1@ before @date2@?

@@ -2,9 +2,9 @@
 
 module Main where
 
-import           Data.Maybe         (fromMaybe, listToMaybe, maybe)
-import           Data.Monoid        ((<>))
-import           System.Environment (getArgs)
+import Data.Maybe         (fromMaybe, listToMaybe, maybe)
+import Data.Monoid        ((<>))
+import System.Environment (getArgs)
 
 fizzbuzz :: (Integral a, Show a) => a -> String
 fizzbuzz i = fromMaybe (show i) $

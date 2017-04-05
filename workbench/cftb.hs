@@ -1,7 +1,7 @@
-import Data.Char (ord)
-import Data.Function (on)
+import Data.Char          (ord)
+import Data.Function      (on)
 import System.Environment (getArgs)
-import System.IO (readFile)
+import System.IO          (readFile)
 
 zwmoo :: String -> String -> [Int]
 zwmoo = zipWith ((-) `on` ord)

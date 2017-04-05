@@ -1,6 +1,6 @@
-import Data.List (unfoldr)
+import Data.List           (unfoldr)
 import Data.Numbers.Primes (primes)
-import System.Environment (getArgs)
+import System.Environment  (getArgs)
 
 divides
   :: (Integral a)
@@ -20,7 +20,7 @@ factors = unfoldr findFactor
 handler
   :: (Integral a, Read a)
   => [String] -> a
-handler [] = 1729
+handler []    = 1729
 handler (n:_) = read n
 
 main :: IO ()

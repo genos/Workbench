@@ -1,7 +1,7 @@
 -- from http://mathlesstraveled.com/2011/01/06/prime-time-in-haskell/
-import Data.Numbers.Primes (primes, isPrime)
-import Control.Arrow ((>>>), (&&&))
-import Data.List (tails, find, intercalate)
+import Control.Arrow       ((&&&), (>>>))
+import Data.List           (find, intercalate, tails)
+import Data.Numbers.Primes (isPrime, primes)
 
 -- backwards function application
 infixl 0 >$>

@@ -1,7 +1,7 @@
 {- Catalan Numbers in Haskell, with some help from
  - http://rosettacode.org/wiki/Catalan_numbers#Haskell
  -}
-import Data.List (subsequences)
+import Data.List       (subsequences)
 import Test.QuickCheck (quickCheck)
 
 -- helpers

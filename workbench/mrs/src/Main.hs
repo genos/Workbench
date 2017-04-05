@@ -1,22 +1,22 @@
-{-# LANGUAGE DeriveFoldable #-}
-{-# LANGUAGE DeriveFunctor #-}
+{-# LANGUAGE DeriveFoldable    #-}
+{-# LANGUAGE DeriveFunctor     #-}
 {-# LANGUAGE DeriveTraversable #-}
-{-# LANGUAGE FlexibleContexts #-}
-{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE FlexibleContexts  #-}
+{-# LANGUAGE LambdaCase        #-}
 {-# LANGUAGE OverloadedStrings #-}
 
 module Main where
 
-import Control.Monad (liftM2, (<=<))
-import Control.Monad.Trans.Class (lift)
-import Control.Monad.Trans.Reader (ReaderT, ask, runReaderT)
-import Data.Functor.Foldable hiding (Foldable, Unfoldable)
-import qualified Data.Functor.Foldable as RS (Foldable, Unfoldable)
-import Data.Map.Strict (Map)
-import qualified Data.Map.Strict as Map
-import Data.Text (Text)
-import qualified Data.Text as Text
-import qualified Data.Text.IO as Text
+import           Control.Monad              (liftM2, (<=<))
+import           Control.Monad.Trans.Class  (lift)
+import           Control.Monad.Trans.Reader (ReaderT, ask, runReaderT)
+import           Data.Functor.Foldable      hiding (Foldable, Unfoldable)
+import qualified Data.Functor.Foldable      as RS (Foldable, Unfoldable)
+import           Data.Map.Strict            (Map)
+import qualified Data.Map.Strict            as Map
+import           Data.Text                  (Text)
+import qualified Data.Text                  as Text
+import qualified Data.Text.IO               as Text
 
 data ExprF r
   = VarF Text
@@ -87,7 +87,7 @@ eval =
       env <- ask
       case Map.lookup v env of
         Nothing -> lift . Left $ FreeVar v
-        Just j -> return j
+        Just j  -> return j
 
 main :: IO ()
 main = do

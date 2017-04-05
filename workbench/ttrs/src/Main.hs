@@ -1,4 +1,4 @@
-{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE LambdaCase   #-}
 {-# LANGUAGE TypeFamilies #-}
 
 module Main where
@@ -33,7 +33,7 @@ oddIndicesF = futu coalg
           Cons x $
           return $!
           case project s of
-            Nil -> s
+            Nil      -> s
             Cons _ t -> t
 
 evenIndicesF :: [a] -> [a]
@@ -44,7 +44,7 @@ evenIndicesF = futu coalg
         Nil -> Nil
         Cons _ s ->
           case project s of
-            Nil -> Nil
+            Nil      -> Nil
             Cons h t -> Cons h $ return t
 
 nil :: Free (Prim [a]) b
@@ -61,7 +61,7 @@ twiddle = futu coalg
         Nil -> Nil
         Cons x l ->
           case project l of
-            Nil -> Cons x nil
+            Nil      -> Cons x nil
             Cons h t -> Cons h $ cons x t
 
 main :: IO ()

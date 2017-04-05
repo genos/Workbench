@@ -1,13 +1,16 @@
-{-# LANGUAGE MultiParamTypeClasses, TypeSynonymInstances,
-  ScopedTypeVariables, EmptyDataDecls, FlexibleInstances #-}
+{-# LANGUAGE EmptyDataDecls        #-}
+{-# LANGUAGE FlexibleInstances     #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE ScopedTypeVariables   #-}
+{-# LANGUAGE TypeSynonymInstances  #-}
 
 module TentativeEdwards where
 
-import Prelude
-import Math.Core.Utils
-import Math.Common.IntegerAsType
 import Math.Algebra.Field.Base
 import Math.Algebra.Field.Extension
+import Math.Common.IntegerAsType
+import Math.Core.Utils
+import Prelude
 
 data T25519
 

@@ -1,10 +1,10 @@
 module Main where
 
-import Control.Monad ((<=<))
-import qualified Data.Foldable as F
-import qualified Data.Traversable as T
-import System.Directory (getDirectoryContents)
-import System.Environment (getArgs)
+import           Control.Monad      ((<=<))
+import qualified Data.Foldable      as F
+import qualified Data.Traversable   as T
+import           System.Directory   (getDirectoryContents)
+import           System.Environment (getArgs)
 import qualified System.Posix.Files as P
 
 fileSize :: FilePath -> IO Integer
@@ -27,14 +27,14 @@ data FS r
         [r]
 
 instance Functor FS where
-  fmap _ (File x) = File x
+  fmap _ (File x)   = File x
   fmap f (Dir x ys) = Dir x (map f ys)
 
 instance F.Foldable FS where
   foldMap = T.foldMapDefault
 
 instance T.Traversable FS where
-  sequenceA (File x) = pure $ File x
+  sequenceA (File x)   = pure $ File x
   sequenceA (Dir x ys) = Dir x <$> T.sequenceA ys
 
 -- | Generic pure hylomorphism, slightly rewritten to match Edward Kmett's
@@ -64,7 +64,7 @@ du = hyloM getFiles sumFiles
          if b
            then Dir path <$> dirEntries path
            else return $! File path
-    sumFiles (File x) = fileSize x
+    sumFiles (File x)   = fileSize x
     sumFiles (Dir x ys) = (sum ys +) <$> dirSize x
 
 main :: IO ()

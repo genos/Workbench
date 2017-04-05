@@ -1,9 +1,9 @@
 module Main where
 
-import qualified Data.Foldable as F
-import qualified Data.List as L
-import QCPlay
-import Test.QuickCheck
+import qualified Data.Foldable   as F
+import qualified Data.List       as L
+import           QCPlay
+import           Test.QuickCheck
 
 balanced :: Tree a -> Bool
 balanced Null = True
@@ -15,7 +15,7 @@ weight :: Tree a -> Int
 weight = sum . fmap (const 1)
 
 good :: Tree a -> Bool
-good Null = True
+good Null         = True
 good (Fork _ l r) = weight l <= weight r
 
 prop_invariant_0 :: [Int] -> Bool
@@ -34,9 +34,9 @@ make
   => f Op -> Tree Int
 make = F.foldl' op Null
   where
-    op h (Insert n) = insert n h
+    op h (Insert n)   = insert n h
     op Null DeleteMin = Null
-    op h DeleteMin = deleteMin h
+    op h DeleteMin    = deleteMin h
 
 instance Arbitrary Op where
   arbitrary =

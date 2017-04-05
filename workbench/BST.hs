@@ -40,46 +40,46 @@ bstMin
   :: (Ord a)
   => BST a -> a
 bstMin (Node x Empty r) = x
-bstMin (Node x l r) = bstMin l
+bstMin (Node x l r)     = bstMin l
 
 bstMax
   :: (Ord a)
   => BST a -> a
 bstMax (Node x l Empty) = x
-bstMax (Node x l r) = bstMax r
+bstMax (Node x l r)     = bstMax r
 
 depth
   :: (Ord a, Integral b)
   => BST a -> b
-depth Empty = 1
+depth Empty        = 1
 depth (Node _ l r) = 1 + max (depth l) (depth r)
 
 countEmpty
   :: (Ord a, Integral b)
   => BST a -> b
-countEmpty Empty = 1
+countEmpty Empty        = 1
 countEmpty (Node x l r) = countEmpty l + countEmpty r
 
 bstSum
   :: (Num a, Ord a)
   => BST a -> a
-bstSum Empty = 0
+bstSum Empty        = 0
 bstSum (Node x l r) = x + bstSum l + bstSum r
 
 preorder
   :: (Ord a)
   => BST a -> [a]
-preorder Empty = []
+preorder Empty        = []
 preorder (Node x l r) = [x] ++ preorder l ++ preorder r
 
 inorder
   :: (Ord a)
   => BST a -> [a]
-inorder Empty = []
+inorder Empty        = []
 inorder (Node x l r) = inorder l ++ [x] ++ inorder r
 
 postorder
   :: (Ord a)
   => BST a -> [a]
-postorder Empty = []
+postorder Empty        = []
 postorder (Node x l r) = postorder l ++ postorder r ++ [x]

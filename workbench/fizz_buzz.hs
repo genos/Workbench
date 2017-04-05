@@ -1,13 +1,13 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 -- Largely just http://www.parsonsmatt.org/2016/02/27/an_elegant_fizzbuzz.html
-import Data.Foldable (fold)
-import Data.Maybe (fromMaybe)
-import Data.Text (Text)
-import qualified Data.Text.IO as T
-import Data.Text.Lazy (toStrict)
-import Data.Text.Lazy.Builder (toLazyText)
-import Data.Text.Lazy.Builder.Int (decimal)
+import           Data.Foldable              (fold)
+import           Data.Maybe                 (fromMaybe)
+import           Data.Text                  (Text)
+import qualified Data.Text.IO               as T
+import           Data.Text.Lazy             (toStrict)
+import           Data.Text.Lazy.Builder     (toLazyText)
+import           Data.Text.Lazy.Builder.Int (decimal)
 
 rule
   :: Integral a

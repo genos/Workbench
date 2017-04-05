@@ -6,12 +6,12 @@ module BookingRequest
   , Error(..)
   ) where
 
-import Data.Validation
+import           Data.Validation
 import qualified Date
 import qualified Seats
 
 data BookingRequest = BookingRequest
-  { getDate :: Date.Date
+  { getDate  :: Date.Date
   , getSeats :: Seats.Seats
   } deriving (Show, Eq)
 
@@ -52,9 +52,9 @@ makeSeats optSeats = do
   num <- optSeats `maybeToV` Missing "seats"
   mapFailure SeatsError $ Seats.make num
 
--- | Utility to conver 'Maybe' to 'Validation' with a custom error
+-- | Utility to convert 'Maybe' to 'Validation' with a custom error
 maybeToV :: Maybe a -> e -> Validation e a
-maybeToV Nothing e = Failure e
+maybeToV Nothing e  = Failure e
 maybeToV (Just a) _ = Success a
 
 mapFailure :: (e -> e') -> Validation e a -> Validation e' a

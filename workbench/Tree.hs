@@ -1,9 +1,9 @@
 module Tree where
 
-import Data.Foldable (Foldable)
-import qualified Data.Foldable as F
-import Data.Monoid ((<>))
-import Data.Traversable (Traversable)
+import           Data.Foldable    (Foldable)
+import qualified Data.Foldable    as F
+import           Data.Monoid      ((<>))
+import           Data.Traversable (Traversable)
 import qualified Data.Traversable as T
 
 -- http://stackoverflow.com/a/6799885
@@ -22,11 +22,11 @@ instance (Eq a) =>
 
 instance (Show a) =>
          Show (Tree a) where
-  show (Tip x) = "<" ++ show x ++ ">"
+  show (Tip x)   = "<" ++ show x ++ ">"
   show (Bin l r) = "[" ++ show l ++ "]-[" ++ show r ++ "]"
 
 instance Functor Tree where
-  fmap f (Tip x) = Tip (f x)
+  fmap f (Tip x)   = Tip (f x)
   fmap f (Bin l r) = Bin (fmap f l) (fmap f r)
 
 instance Applicative Tree where
@@ -43,11 +43,11 @@ instance Monad Tree where
   Bin l r >>= f = Bin (l >>= f) (r >>= f)
 
 instance Foldable Tree where
-  foldMap f (Tip x) = f x
+  foldMap f (Tip x)   = f x
   foldMap f (Bin l r) = foldMap f l <> foldMap f r
 
 instance Traversable Tree where
-  traverse f (Tip x) = Tip <$> f x
+  traverse f (Tip x)   = Tip <$> f x
   traverse f (Bin l r) = Bin <$> traverse f l <*> traverse f r
 
 t0 :: Tree Int
