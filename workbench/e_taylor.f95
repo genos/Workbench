@@ -14,9 +14,9 @@ program e_taylor
     ! Input n: number of terms to take; dummy counter i
     real :: approx = 1.0
     ! Output approx: our approximated solution
-    
-    write(*,*) "I compute e^x via the Taylor Seires approximation."
-    
+
+    write(*,*) "I compute e^x via the Taylor Series approximation."
+
     write(*,*) "What value for x?"
     read(*,*) x
     true_soln = exp(x)
