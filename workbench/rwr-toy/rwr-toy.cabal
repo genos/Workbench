@@ -1,0 +1,27 @@
+-- This file has been generated from package.yaml by hpack version 0.17.0.
+--
+-- see: https://github.com/sol/hpack
+
+name:           rwr-toy
+version:        0.1.0.0
+synopsis:       Toy free monad without remorse
+description:    Example from http://www.haskellforall.com/2012/06/you-could-have-invented-free-monads.html using https://hackage.haskell.org/package/reflection-without-remorse
+category:       Math
+author:         Graham Enos
+maintainer:     graham@quantifind.com
+copyright:      Quantifind
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+cabal-version:  >= 1.10
+
+executable rwr
+  main-is: Main.hs
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -O2
+  build-depends:
+      base >= 4.7 && < 5
+    , reflection-without-remorse
+    , text
+  default-language: Haskell2010

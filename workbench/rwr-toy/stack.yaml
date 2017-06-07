@@ -1,0 +1,7 @@
+flags: {}
+extra-package-dbs: []
+packages:
+- '.'
+extra-deps:
+- reflection-without-remorse-0.9.5
+resolver: lts-8.17
