@@ -1,0 +1,12 @@
+[package]
+name = "evilbmcats"
+version = "0.1.0"
+authors = ["genos <graham.enos@gmail.com>"]
+description = "A random tweet from @evilbmcats, formatted for GitHub Markdown"
+repository = "https://github.com/genos/Programming"
+license = "MIT"
+
+[dependencies]
+rand = "0.3.15"
+reqwest = "0.6.2"
+select = "0.4.1"
