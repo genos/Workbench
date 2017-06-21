@@ -28,7 +28,7 @@ allTweets :: Scraper Text [Tweet]
 allTweets = chroots ("div" @: [hasClass "content"]) $ do
   textAndHref <- text $ "p" @: [hasClass "tweet-text"]
   let (_text, _href) = breakOn "pic.twitter.com" textAndHref
-  _image <- attr "src" "img"
+  _image <- attr "data-image-url" $ "div" @: [hasClass "js-adaptive-photo"]
   return Tweet {..}
 
 randomTweet :: [Tweet] -> IO Tweet
