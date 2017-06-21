@@ -34,9 +34,7 @@ fn text_image_href(doc: &Document) -> Option<(String, String, String)> {
 
 fn main() {
     let doc = {
-        let url = Url::parse_with_params("https://twitter.com/search?q=from:%40evilbmcats",
-                                         &[("max_position",
-                                            thread_rng().gen_range(0, 1000).to_string())])
+        let url = Url::parse("https://twitter.com/search?q=from:%40evilbmcats")
             .expect("Unable to construct url");
         let mut body = String::new();
         let mut result: Response = get(url).expect("No response from url");
