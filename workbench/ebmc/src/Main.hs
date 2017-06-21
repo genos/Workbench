@@ -1,43 +1,42 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE RecordWildCards #-}
 module Main where
 
-import Control.Lens
-import qualified Data.ByteString.Lazy as B
-import Data.Monoid
-import Data.Text (Text)
-import qualified Data.Text as T
-import qualified Data.Text.Encoding as T
-import Network.Wreq
-import Safe
-import Text.HTML.Scalpel.Core
+import Data.Monoid ((<>))
+import Data.Random
+import Data.Text (breakOn, Text)
+import qualified Data.Text.IO as T
+import System.Exit (die)
+import Text.HTML.Scalpel
 
-body :: IO Text
-body = do
-  response <- get "https://twitter.com/search?q=from:%40evilbmcats"
-  return $ response ^. responseBody & B.toStrict & T.decodeUtf8
+data Tweet = Tweet { _text :: !Text, _image :: !Text, _href :: !Text }
 
-pTweetText :: Selector
-pTweetText = "p" @: [hasClass "tweet-text"]
+fmt :: Tweet -> Text
+fmt t =
+  "**"
+    <> _text t
+    <> "**\n![Black Metal Cats]("
+    <> _image t
+    <> ")\n*[@evilbmcats on Twitter]("
+    <> _href t
+    <> ")*"
 
-tweets :: Scraper Text [Text]
-tweets =
-  chroots pTweetText $ fst . T.breakOn "pic.twitter.com" <$> text anySelector
+url :: URL
+url = "https://twitter.com/search?q=from:%40evilbmcats"
 
-images :: Scraper Text [Text]
-images = attrs "src" $ "img" @: ["style" @= "width: 100%; top: -0px;"]
+allTweets :: Scraper Text [Tweet]
+allTweets = chroots ("div" @: [hasClass "content"]) $ do
+  textAndHref <- text $ "p" @: [hasClass "tweet-text"]
+  let (_text, _href) = breakOn "pic.twitter.com" textAndHref
+  _image <- attr "src" "img"
+  return Tweet {..}
 
-hrefs :: Scraper Text [Text]
-hrefs = chroots pTweetText $ innerHTML "a"
-
-tweetImageHref :: Text -> Int -> Maybe (Text, Text, Text)
-tweetImageHref b n = do
-  t <- (`atMay` n) =<< scrapeStringLike b tweets
-  i <- (`atMay` n) =<< scrapeStringLike b images
-  h <- (`atMay` n) =<< scrapeStringLike b hrefs
-  return (t, i, h)
-
-fmt :: (Text, Text, Text) -> Text
-fmt (tweet, image, href) = ""
+randomTweet :: [Tweet] -> IO Tweet
+randomTweet ts = runRVar (randomElement ts) StdRandom
 
 main :: IO ()
-main = putStrLn "hi"
+main = do
+  mts <- scrapeURL url allTweets
+  case mts of
+    Nothing -> die "Unable to scrape tweets"
+    Just ts -> T.putStrLn . fmt =<< randomTweet ts

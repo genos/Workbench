@@ -1,9 +1,9 @@
 name:                ebmc
 version:             0.1.0.0
-synopsis:            Simple project template from stack
-description:         Please see README.md
-homepage:            https://github.com/genos/ebmc#readme
-license:             BSD3
+synopsis:            Random tweet by @evilbmcats
+description:         Random tweet by @evilbmcats
+homepage:            https://twitter.com/@evilbmcats
+license:             MIT
 author:              Graham Enos
 maintainer:          graham@quantifind.com
 copyright:           Quantifind
@@ -13,12 +13,9 @@ ghc-options: -Wall -O2
 
 dependencies:
   - base >= 4.7 && < 5
-  - bytestring
-  - lens
-  - safe
-  - scalpel-core
+  - random-fu
+  - scalpel
   - text
-  - wreq
 
 executables:
   ebmc:

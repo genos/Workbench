@@ -4,14 +4,14 @@
 
 name:           ebmc
 version:        0.1.0.0
-synopsis:       Simple project template from stack
-description:    Please see README.md
+synopsis:       Random tweet by @evilbmcats
+description:    Random tweet by @evilbmcats
 category:       Math
-homepage:       https://github.com/genos/ebmc#readme
+homepage:       https://twitter.com/@evilbmcats
 author:         Graham Enos
 maintainer:     graham@quantifind.com
 copyright:      Quantifind
-license:        BSD3
+license:        MIT
 license-file:   LICENSE
 build-type:     Simple
 cabal-version:  >= 1.10
@@ -23,10 +23,7 @@ executable ebmc
   ghc-options: -Wall -O2
   build-depends:
       base >= 4.7 && < 5
-    , bytestring
-    , lens
-    , safe
-    , scalpel-core
+    , random-fu
+    , scalpel
     , text
-    , wreq
   default-language: Haskell2010
