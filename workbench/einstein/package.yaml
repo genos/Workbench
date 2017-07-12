@@ -1,0 +1,20 @@
+name:                einstein
+version:             0.1.0.0
+synopsis:            Einstein's Problem in Haskell
+description:         A _very_ slight variation of a encoding/solution of Einstein's problem in Haskell.
+homepage:            https://maniagnosis.crsr.net/2009/12/einsteins-problem.html
+license:             MIT
+author:              Graham Enos
+maintainer:          graham@quantifind.com
+copyright:           Quantifind
+category:            Math
+
+ghc-options: -Wall -O2
+
+dependencies:
+  - base >= 4.7 && < 5
+
+executables:
+  einstein:
+    source-dirs: src
+    main:        Main.hs
