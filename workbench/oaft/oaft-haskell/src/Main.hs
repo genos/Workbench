@@ -4,9 +4,7 @@ class ExpAlg t  where
   lit :: Int -> t
   add :: t -> t -> t
 
-e1
-  :: ExpAlg t
-  => t
+e1 :: ExpAlg t => t
 e1 = add (lit 1) (add (lit 2) (lit 3))
 
 newtype Eval = Eval
@@ -24,9 +22,7 @@ class ExpAlg t =>
       MulAlg t  where
   mul :: t -> t -> t
 
-e2
-  :: MulAlg t
-  => t
+e2 :: MulAlg t => t
 e2 = mul (lit 4) (add (lit 5) (lit 6))
 
 instance MulAlg Eval where
@@ -54,5 +50,5 @@ s2 = view e2
 
 main :: IO ()
 main = do
-  mapM_ print [v1, v2]
+  mapM_ print    [v1, v2]
   mapM_ putStrLn [s1, s2]

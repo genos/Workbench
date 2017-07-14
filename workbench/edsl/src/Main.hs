@@ -6,10 +6,10 @@ data Expr a = Lit Integer
             | Var a
 
 eval :: Expr Integer -> Integer
-eval (Lit d)     = d
+eval (Lit d    ) = d
 eval (Add e0 e1) = eval e0 + eval e1
-eval (Let e f)   = eval (f (eval e))
-eval (Var v)     = v
+eval (Let e  f ) = eval (f (eval e))
+eval (Var v    ) = v
 
 instance Num (Expr a) where
   fromInteger = Lit . fromInteger
@@ -25,13 +25,13 @@ tree n = Let (tree (n - 1)) ((\shared -> shared + shared) . Var)
 
 text :: Expr String -> String
 text e = go e (0 :: Integer)
-  where
-    go (Lit j) _ = show j
-    go (Add e0 e1) c = "(Add " ++ go e0 c ++ " " ++ go e1 c ++ ")"
-    go (Let e0 f) c =
-      "(Let " ++ v ++ " " ++ go e0 (c + 1) ++ " in " ++ go (f v) (c + 1) ++ ")"
-      where v = "v" ++ show c
-    go (Var x) _ = x
+ where
+  go (Lit j    ) _ = show j
+  go (Add e0 e1) c = "(Add " ++ go e0 c ++ " " ++ go e1 c ++ ")"
+  go (Let e0 f) c =
+    "(Let " ++ v ++ " " ++ go e0 (c + 1) ++ " in " ++ go (f v) (c + 1) ++ ")"
+    where v = "v" ++ show c
+  go (Var x) _ = x
 
 main :: IO ()
 main = do

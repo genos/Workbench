@@ -11,7 +11,7 @@ factorial :: Integer -> Integer
 factorial = product . enumFromTo 2
 
 pairs :: [a] -> [(a, a)]
-pairs xs = [(x, y) | x <- xs, y <- xs]
+pairs xs = [ (x, y) | x <- xs, y <- xs ]
 
 -- Catalan definitions
 cat0 :: [Integer]

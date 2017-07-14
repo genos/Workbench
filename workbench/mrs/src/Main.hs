@@ -42,56 +42,54 @@ add a b = Fix $ AddF a b
 
 cataM
   :: (Monad m, Traversable (Base t), RS.Foldable t)
-  => (Base t a -> m a) -> t -> m a
-cataM alg = c
-  where
-    c = alg <=< traverse c . project
+  => (Base t a -> m a)
+  -> t
+  -> m a
+cataM alg = c where c = alg <=< traverse c . project
 
 anaM
   :: (Monad m, Traversable (Base t), RS.Unfoldable t)
-  => (a -> m (Base t a)) -> a -> m t
-anaM coalg = a
-  where
-    a = (return . embed) <=< traverse a <=< coalg
+  => (a -> m (Base t a))
+  -> a
+  -> m t
+anaM coalg = a where a = (return . embed) <=< traverse a <=< coalg
 
 paraM
   :: (Monad m, Traversable (Base t), RS.Foldable t)
-  => (Base t (t, a) -> m a) -> t -> m a
+  => (Base t (t, a) -> m a)
+  -> t
+  -> m a
 paraM alg = p
-  where
-    p = alg <=< traverse f . project
-    f t = liftM2 (,) (return t) (p t)
+ where
+  p = alg <=< traverse f . project
+  f t = liftM2 (,) (return t) (p t)
 
 apoM
   :: (Monad m, Traversable (Base t), RS.Unfoldable t)
-  => (a -> m (Base t (Either t a))) -> a -> m t
+  => (a -> m (Base t (Either t a)))
+  -> a
+  -> m t
 apoM coalg = a
-  where
-    a = (return . embed) <=< traverse f <=< coalg
-    f = either return a
+ where
+  a = (return . embed) <=< traverse f <=< coalg
+  f = either return a
 
-hyloM
-  :: (Monad m, Traversable t)
-  => (t b -> m b) -> (a -> m (t a)) -> a -> m b
-hyloM alg coalg = h
-  where
-    h = alg <=< traverse h <=< coalg
+hyloM :: (Monad m, Traversable t) => (t b -> m b) -> (a -> m (t a)) -> a -> m b
+hyloM alg coalg = h where h = alg <=< traverse h <=< coalg
 
 eval :: Expr -> ReaderT (Map Text Int) (Either Error) Int
-eval =
-  cataM $
-  \case
-    LitF j -> return j
-    AddF i j -> return $! i + j
-    VarF v -> do
-      env <- ask
-      case Map.lookup v env of
-        Nothing -> lift . Left $ FreeVar v
-        Just j  -> return j
+eval = cataM $ \case
+  LitF j   -> return j
+  AddF i j -> return $! i + j
+  VarF v   -> do
+    env <- ask
+    case Map.lookup v env of
+      Nothing -> lift . Left $ FreeVar v
+      Just j  -> return j
 
 main :: IO ()
 main = do
   let open = add (var "x") (var "y")
-  let p = Text.putStrLn . Text.pack . show
+  let p    = Text.putStrLn . Text.pack . show
   p $ runReaderT (eval open) (Map.singleton "x" 1)
   p $ runReaderT (eval open) (Map.fromList [("x", 1), ("y", 5)])

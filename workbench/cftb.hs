@@ -18,5 +18,7 @@ showHow p w = w ++ ":\t" ++ show (zwmoo p w)
 main :: IO ()
 main = do
   (puzz:fileName:_) <- getArgs
-  mapM_ (putStrLn . showHow puzz) . filter (isCandidate puzz) . lines =<<
-    readFile fileName
+  mapM_ (putStrLn . showHow puzz)
+    .   filter (isCandidate puzz)
+    .   lines
+    =<< readFile fileName

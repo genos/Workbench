@@ -6,10 +6,9 @@ import           QCPlay
 import           Test.QuickCheck
 
 balanced :: Tree a -> Bool
-balanced Null = True
+balanced Null         = True
 balanced (Fork _ l r) = (d == 0 || d == 1) && balanced l && balanced r
-  where
-    d = weight r - weight l
+  where d = weight r - weight l
 
 weight :: Tree a -> Int
 weight = sum . fmap (const 1)
@@ -29,14 +28,12 @@ data Op
   | DeleteMin
   deriving (Show)
 
-make
-  :: (Foldable f)
-  => f Op -> Tree Int
+make :: (Foldable f) => f Op -> Tree Int
 make = F.foldl' op Null
-  where
-    op h (Insert n)   = insert n h
-    op Null DeleteMin = Null
-    op h DeleteMin    = deleteMin h
+ where
+  op h    (Insert n) = insert n h
+  op Null DeleteMin  = Null
+  op h    DeleteMin  = deleteMin h
 
 instance Arbitrary Op where
   arbitrary =
@@ -59,14 +56,11 @@ models :: ([Int] -> [Int]) -> (Tree Int -> Tree Int) -> Tree Int -> Bool
 models f g h = f (model h) == model (g h)
 
 prop_insert :: Int -> [Op] -> Bool
-prop_insert n ops = (L.insert n `models` insert n) h
-  where
-    h = make ops
+prop_insert n ops = (L.insert n `models` insert n) h where h = make ops
 
 prop_delete_min :: [Op] -> Property
 prop_delete_min ops = weight h > 0 ==> (tail `models` deleteMin) h
-  where
-    h = make ops
+  where h = make ops
 
 main :: IO ()
 main = do

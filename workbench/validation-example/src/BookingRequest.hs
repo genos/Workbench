@@ -30,22 +30,22 @@ make
   -> Maybe Int -- ^ optional number of seats
   -> AccValidation [Error] BookingRequest
 make now optDateString optSeats =
-  BookingRequest <$> vToAccVList (makeTimelyBookingDate now optDateString) <*>
-  vToAccVList (makeSeats optSeats)
+  BookingRequest
+    <$> vToAccVList (makeTimelyBookingDate now optDateString)
+    <*> vToAccVList (makeSeats optSeats)
 
 makeTimelyBookingDate :: Date.Date -> Maybe String -> Validation Error Date.Date
 makeTimelyBookingDate now optDateString = do
   dateString <- optDateString `maybeToV` Missing "date"
-  date <- mapFailure DateError $ Date.parse dateString
+  date       <- mapFailure DateError $ Date.parse dateString
   timelyBookingDate date now
 
 timelyBookingDate
   :: Date.Date -- ^ attempted booking
   -> Date.Date -- ^ now
   -> Validation Error Date.Date
-timelyBookingDate date now
-  | not $ Date.isBefore date now = Success date
-  | otherwise = Failure $ DateBefore date now
+timelyBookingDate date now | not $ Date.isBefore date now = Success date
+                           | otherwise = Failure $ DateBefore date now
 
 makeSeats :: Maybe Int -> Validation Error Seats.Seats
 makeSeats optSeats = do
@@ -54,7 +54,7 @@ makeSeats optSeats = do
 
 -- | Utility to convert 'Maybe' to 'Validation' with a custom error
 maybeToV :: Maybe a -> e -> Validation e a
-maybeToV Nothing e  = Failure e
+maybeToV Nothing  e = Failure e
 maybeToV (Just a) _ = Success a
 
 mapFailure :: (e -> e') -> Validation e a -> Validation e' a

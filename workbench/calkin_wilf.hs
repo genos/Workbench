@@ -3,11 +3,11 @@ import Data.Ratio
 -- With rationals
 cw :: [[Rational]]
 cw = iterate (concatMap f) [1 % 1]
-  where
-    f r = [x % (x + y), (x + y) % y]
-      where
-        x = numerator r
-        y = denominator r
+ where
+  f r = [x % (x + y), (x + y) % y]
+   where
+    x = numerator r
+    y = denominator r
 
 -- Original
 qq :: [[(Integer, Integer)]]

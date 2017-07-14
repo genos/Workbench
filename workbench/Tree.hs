@@ -60,22 +60,12 @@ t2 :: Tree Int
 t2 = Bin (Bin (Tip 0) (Tip 1)) (Bin (Tip 2) (Tip 3))
 
 f0 :: Tree (Int -> Int)
-f0 = Tip (+ 1)
+f0 = Tip (+1)
 
 f1 :: Tree (Int -> Int)
-f1 = Bin (Tip (\n -> 3 * n + 1)) (Tip (`div` 2))
+f1 = Bin (Tip (\n -> 3 * n + 1)) (Tip (`div`2))
 
 main :: IO ()
-main =
-  mapM_
-    print
-    [ t0
-    , t1
-    , t2
-    , f0 <*> t0
-    , f0 <*> t1
-    , f0 <*> t2
-    , f1 <*> t0
-    , f1 <*> t1
-    , f1 <*> t2
-    ]
+main = mapM_
+  print
+  [t0, t1, t2, f0 <*> t0, f0 <*> t1, f0 <*> t2, f1 <*> t0, f1 <*> t1, f1 <*> t2]

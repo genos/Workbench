@@ -27,24 +27,24 @@ exitSuccess' = liftF ExitSuccess
 
 run :: Teletype a -> IO a
 run = iterM go
-  where
-    go (PutStrLn x1 x2) = T.putStrLn x1 >> x2
-    go (GetLine x)      = T.getLine >>= x
-    go ExitSuccess      = exitSuccess
+ where
+  go (PutStrLn x1 x2) = T.putStrLn x1 >> x2
+  go (GetLine x     ) = T.getLine >>= x
+  go ExitSuccess      = exitSuccess
 
 runPure :: Teletype a -> [Text] -> [Text]
-runPure (Pure _) _                = []
-runPure (Free (PutStrLn y t)) xs  = y : runPure t xs
-runPure (Free (GetLine k)) (x:xs) = runPure (k x) xs
-runPure (Free (GetLine _)) []     = []
-runPure (Free ExitSuccess) _      = []
+runPure (Pure _             ) _      = []
+runPure (Free (PutStrLn y t)) xs     = y : runPure t xs
+runPure (Free (GetLine k   )) (x:xs) = runPure (k x) xs
+runPure (Free (GetLine _   )) []     = []
+runPure (Free ExitSuccess   ) _      = []
 
 echo :: MonadFree TeletypeF m => m ()
 echo = do
   c <- getLine'
-  when (c /= "") $
-    do putStrLn' c
-       echo
+  when (c /= "") $ do
+    putStrLn' c
+    echo
 
 mkMain :: Teletype a -> IO ()
 mkMain f = mapM_ T.putStrLn . runPure f $ replicate 100 "cat"

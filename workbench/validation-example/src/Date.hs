@@ -25,10 +25,9 @@ instance Show Error where
 
 -- | Try to parse @s@ into a valid 'Date', using 'readMaybe'
 parse :: String -> Validation Error Date
-parse s =
-  case readMaybe s of
-    Nothing      -> Failure $ BadParse s
-    Just seconds -> Success $ Date seconds
+parse s = case readMaybe s of
+  Nothing      -> Failure $ BadParse s
+  Just seconds -> Success $ Date seconds
 
 -- | Is @date1@ before @date2@?
 isBefore :: Date -> Date -> Bool
