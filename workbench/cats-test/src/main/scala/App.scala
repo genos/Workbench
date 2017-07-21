@@ -1,29 +1,29 @@
-package com.qf.catstest
+package com.example.catstest
 
+import cats._
 import cats.data._
-import cats.std.all._
-import cats.syntax.all._
+import cats.implicits._
 
 object App {
 
-  def xorExample: Unit = {
-    type Result[A] = String Xor A
-    val l: Result[Int] = "Failed".left
-    val r: Result[Int] = 1.right
+  def eitherExample: Unit = {
+    type Result[A] = Either[String, A]
+    val l: Result[Int] = Either.left("Failed")
+    val r: Result[Int] = Either.right(1)
     println(l map (_ + 1))
     println(r map (_ + 1))
   }
 
   def validatedExample: Unit = {
     type Error = List[String]
-    type XorR = Xor[Error, Int]
+    type EitherErrInt = Either[Error, Int]
     type ValidatedR = Validated[Error, Int]
-    val x1: XorR = 1.right
-    val x2: XorR = List("Stops here").left
-    val x3: XorR = List("This will be ignored").left
-    val v1: ValidatedR = 1.valid
-    val v2: ValidatedR = List("Accumulates this").invalid
-    val v3: ValidatedR = List("And this").invalid
+    val x1: EitherErrInt = Either.right(1)
+    val x2: EitherErrInt = Either.left(List("Stops here"))
+    val x3: EitherErrInt = Either.left(List("This will be ignored"))
+    val v1: ValidatedR = Validated.valid(1)
+    val v2: ValidatedR = Validated.invalid(List("Accumulates this"))
+    val v3: ValidatedR = Validated.invalid(List("And this"))
     println(
       for {
         x <- x1
@@ -32,11 +32,12 @@ object App {
       } yield x + y + z
     )
     println((v1 |@| v2 |@| v3) map { _ + _ + _ })
+    println((v1 |@| v1 |@| v1) map { _ + _ + _ })
   }
 
   def main(args: Array[String]) {
-    println("xorExample:")
-    xorExample
+    println("eitherExample:")
+    eitherExample
     println("validatedExample:")
     validatedExample
   }
