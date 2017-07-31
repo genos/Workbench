@@ -1,15 +1,18 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE RecordWildCards   #-}
 module Main where
 
-import Data.Monoid ((<>))
-import Data.Random
-import Data.Text (breakOn, Text)
-import qualified Data.Text.IO as T
-import System.Exit (die)
-import Text.HTML.Scalpel
+import           Data.Monoid       ((<>))
+import           Data.Random
+import           Data.Text         (Text, breakOn)
+import qualified Data.Text.IO      as T
+import           System.Exit       (die)
+import           Text.HTML.Scalpel
 
-data Tweet = Tweet { _text :: !Text, _image :: !Text, _href :: !Text }
+data Tweet = Tweet { _text  :: {-# UNPACK #-} !Text
+                   , _image :: {-# UNPACK #-} !Text
+                   , _href  :: {-# UNPACK #-} !Text
+                   }
 
 fmt :: Tweet -> Text
 fmt t =
