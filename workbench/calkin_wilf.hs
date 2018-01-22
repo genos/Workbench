@@ -1,16 +1,17 @@
 import Data.Ratio
+import Numeric.Natural
+
+type ℕ = Natural
+type ℚ = Ratio Natural
 
 -- With rationals
-cw :: [[Rational]]
+cw :: [[ℚ]]
 cw = iterate (concatMap f) [1 % 1]
  where
-  f r = [x % (x + y), (x + y) % y]
-   where
-    x = numerator r
-    y = denominator r
+  f r = let (n, d) = (numerator r, denominator r) in [n % (n + d), (n + d) % d]
 
 -- Original
-qq :: [[(Integer, Integer)]]
+qq :: [[(ℕ, ℕ)]]
 qq = iterate (concatMap (\(a, b) -> [(a, a + b), (a + b, b)])) [(1, 1)]
 
 main :: IO ()
