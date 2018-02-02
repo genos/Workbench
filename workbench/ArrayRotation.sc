@@ -17,7 +17,7 @@ object ArrayRotation {
    * res1: Array[Int] = Array(2, 1, 0, 3)
    * }}}
    */
-  @inline def swapInPlace[@specialized(Boolean, Char, Double, Int) T](xs: Array[T], i: Int, j: Int): Unit = {
+  @inline def swapInPlace[@specialized(Boolean, Char, Double, Float, Int, Long) T](xs: Array[T], i: Int, j: Int): Unit = {
     val t: T = xs(i)
     xs(i) = xs(j)
     xs(j) = t
@@ -38,7 +38,7 @@ object ArrayRotation {
    * res1: Array[Int] = Array(2, 3, 0, 1)
    * }}}
    */
-  def rotateInPlace[@specialized(Boolean, Char, Double, Int) T](xs: Array[T], k: Int): Unit = {
+  def rotateInPlace[@specialized(Boolean, Char, Double, Float, Int, Long) T](xs: Array[T], k: Int): Unit = {
     val n: Int = xs.length
     if (!(k < 0 || k > n)) {
       var i: Int = 0
