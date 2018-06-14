@@ -1,6 +1,8 @@
--- This file has been generated from package.yaml by hpack version 0.17.0.
+-- This file has been generated from package.yaml by hpack version 0.28.2.
 --
 -- see: https://github.com/sol/hpack
+--
+-- hash: 026fc1556fff7501572098d5767c80adc0d9be5eafa878f382ab2723accafc85
 
 name:           ebmc
 version:        0.1.0.0
@@ -18,11 +20,13 @@ cabal-version:  >= 1.10
 
 executable ebmc
   main-is: Main.hs
+  other-modules:
+      Paths_ebmc
   hs-source-dirs:
       src
   ghc-options: -Wall -O2
   build-depends:
-      base >= 4.7 && < 5
+      base >=4.7 && <5
     , random-fu
     , scalpel
     , text

@@ -1,5 +1,5 @@
+{-# LANGUAGE NamedFieldPuns    #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE RecordWildCards   #-}
 module Main where
 
 import           Data.Monoid       ((<>))
@@ -15,13 +15,13 @@ data Tweet = Tweet { _text  :: {-# UNPACK #-} !Text
                    }
 
 fmt :: Tweet -> Text
-fmt t =
+fmt Tweet { _text, _image, _href } =
   "**"
-    <> _text t
+    <> _text
     <> "**\n![Black Metal Cats]("
-    <> _image t
+    <> _image
     <> ")\n*[@evilbmcats on Twitter]("
-    <> _href t
+    <> _href
     <> ")*"
 
 url :: URL
@@ -32,7 +32,7 @@ allTweets = chroots ("div" @: [hasClass "content"]) $ do
   textAndHref <- text $ "p" @: [hasClass "tweet-text"]
   let (_text, _href) = breakOn "pic.twitter.com" textAndHref
   _image <- attr "data-image-url" $ "div" @: [hasClass "js-adaptive-photo"]
-  return Tweet {..}
+  return Tweet { _text , _image , _href }
 
 randomTweet :: [Tweet] -> IO Tweet
 randomTweet ts = runRVar (randomElement ts) StdRandom
