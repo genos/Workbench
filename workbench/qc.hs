@@ -1,12 +1,15 @@
+module Main where
+
+import Data.Foldable   (traverse_)
 import Data.List
 import Test.QuickCheck
 
 qsort :: Ord a => [a] -> [a]
-qsort []     = []
-qsort (x:xs) = qsort lhs ++ [x] ++ qsort rhs
+qsort []       = []
+qsort (x : xs) = qsort lhs ++ [x] ++ qsort rhs
  where
-  lhs = filter (<x) xs
-  rhs = filter (>=x) xs
+  lhs = filter (< x) xs
+  rhs = filter (>= x) xs
 
 prop_idempotent :: Ord a => [a] -> Bool
 prop_idempotent xs = qsort (qsort xs) == qsort xs
@@ -23,6 +26,7 @@ prop_maximum xs = not (null xs) ==> last (qsort xs) == maximum xs
 
 main :: IO ()
 main = do
-  mapM_ quickCheck
-        ([prop_idempotent, prop_ordered, prop_ordered] :: [[Integer] -> Bool])
-  mapM_ quickCheck ([prop_minimum, prop_maximum] :: [[Integer] -> Property])
+  traverse_
+    quickCheck
+    ([prop_idempotent, prop_ordered, prop_ordered] :: [[Integer] -> Bool])
+  traverse_ quickCheck ([prop_minimum, prop_maximum] :: [[Integer] -> Property])

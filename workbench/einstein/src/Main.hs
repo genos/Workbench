@@ -1,6 +1,7 @@
 -- https://maniagnosis.crsr.net/2009/12/einsteins-problem.html
 module Main where
 
+import Data.Foldable (traverse_)
 import Data.List     (findIndex)
 import Data.Maybe    (mapMaybe)
 
@@ -91,7 +92,7 @@ outOf k xs = [ x : xs' | x <- xs, xs' <- (k - 1) `outOf` delete x xs ]
     )
 
 main :: IO ()
-main = mapM_ print round2
+main = traverse_ print round2
  where
   owners :: [Owner]
   owners =

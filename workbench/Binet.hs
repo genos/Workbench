@@ -1,3 +1,6 @@
+module Main where
+
+import Data.Foldable      (traverse_)
 import System.Environment (getArgs)
 
 data Q5 = Q5 Rational Rational deriving (Show)
@@ -29,4 +32,4 @@ score = floor . rationalPart . binet
   sqrt5 = Q5 0 1
 
 main :: IO ()
-main = mapM_ (print . score . read) =<< getArgs
+main = traverse_ (print . score . read) =<< getArgs

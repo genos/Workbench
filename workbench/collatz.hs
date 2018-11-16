@@ -1,3 +1,7 @@
+module Main where
+
+import Data.Foldable (traverse_)
+
 c :: (Integral a) => a -> a
 c n | even n    = n `div` 2
     | otherwise = 3 * n + 1
@@ -12,4 +16,4 @@ output :: (Integral a) => a -> IO ()
 output n = putStrLn $ show n ++ ":\t" ++ show (collatz n)
 
 main :: IO ()
-main = mapM_ output [1 .. 25]
+main = traverse_ output [1 .. 25]

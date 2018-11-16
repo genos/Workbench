@@ -1,6 +1,6 @@
 module Tree where
 
-import           Data.Foldable    (Foldable)
+import           Data.Foldable    (Foldable, traverse_)
 import qualified Data.Foldable    as F
 import           Data.Monoid      ((<>))
 import           Data.Traversable (Traversable)
@@ -66,6 +66,6 @@ f1 :: Tree (Int -> Int)
 f1 = Bin (Tip (\n -> 3 * n + 1)) (Tip (`div`2))
 
 main :: IO ()
-main = mapM_
+main = traverse_
   print
   [t0, t1, t2, f0 <*> t0, f0 <*> t1, f0 <*> t2, f1 <*> t0, f1 <*> t1, f1 <*> t2]

@@ -2,8 +2,8 @@
 
 module Main where
 
+import Data.Foldable      (traverse_)
 import Data.Maybe         (fromMaybe, listToMaybe, maybe)
-import Data.Monoid        ((<>))
 import System.Environment (getArgs)
 
 fizzbuzz :: (Integral a, Show a) => a -> String
@@ -16,4 +16,4 @@ fizzbuzz i =
 main :: IO ()
 main = do
   upTo <- fmap (maybe 100 read . listToMaybe) getArgs
-  mapM_ putStrLn [ fizzbuzz i | i <- [1 .. upTo] ]
+  traverse_ putStrLn [ fizzbuzz i | i <- [1 .. upTo] ]

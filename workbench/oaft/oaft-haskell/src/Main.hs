@@ -1,5 +1,7 @@
 module Main where
 
+import Data.Foldable (traverse_)
+
 class ExpAlg t  where
   lit :: Int -> t
   add :: t -> t -> t
@@ -50,5 +52,5 @@ s2 = view e2
 
 main :: IO ()
 main = do
-  mapM_ print    [v1, v2]
-  mapM_ putStrLn [s1, s2]
+  traverse_ print    [v1, v2]
+  traverse_ putStrLn [s1, s2]

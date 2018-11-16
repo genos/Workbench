@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 -- Largely just http://www.parsonsmatt.org/2016/02/27/an_elegant_fizzbuzz.html
-import           Data.Foldable              (fold)
+import           Data.Foldable              (fold, traverse_)
 import           Data.Maybe                 (fromMaybe)
 import           Data.Text                  (Text)
 import qualified Data.Text.IO               as T
@@ -23,4 +23,4 @@ fizzBuzz = fromMaybe <$> showIntegral <*> fold [fizz, buzz]
   buzz = rule 5 "Buzz"
 
 main :: IO ()
-main = mapM_ (T.putStrLn . fizzBuzz) [1 .. 100]
+main = traverse_ (T.putStrLn . fizzBuzz) [1 .. 100]

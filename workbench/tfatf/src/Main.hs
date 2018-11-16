@@ -5,6 +5,7 @@ module Main where
 import           Control.Monad             (when)
 import           Control.Monad.Free
 import qualified Control.Monad.Free.Church as C
+import           Data.Foldable             (traverse_)
 import           Data.Text                 (Text)
 import qualified Data.Text.IO              as T
 import           System.Exit               hiding (ExitSuccess)
@@ -47,7 +48,7 @@ echo = do
     echo
 
 mkMain :: Teletype a -> IO ()
-mkMain f = mapM_ T.putStrLn . runPure f $ replicate 100 "cat"
+mkMain f = traverse_ T.putStrLn . runPure f $ replicate 100 "cat"
 
 regMain :: IO ()
 regMain = mkMain echo

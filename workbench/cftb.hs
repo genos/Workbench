@@ -1,4 +1,8 @@
+module Main where
+
+
 import Data.Char          (ord)
+import Data.Foldable      (traverse_)
 import Data.Function      (on)
 import System.Environment (getArgs)
 import System.IO          (readFile)
@@ -17,8 +21,8 @@ showHow p w = w ++ ":\t" ++ show (zwmoo p w)
 
 main :: IO ()
 main = do
-  (puzz:fileName:_) <- getArgs
-  mapM_ (putStrLn . showHow puzz)
+  (puzz : fileName : _) <- getArgs
+  traverse_ (putStrLn . showHow puzz)
     .   filter (isCandidate puzz)
     .   lines
     =<< readFile fileName
