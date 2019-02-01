@@ -9,8 +9,8 @@ description:    oaft
 category:       Math
 homepage:       https://github.com/genos/oaft#readme
 author:         Graham Enos
-maintainer:     graham@quantifind.com
-copyright:      Quantifind
+maintainer:     graham.enos@gmail.com
+copyright:      Graham Enos
 license:        MIT
 build-type:     Simple
 cabal-version:  >= 1.10

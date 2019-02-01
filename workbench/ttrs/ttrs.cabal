@@ -9,8 +9,8 @@ description:    http://jtobin.ca/time-traveling-recursion
 category:       Math
 homepage:       http://jtobin.ca/time-traveling-recursion
 author:         Graham Enos
-maintainer:     graham@quantifind.com
-copyright:      Quantifind
+maintainer:     graham.enos@gmail.com
+copyright:      Graham Enos
 license:        MIT
 license-file:   LICENSE
 build-type:     Simple

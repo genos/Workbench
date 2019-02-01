@@ -5,8 +5,8 @@ description:         A _very_ slight variation of a encoding/solution of Einstei
 homepage:            https://maniagnosis.crsr.net/2009/12/einsteins-problem.html
 license:             MIT
 author:              Graham Enos
-maintainer:          graham@quantifind.com
-copyright:           Quantifind
+maintainer:          graham.enos@gmail.com
+copyright:           Graham Enos
 category:            Math
 
 ghc-options: -Wall -O2

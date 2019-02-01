@@ -9,8 +9,8 @@ description:    The Fast and the Furious
 category:       Math
 homepage:       https://gist.github.com/queertypes/8cb225ee1df57bd8b339585a3365ef84 & https://vimeo.com/146374255
 author:         Graham Enos
-maintainer:     graham@quantifind.com
-copyright:      Quantifind
+maintainer:     graham.enos@gmail.com
+copyright:      Graham Enos
 license:        MIT
 license-file:   LICENSE
 build-type:     Simple

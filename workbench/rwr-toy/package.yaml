@@ -7,8 +7,8 @@ description:
   using https://hackage.haskell.org/package/reflection-without-remorse
 license:             BSD3
 author:              Graham Enos
-maintainer:          graham@quantifind.com
-copyright:           Quantifind
+maintainer:          graham.enos@gmail.com
+copyright:           Graham Enos
 category:            Math
 
 ghc-options: -Wall -O2

@@ -11,8 +11,8 @@ description:    Random tweet by @evilbmcats
 category:       Math
 homepage:       https://twitter.com/@evilbmcats
 author:         Graham Enos
-maintainer:     graham@quantifind.com
-copyright:      Quantifind
+maintainer:     graham.enos@gmail.com
+copyright:      Graham Enos
 license:        MIT
 license-file:   LICENSE
 build-type:     Simple

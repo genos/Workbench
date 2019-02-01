@@ -9,8 +9,8 @@ description:    http://jtobin.ca/monadic-recursion-schemes
 category:       Math
 homepage:       http://jtobin.ca/monadic-recursion-schemes
 author:         Graham Enos
-maintainer:     graham@quantifind.com
-copyright:      Quantifind
+maintainer:     graham.enos@gmail.com
+copyright:      Graham Enos
 license:        MIT
 license-file:   LICENSE
 build-type:     Simple

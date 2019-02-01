@@ -8,8 +8,8 @@ synopsis:       Toy free monad without remorse
 description:    Example from http://www.haskellforall.com/2012/06/you-could-have-invented-free-monads.html using https://hackage.haskell.org/package/reflection-without-remorse
 category:       Math
 author:         Graham Enos
-maintainer:     graham@quantifind.com
-copyright:      Quantifind
+maintainer:     graham.enos@gmail.com
+copyright:      Graham Enos
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple

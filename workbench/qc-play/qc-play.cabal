@@ -9,8 +9,8 @@ description:    http://people.inf.elte.hu/center/fulltext.pdf
 category:       Math
 homepage:       http://people.inf.elte.hu/center/fulltext.pdf
 author:         Graham Enos
-maintainer:     graham@quantifind.com
-copyright:      Quantifind
+maintainer:     graham.enos@gmail.com
+copyright:      Graham Enos
 license:        MIT
 license-file:   LICENSE
 build-type:     Simple

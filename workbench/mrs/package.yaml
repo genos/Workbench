@@ -5,8 +5,8 @@ description:         http://jtobin.ca/monadic-recursion-schemes
 homepage:            http://jtobin.ca/monadic-recursion-schemes
 license:             MIT
 author:              Graham Enos
-maintainer:          graham@quantifind.com
-copyright:           Quantifind
+maintainer:          graham.enos@gmail.com
+copyright:           Graham Enos
 category:            Math
 
 ghc-options: -Wall

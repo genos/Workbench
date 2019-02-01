@@ -9,8 +9,8 @@ description:    A _very_ slight variation of a encoding/solution of Einstein's p
 category:       Math
 homepage:       https://maniagnosis.crsr.net/2009/12/einsteins-problem.html
 author:         Graham Enos
-maintainer:     graham@quantifind.com
-copyright:      Quantifind
+maintainer:     graham.enos@gmail.com
+copyright:      Graham Enos
 license:        MIT
 license-file:   LICENSE
 build-type:     Simple
