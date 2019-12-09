@@ -1,0 +1,27 @@
+name:                form
+synopsis:            https://wickstrom.tech/programming/2019/11/17/time-travelling-and-fixing-bugs-with-property-based-testing.html
+license:             MIT
+author:              Graham Enos
+maintainer:          graham.enos@gmail.com
+copyright:           2019 Graham Enos
+verbatim:
+  cabal-version: 2.4
+
+ghc-options: -Wall -O2
+
+dependencies:
+  - base >= 4.12 && < 5
+  - text
+  - validation
+
+library:
+  source-dirs:  src
+
+tests:
+  form-test:
+    source-dirs:  test
+    main:         Main.hs
+    dependencies:
+      - form
+      - hedgehog
+
