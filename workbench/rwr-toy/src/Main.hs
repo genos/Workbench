@@ -1,22 +1,19 @@
-#!/usr/bin/env stack
--- stack --resolver lts-8.17 script
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE ViewPatterns      #-}
+{-# LANGUAGE ViewPatterns #-}
 
 module Main where
 
-import           Control.Monad.Free.Reflectable
-import           Data.Monoid
-import           Data.Text                      (Text)
-import qualified Data.Text                      as T
-import qualified Data.Text.IO                   as T
+import Control.Monad.Free.Reflectable
+import Data.Text (Text)
+import qualified Data.Text as T
+import qualified Data.Text.IO as T
 
 data Toy a next = Output a next | Bell next | Done
 
 instance Functor (Toy a) where
   fmap f (Output x next) = Output x (f next)
-  fmap f (Bell next)     = Bell (f next)
-  fmap _ Done            = Done
+  fmap f (Bell next) = Bell (f next)
+  fmap _ Done = Done
 
 liftF :: Functor f => f r -> FreeMonad f r
 liftF = fromView . Impure . fmap (fromView . Pure)
@@ -43,8 +40,7 @@ tshow :: Show a => a -> Text
 tshow = T.pack . show
 
 showProgram :: (Show a, Show r) => FreeMonad (Toy a) r -> Text
-showProgram (toView -> Impure (Output a x)) =
-  "output " <> tshow a <> "\n" <> showProgram x
+showProgram (toView -> Impure (Output a x)) = "output " <> tshow a <> "\n" <> showProgram x
 showProgram (toView -> Impure (Bell x)) = "bell\n" <> showProgram x
 showProgram (toView -> Impure Done) = "done\n"
 showProgram (toView -> Pure x) = "return " <> tshow x <> "\n"
@@ -53,9 +49,9 @@ showProgram _ = error "Exhaustive pattern match…"
 showProgram' :: (Show a, Show r) => FreeMonad (Toy a) r -> Text
 showProgram' f = case toView f of
   Impure (Output a x) -> "output " <> tshow a <> "\n" <> showProgram x
-  Impure (Bell x    ) -> "bell\n" <> showProgram x
-  Impure Done         -> "done\n"
-  Pure   x            -> "return " <> tshow x <> "\n"
+  Impure (Bell x) -> "bell\n" <> showProgram x
+  Impure Done -> "done\n"
+  Pure x -> "return " <> tshow x <> "\n"
 
 main :: IO ()
 main = do

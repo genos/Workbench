@@ -1,7 +1,6 @@
-flags: {}
-extra-package-dbs: []
+resolver: lts-14.22
 packages:
-- '.'
+- .
 extra-deps:
-- reflection-without-remorse-0.9.5
-resolver: lts-8.17
+- reflection-without-remorse-0.9.5@sha256:f2f38dd325ead6eceb01039f5a593bebd7439fd64b78514ef01163a2f53310bb,965
+- type-aligned-0.9.6@sha256:2517994f5ce77cb8f3c30b33d403a90d36665d3f7ac668241f37a9f11b20db16,1075

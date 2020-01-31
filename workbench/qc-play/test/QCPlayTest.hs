@@ -1,20 +1,21 @@
 module Main where
 
-import qualified Data.Foldable   as F
-import qualified Data.List       as L
-import           QCPlay
-import           Test.QuickCheck
+import qualified Data.Foldable as F
+import qualified Data.List as L
+import QCPlay
+import Test.QuickCheck
 
 balanced :: Tree a -> Bool
-balanced Null         = True
+balanced Null = True
 balanced (Fork _ l r) = (d == 0 || d == 1) && balanced l && balanced r
-  where d = weight r - weight l
+  where
+    d = weight r - weight l
 
 weight :: Tree a -> Int
 weight = sum . fmap (const 1)
 
 good :: Tree a -> Bool
-good Null         = True
+good Null = True
 good (Fork _ l r) = weight l <= weight r
 
 prop_invariant_0 :: [Int] -> Bool
@@ -23,22 +24,17 @@ prop_invariant_0 = invariant . makeTree
 prop_balanced_0 :: [Int] -> Bool
 prop_balanced_0 = balanced . makeTree
 
-data Op
-  = Insert Int
-  | DeleteMin
-  deriving (Show)
+data Op = Insert Int | DeleteMin deriving (Show)
 
 make :: (Foldable f) => f Op -> Tree Int
 make = F.foldl' op Null
- where
-  op h    (Insert n) = insert n h
-  op Null DeleteMin  = Null
-  op h    DeleteMin  = deleteMin h
+  where
+    op h (Insert n) = insert n h
+    op Null DeleteMin = Null
+    op h DeleteMin = deleteMin h
 
 instance Arbitrary Op where
-  arbitrary =
-    frequency
-      [(2, arbitrary >>= \n -> return $! Insert n), (1, return DeleteMin)]
+  arbitrary = frequency [(2, arbitrary >>= \n -> pure $! Insert n), (1, pure DeleteMin)]
 
 prop_invariant_1 :: [Op] -> Bool
 prop_invariant_1 = invariant . make
@@ -60,7 +56,8 @@ prop_insert n ops = (L.insert n `models` insert n) h where h = make ops
 
 prop_delete_min :: [Op] -> Property
 prop_delete_min ops = weight h > 0 ==> (tail `models` deleteMin) h
-  where h = make ops
+  where
+    h = make ops
 
 main :: IO ()
 main = do

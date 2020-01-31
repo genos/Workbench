@@ -1,8 +1,10 @@
--- This file has been generated from package.yaml by hpack version 0.28.2.
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.2.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 026fc1556fff7501572098d5767c80adc0d9be5eafa878f382ab2723accafc85
+-- hash: 25a3122d25a2e9e7c75382eec616605c28ddc007d900dd556eaee7fa1d458559
 
 name:           ebmc
 version:        0.1.0.0
@@ -16,7 +18,6 @@ copyright:      Graham Enos
 license:        MIT
 license-file:   LICENSE
 build-type:     Simple
-cabal-version:  >= 1.10
 
 executable ebmc
   main-is: Main.hs

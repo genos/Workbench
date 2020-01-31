@@ -1,6 +1,10 @@
--- This file has been generated from package.yaml by hpack version 0.14.0.
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.2.
 --
 -- see: https://github.com/sol/hpack
+--
+-- hash: 579db71a0f3abe18b25a8b8caffddfe05a58a9c3f7a98691d58034663b0a4da0
 
 name:           rs
 version:        0.1.0.0
@@ -14,20 +18,21 @@ copyright:      Graham Enos
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
-cabal-version:  >= 1.10
 
 executable rs
   main-is: Main.hs
+  other-modules:
+      Paths_rs
   hs-source-dirs:
       src
   ghc-options: -Wall -Werror
   build-depends:
-      base >= 4.7 && < 5
-    , mtl
-    , containers
+      base >=4.7 && <5
     , bool-extras
+    , containers
     , hashable
-    , wl-pprint
     , hashtables
+    , mtl
     , parsec
+    , wl-pprint
   default-language: Haskell2010

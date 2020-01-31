@@ -1,5 +1,5 @@
 #!/usr/bin/env stack
--- stack --resolver lts-8.17 script
+-- stack --resolver lts-14.22 script
 {-# LANGUAGE OverloadedStrings #-}
 import           Conduit
 import qualified Data.Conduit.Text as CT
@@ -12,7 +12,7 @@ import           System.IO
 numberLine :: Int -> Text -> Text
 numberLine i t = sformat (right 7 ' ') i <> t <> "\n"
 
-count :: Monad m => Int -> Conduit Text m Text
+count :: Monad m => Int -> ConduitT Text Text m ()
 count n = do
   mLine <- await
   case mLine of

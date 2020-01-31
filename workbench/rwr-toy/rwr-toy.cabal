@@ -1,6 +1,10 @@
--- This file has been generated from package.yaml by hpack version 0.17.0.
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.2.
 --
 -- see: https://github.com/sol/hpack
+--
+-- hash: 41152e68c683f2f07389ac2a5ebc68de66c6462ea0e6cce21a868ee9bc61b6a1
 
 name:           rwr-toy
 version:        0.1.0.0
@@ -13,15 +17,16 @@ copyright:      Graham Enos
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
-cabal-version:  >= 1.10
 
 executable rwr
   main-is: Main.hs
+  other-modules:
+      Paths_rwr_toy
   hs-source-dirs:
       src
   ghc-options: -Wall -O2
   build-depends:
-      base >= 4.7 && < 5
+      base >=4.7 && <5
     , reflection-without-remorse
     , text
   default-language: Haskell2010

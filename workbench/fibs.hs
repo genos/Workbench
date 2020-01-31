@@ -1,18 +1,19 @@
 #!/usr/bin/env stack
--- stack --resolver lts-8.17 script
+-- stack --resolver lts-14.22 script
+
 {-# LANGUAGE BangPatterns #-}
 
 module Main where
 
-import           Data.Vector.Unboxed (Vector)
+import Data.Vector.Unboxed (Vector)
 import qualified Data.Vector.Unboxed as U
 
-data Pair = P { α :: {-# UNPACK #-}!Int , β :: {-# UNPACK #-}!Int }
+data Pair = P {α :: {-# UNPACK #-} !Int, β :: {-# UNPACK #-} !Int}
 
 fibs :: Int -> Vector Int
 fibs n = U.unfoldrN n f P {α = 1, β = 1}
   where
-    {-# INLINABLE f #-}
+    {-# INLINEABLE f #-}
     f :: Pair -> Maybe (Int, Pair)
     f !p = Just (α p, P {α = β p, β = α p + β p})
 

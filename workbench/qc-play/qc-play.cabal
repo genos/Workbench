@@ -1,6 +1,10 @@
--- This file has been generated from package.yaml by hpack version 0.14.0.
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.2.
 --
 -- see: https://github.com/sol/hpack
+--
+-- hash: 636bc035a65c084b2b375edc2a742a25fbf244e8fffa82f2a7dfd1c7690e3866
 
 name:           qc-play
 version:        0.1.0.0
@@ -14,14 +18,13 @@ copyright:      Graham Enos
 license:        MIT
 license-file:   LICENSE
 build-type:     Simple
-cabal-version:  >= 1.10
 
 library
   hs-source-dirs:
       src
   ghc-options: -Wall -Werror
   build-depends:
-      base >= 4.7 && < 5
+      base >=4.7 && <5
   exposed-modules:
       QCPlay
   other-modules:
@@ -33,11 +36,12 @@ test-suite qc-play-test
   main-is: QCPlayTest.hs
   hs-source-dirs:
       test
-    , src
+      src
   ghc-options: -Wall -Werror
   build-depends:
-      base >= 4.7 && < 5
-    , QuickCheck
+      QuickCheck
+    , base >=4.7 && <5
   other-modules:
       QCPlay
+      Paths_qc_play
   default-language: Haskell2010

@@ -1,17 +1,20 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Main where
 
 import Data.Foldable (traverse_)
+import Data.Text (Text)
+import qualified Data.Text as T
+import qualified Data.Text.IO as T
 
-class ExpAlg t  where
+class ExpAlg t where
   lit :: Int -> t
   add :: t -> t -> t
 
 e1 :: ExpAlg t => t
 e1 = add (lit 1) (add (lit 2) (lit 3))
 
-newtype Eval = Eval
-  { eval :: Int
-  }
+newtype Eval = Eval {eval :: Int}
 
 instance ExpAlg Eval where
   lit n = Eval n
@@ -20,8 +23,7 @@ instance ExpAlg Eval where
 v1 :: Int
 v1 = eval e1
 
-class ExpAlg t =>
-      MulAlg t  where
+class ExpAlg t => MulAlg t where
   mul :: t -> t -> t
 
 e2 :: MulAlg t => t
@@ -33,24 +35,22 @@ instance MulAlg Eval where
 v2 :: Int
 v2 = eval e2
 
-newtype View = View
-  { view :: String
-  }
+newtype View = View {view :: Text}
 
 instance ExpAlg View where
-  lit n = View $ show n
-  add x y = View $ "(" ++ view x ++ " + " ++ view y ++ ")"
+  lit n = View . T.pack $ show n
+  add x y = View $ "(" <> view x <> " + " <> view y <> ")"
 
-s1 :: String
+s1 :: Text
 s1 = view e1
 
 instance MulAlg View where
-  mul x y = View $ "(" ++ view x ++ " * " ++ view y ++ ")"
+  mul x y = View $ "(" <> view x <> " * " <> view y <> ")"
 
-s2 :: String
+s2 :: Text
 s2 = view e2
 
 main :: IO ()
 main = do
-  traverse_ print    [v1, v2]
-  traverse_ putStrLn [s1, s2]
+  traverse_ print [v1, v2]
+  traverse_ T.putStrLn [s1, s2]

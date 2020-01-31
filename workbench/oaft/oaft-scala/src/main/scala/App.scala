@@ -1,7 +1,6 @@
 package com.qf.oaft
 
 object ExpAlg {
-
   trait Repr[T]
 
   case class Eval[T](value: T) extends Repr[T]
@@ -40,20 +39,20 @@ object ExpAlg {
     import ea._
     add(lit(1))(add(lit(2))(lit(3)))
   }
-  val v1: Int = eval(e1[Eval])
+  val v1: Int    = eval(e1[Eval])
   val s1: String = view(e1[View])
 
   def e2[R[_]](implicit ea: ExpAlg[R], ma: MulAlg[R]): R[Int] = {
     import ea._, ma._
     mul(lit(4))(add(lit(5))(lit(6)))
   }
-  val v2: Int = eval(e2[Eval])
+  val v2: Int    = eval(e2[Eval])
   val s2: String = view(e2[View])
 }
 
 object App {
   import ExpAlg._
-  def main(args: Array[String]) {
+  def main(args: Array[String]): Unit = {
     println(v1)
     println(s1)
     println(v2)
