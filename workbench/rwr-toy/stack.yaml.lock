@@ -20,7 +20,7 @@ packages:
     hackage: type-aligned-0.9.6@sha256:2517994f5ce77cb8f3c30b33d403a90d36665d3f7ac668241f37a9f11b20db16,1075
 snapshots:
 - completed:
-    size: 524164
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/14/22.yaml
-    sha256: 7ad8f33179b32d204165a3a662c6269464a47a7e65a30abc38d01b5a38ec42c0
-  original: lts-14.22
+    size: 524163
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/14/25.yaml
+    sha256: 97548b4e927a8a862d4a203687ca18a3f5d2ae75b4b72c946fb29c17df1a5082
+  original: lts-14.25
