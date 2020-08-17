@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block body %}
+{% if error %}
+<h1>Person Not Found</h1>
+<p>I have no record of {{ name }}.</p>
+{% else %}
+<h1>Report for {{name}}</h1>
+<table>
+  <thead>
+    <tr><th>Time</th><th>Activity</th></tr>
+  </thead>
+  <tbody>
+    {% for x in data %}
+    <tr><td>{{x["timestamp"]}}</td><td>{{x["activity"]}}</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+<p>Click <a href="/">here</a> to head back.</p>
+{% endblock %}

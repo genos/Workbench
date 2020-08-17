@@ -1,0 +1,10 @@
+body {
+  line-height: 175%;
+  margin: 1rem 17%;
+}
+footer, h1, h2, h3, h4, h5, h6, td {
+  text-align: center;
+}
+table {
+  width: 75%;
+}

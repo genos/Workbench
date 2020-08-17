@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block body %}
+<h1>Click on a person below for their report.</h1>
+<ul>
+  {% for name in names %}
+  <li><a href="/person/{{name}}">{{name}}</a></li>
+  {% endfor %}
+</ul>
+{% endblock %}
