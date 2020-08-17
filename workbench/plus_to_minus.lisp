@@ -1,6 +1,0 @@
-(defun plus-to-minus (expr)
-  (cond ((and (consp expr) (eql '+ (first expr)))
-         (cons '- (plus-to-minus (rest expr))))
-        ((consp expr) (cons (first expr) (plus-to-minus (rest expr))))
-        ((eql '+ expr) '-)
-        (t expr)))
