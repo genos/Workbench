@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # elliptic curve factorization
 
 from collections import namedtuple
@@ -129,8 +131,8 @@ def factor(n, b1, b2, m, s):
 
 
 if __name__ == "__main__":
-    print factor(828519338246984285695697941578258145583831516583983, \
-            50000, 2500000, 210, 3902383298)  # first stage
+    print(factor(828519338246984285695697941578258145583831516583983, \
+            50000, 2500000, 210, 3902383298))  # first stage
 
-    print factor(828519338246984285695697941578258145583831516583983, \
-            25000, 2500000, 210, 3902383298)  # second stage
+    print(factor(828519338246984285695697941578258145583831516583983, \
+            25000, 2500000, 210, 3902383298)) # second stage

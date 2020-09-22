@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Phil Bewig's sieve
 def sieve(n):
     m = (n-1) // 2
@@ -72,6 +74,6 @@ if __name__ == "__main__":
     t2 = Timer("list(primes(int(1e6)))", "from __main__ import primes")
     t3 = Timer("list(new_prime(int(1e6)))", "from __main__ import new_prime")
     n = 10
-    print t1.timeit(number=n) / n
-    print t2.timeit(number=n) / n
-    print t3.timeit(number=n) / n
+    print(t1.timeit(number=n) / n)
+    print(t2.timeit(number=n) / n)
+    print(t3.timeit(number=n) / n)

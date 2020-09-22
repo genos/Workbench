@@ -1,5 +1,6 @@
+#!/usr/bin/env python3
 """
-Pseudorandom Number Generators and Probabilistic Encryption in Python (2.4)
+Pseudorandom Number Generators and Probabilistic Encryption in Python (originally 2.4)
 
         Graham Enos, Spring 2010
 """
@@ -13,7 +14,7 @@ def midsqr(x_0):
     Example:
     >>> my_midsqr = midsqr(1010)
     >>> for i in range(3):
-    ...     print my_mid_sqr.next(),
+    ...     print(my_mid_sqr.next(), end=" ")
     2010 4010 8010
     """
 
@@ -35,8 +36,8 @@ def fib(m, x_0, x_1):
     Example:
     >>> my_fib = fib(10,1,1)
     >>> for i in range(10):
-    ...     print my_fib.next(),
-    ... 
+    ...     print(my_fib.next(), end=" ")
+    ...
     2 3 5 8 3 1 4 5 9 4
     """
 
@@ -119,7 +120,7 @@ def dlg(p,a,x_0):
     >>> my_dlg = dlg(21383, 5, 15886)
     >>> for i in range(50):
     ...     print my_dlg.next(),
-    ... 
+    ...
     0 0 1 1 1 0 0 1 1 1 1 0 0 0 1 1 1 1 0 0 1 1 0 1 0 1 1 1 1 1 1 0 0 1 0 0 1 1
     1 0 0 0 1 0 1 0 0 0 0 1
     """
@@ -150,7 +151,7 @@ def bbs(n, x_0):
     >>> my_bbs = bbs(209, 3)
     >>> for i in range(50):
     ...     print my_bbs.next(),
-    ... 
+    ...
     1 1 0 0 0 0 0 1 0 1 1 0 1 1 0 0 0 0 0 1 0 1 1 0 1 1 0 0 0 0 0 1 0 1 1 0 1 1
     0 0 0 0 0 1 0 1 1 0 1 1
     """

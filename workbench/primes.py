@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 
 def gcd(a, b):
     while b: a, b = b, a % b

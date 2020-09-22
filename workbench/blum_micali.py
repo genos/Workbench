@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 def blum_micali(p, g, x0):
@@ -21,4 +21,4 @@ if __name__ == "__main__":
     # A toy example, to be sure
     p, g, x0 = 17, 10, 7
     bm = blum_micali(p, g, x0)
-    print [next(bm) for _ in xrange(20)]
+    print([next(bm) for _ in xrange(20)])

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """random_ge_one.py
 
@@ -38,6 +38,6 @@ def n_runs_average(n):
 # Main execution
 if __name__ == "__main__":
     try:
-        print n_runs_average(int(sys.argv[1]))
+        print(n_runs_average(int(sys.argv[1])))
     except:
-        print n_runs_average(1000)
+        print(n_runs_average(1000))

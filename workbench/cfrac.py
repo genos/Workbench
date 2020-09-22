@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 EPS = 1e-11
 
@@ -41,12 +41,12 @@ def num(cf):
 
 if __name__ == "__main__":
     c = cfrac(3.245)
-    print c
-    print num(c)
+    print(c)
+    print(num(c))
     from math import e, pi
     p = cfrac(pi)
-    print p
-    print num(p)
+    print(p)
+    print(num(p))
     ef = cfrac(e)
-    print ef
-    print num(ef)
+    print(ef)
+    print(num(ef))

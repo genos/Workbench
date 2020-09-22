@@ -1,10 +1,12 @@
+#!/usr/bin/env python3
+
 # If you can't run Python programs yourself, try one of the following websites:
 # http://repl.it/
 # http://codepad.org/
 # http://labs.codecademy.com/
 
 def x(k):
-    """Numerically investigate the continued fraction x = 
+    """Numerically investigate the continued fraction x =
     1 +         1
          ________________
           1 +      1
