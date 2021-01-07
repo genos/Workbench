@@ -125,7 +125,7 @@ weights:
 
         Notes:
             Shape requirements:
-                ndim(X.shape) <= 2
+                ndim(X) <= 2
                 if len(X.shape) == 1:
                     X.shape[0] == self.shape[0]
                 else:
