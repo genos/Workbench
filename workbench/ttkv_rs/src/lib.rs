@@ -1,11 +1,11 @@
-//! Time-traveling key-value store
+//! Time traveling key-value store
 #![forbid(missing_docs)]
 #![forbid(unsafe_code)]
 
 use std::collections::BTreeMap;
 use std::time::Instant;
 
-/// Time-traveling key-value store
+/// Time traveling key-value store
 pub struct Ttkv<K, V> {
     started: Instant,
     mapping: BTreeMap<u128, (K, V)>,
