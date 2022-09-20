@@ -2,6 +2,7 @@
 
 from collections import deque
 
+
 def mwc(a, b, xs, c):
     """Multiply With Carry PRNG; see
     http://en.wikipedia.org/wiki/Multiply-with-carry

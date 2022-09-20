@@ -2,6 +2,7 @@
 
 # from http://en.literateprograms.org/Jacobi_Symbol_(Python)
 
+
 def jacobi(a, n):
     """Jacobi Symbol (a / n)"""
     if a == 0:

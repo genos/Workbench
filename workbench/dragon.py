@@ -22,6 +22,8 @@ def plot(n):
     scatter(x, y)
     show()
 
+
 if __name__ == "__main__":
     from sys import argv
+
     plot(int(argv[1]) if len(argv) > 1 else 10)

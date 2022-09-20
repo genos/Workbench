@@ -7,7 +7,7 @@ from fractions import gcd
 from math import sqrt, log
 
 
-#Point = namedtuple("Point", ["x", "z"])
+# Point = namedtuple("Point", ["x", "z"])
 Point = namedtuple("Point", "x z")
 
 
@@ -64,16 +64,14 @@ def primes(lo, hi, delta):
 def add(p, q, r, n):  # r = p - q
     t1 = ((p.x + p.z) * (q.x - q.z)) % n
     t2 = ((p.x - p.z) * (q.x + q.z)) % n
-    return Point((pow(t2 + t1, 2, n) * r.z) % n,
-            (pow(t2 - t1, 2, n) * r[0]) % n)
+    return Point((pow(t2 + t1, 2, n) * r.z) % n, (pow(t2 - t1, 2, n) * r[0]) % n)
 
 
 def double(p, an, ad, n):
     t1 = pow(p.x + p.z, 2, n)
     t2 = pow(p.x - p.z, 2, n)
     t3 = t1 - t2
-    return Point((t1 * t2 * 4 * ad) % n,
-            ((t3 * an + t2 * ad * 4) * t3) % n)
+    return Point((t1 * t2 * 4 * ad) % n, ((t3 * an + t2 * ad * 4) * t3) % n)
 
 
 def mul(k, p, an, ad, n):
@@ -131,8 +129,22 @@ def factor(n, b1, b2, m, s):
 
 
 if __name__ == "__main__":
-    print(factor(828519338246984285695697941578258145583831516583983, \
-            50000, 2500000, 210, 3902383298))  # first stage
+    print(
+        factor(
+            828519338246984285695697941578258145583831516583983,
+            50000,
+            2500000,
+            210,
+            3902383298,
+        )
+    )  # first stage
 
-    print(factor(828519338246984285695697941578258145583831516583983, \
-            25000, 2500000, 210, 3902383298)) # second stage
+    print(
+        factor(
+            828519338246984285695697941578258145583831516583983,
+            25000,
+            2500000,
+            210,
+            3902383298,
+        )
+    )  # second stage

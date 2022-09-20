@@ -5,6 +5,7 @@
 # http://codepad.org/
 # http://labs.codecademy.com/
 
+
 def x(k):
     """Numerically investigate the continued fraction x =
     1 +         1
@@ -30,6 +31,6 @@ def x(k):
 
 
 # Let's see x() in action
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Print the outcome of stopping our continued fraction after 200 steps
     print(x(200))  # Does the output look familiar?

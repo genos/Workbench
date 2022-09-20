@@ -14,6 +14,7 @@ GE, 2/9/11
 
 # Used for reading command line arguments
 import sys
+
 # Gives (approximately) uniformly distributed random real numbers in [0, 1]
 from random import random
 

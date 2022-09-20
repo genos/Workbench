@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+
 def blum_micali(p, g, x0):
     """Blum-Micali CSPRNG, from
     http://en.wikipedia.org/wiki/Blum-Micali_algorithm
