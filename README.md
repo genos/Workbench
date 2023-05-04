@@ -1,1 +1,1 @@
-This is just a repository to keep some programming stuff of mine.
+This is the home of a bunch of bits and bobs, some half-baked, some not even that.
