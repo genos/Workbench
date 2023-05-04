@@ -1,10 +1,10 @@
-module MyLib
-  ( module Data.List
-  , module Data.Ord
-  , sortInts
-  , flt
-  , fLT
-  ) where
+module MyLib (
+    module Data.List,
+    module Data.Ord,
+    sortInts,
+    flt,
+    fLT,
+) where
 
 import Data.List
 import Data.Ord

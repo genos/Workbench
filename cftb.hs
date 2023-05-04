@@ -1,11 +1,10 @@
 module Main where
 
-
-import Data.Char          (ord)
-import Data.Foldable      (traverse_)
-import Data.Function      (on)
+import Data.Char (ord)
+import Data.Foldable (traverse_)
+import Data.Function (on)
 import System.Environment (getArgs)
-import System.IO          (readFile)
+import System.IO (readFile)
 
 zwmoo :: String -> String -> [Int]
 zwmoo = zipWith ((-) `on` ord)
@@ -21,8 +20,8 @@ showHow p w = w ++ ":\t" ++ show (zwmoo p w)
 
 main :: IO ()
 main = do
-  (puzz : fileName : _) <- getArgs
-  traverse_ (putStrLn . showHow puzz)
-    .   filter (isCandidate puzz)
-    .   lines
-    =<< readFile fileName
+    (puzz : fileName : _) <- getArgs
+    traverse_ (putStrLn . showHow puzz)
+        . filter (isCandidate puzz)
+        . lines
+        =<< readFile fileName

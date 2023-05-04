@@ -11,11 +11,11 @@ import qualified Data.Vector.Unboxed as U
 data Pair = P {α :: {-# UNPACK #-} !Int, β :: {-# UNPACK #-} !Int}
 
 fibs :: Int -> Vector Int
-fibs n = U.unfoldrN n f P {α = 1, β = 1}
+fibs n = U.unfoldrN n f P{α = 1, β = 1}
   where
     {-# INLINEABLE f #-}
     f :: Pair -> Maybe (Int, Pair)
-    f !p = Just (α p, P {α = β p, β = α p + β p})
+    f !p = Just (α p, P{α = β p, β = α p + β p})
 
 main :: IO ()
 main = U.mapM_ print . fibs $ 75

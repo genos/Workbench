@@ -15,8 +15,8 @@
 
 module Main where
 
-import Control.Applicative ((*>), (<$), (<$>), (<*), (<*>), (<|>), empty, many, pure)
-import Control.Arrow ((&&&), (***), first, (|||))
+import Control.Applicative (empty, many, pure, (*>), (<$), (<$>), (<*), (<*>), (<|>))
+import Control.Arrow (first, (&&&), (***), (|||))
 import Control.Monad hiding (mapM, sequence)
 import Control.Monad.Reader hiding (mapM, sequence)
 import Control.Monad.ST
@@ -35,63 +35,64 @@ import Data.Set (Set)
 import qualified Data.Set as S
 import Data.Traversable
 import Numeric
-import Text.ParserCombinators.Parsec hiding ((<|>), count, many, space)
-import Text.PrettyPrint.Leijen ((<+>), Doc, Pretty, pretty, text)
+import Text.ParserCombinators.Parsec hiding (count, many, space, (<|>))
+import Text.PrettyPrint.Leijen (Doc, Pretty, pretty, text, (<+>))
 import qualified Text.PrettyPrint.Leijen as PP
 import Prelude hiding (foldr, length, lookup, mapM, replicate, sequence)
 
-funzip :: Functor f => f (a, b) -> (f a, f b)
+funzip :: (Functor f) => f (a, b) -> (f a, f b)
 funzip = fmap fst &&& fmap snd
 
 data Tree a = Empty | Leaf a | Node (Tree a) (Tree a)
 
 instance Functor Tree where
-  fmap _ Empty = Empty
-  fmap f (Leaf a) = Leaf (f a)
-  fmap f (Node l r) = Node (fmap f l) (fmap f r)
+    fmap _ Empty = Empty
+    fmap f (Leaf a) = Leaf (f a)
+    fmap f (Node l r) = Node (fmap f l) (fmap f r)
 
 instance Foldable Tree where
-  foldMap _ Empty = mempty
-  foldMap f (Leaf x) = f x
-  foldMap f (Node l r) = foldMap f l <> foldMap f r
+    foldMap _ Empty = mempty
+    foldMap f (Leaf x) = f x
+    foldMap f (Node l r) = foldMap f l <> foldMap f r
 
-count :: Foldable t => t a -> Int
+count :: (Foldable t) => t a -> Int
 count = getSum . foldMap (const $ Sum 1)
 
 instance Traversable Tree where
-  traverse _ Empty = pure Empty
-  traverse f (Leaf x) = Leaf <$> f x
-  traverse f (Node l r) = Node <$> traverse f l <*> traverse f r
+    traverse _ Empty = pure Empty
+    traverse f (Leaf x) = Leaf <$> f x
+    traverse f (Node l r) = Node <$> traverse f l <*> traverse f r
 
 -- | The least fixpoint of functor f
 newtype Fix f = Fix {unFix :: f (Fix f)}
 
--- | Derived instances for fixed functors, although this requires the
--- controversial @UndecidableInstances@ extension, amongst others
-deriving instance Show (f (Fix f)) => Show (Fix f)
+{- | Derived instances for fixed functors, although this requires the
+controversial @UndecidableInstances@ extension, amongst others
+-}
+deriving instance (Show (f (Fix f))) => Show (Fix f)
 
-deriving instance Eq (f (Fix f)) => Eq (Fix f)
+deriving instance (Eq (f (Fix f))) => Eq (Fix f)
 
-deriving instance Ord (f (Fix f)) => Ord (Fix f)
+deriving instance (Ord (f (Fix f))) => Ord (Fix f)
 
 type Algebra f a = f a -> a
 
 type Coalgebra f a = a -> f a
 
 data ListF a r = C a r | N
-  deriving (Show, Eq, Functor, Foldable, Traversable)
+    deriving (Show, Eq, Functor, Foldable, Traversable)
 
 data NatF r = Succ r | Zero
-  deriving (Show, Eq, Functor, Foldable, Traversable)
+    deriving (Show, Eq, Functor, Foldable, Traversable)
 
 -- | catamorphism
-cata :: Functor f => Algebra f a -> Fix f -> a
+cata :: (Functor f) => Algebra f a -> Fix f -> a
 cata alg = c
   where
     c = alg . fmap c . unFix
 
 data ExprF r = Const Int | Var Id | Add r r | Mul r r | IfNeg r r r
-  deriving (Show, Eq, Ord, Functor, Foldable, Traversable)
+    deriving (Show, Eq, Ord, Functor, Foldable, Traversable)
 
 -- smart constructors
 int :: Int -> Expr
@@ -129,13 +130,13 @@ evalAlg env = alg
 
 e1 :: Expr
 e1 =
-  mul
-    ( ifNeg
-        (mul (int 1) (var "a"))
-        (add (var "b") (int 0))
-        (add (var "b") (int 2))
-    )
-    (int 3)
+    mul
+        ( ifNeg
+            (mul (int 1) (var "a"))
+            (add (var "b") (int 0))
+            (add (var "b") (int 2))
+        )
+        (int 3)
 
 testEnv :: Env
 testEnv = M.fromList [("a", 1), ("b", 3)]
@@ -180,40 +181,40 @@ optimiseSlow = cata optAdd . cata optMul
 optimiseFast :: Expr -> Expr
 optimiseFast = cata (optMul . unFix . optAdd)
 
-algProd :: Functor f => Algebra f a -> Algebra f b -> Algebra f (a, b)
+algProd :: (Functor f) => Algebra f a -> Algebra f b -> Algebra f (a, b)
 algProd f g = (f *** g) . funzip
 
 algCoProd :: (Functor f, Functor g) => Algebra f a -> Algebra g a -> Either (f a) (g a) -> a
 algCoProd = (|||)
 
-class Functor f => FixPoint f t | t -> f where
-  inF :: Algebra f t -- f t -> t
-  outF :: Coalgebra f t -- t -> f t
+class (Functor f) => FixPoint f t | t -> f where
+    inF :: Algebra f t -- f t -> t
+    outF :: Coalgebra f t -- t -> f t
 
-cataFP :: FixPoint f t => Algebra f a -> t -> a
+cataFP :: (FixPoint f t) => Algebra f a -> t -> a
 cataFP alg = c
   where
     c = alg . fmap c . outF
 
-instance Functor f => FixPoint f (Fix f) where
-  inF = Fix
-  outF = unFix
+instance (Functor f) => FixPoint f (Fix f) where
+    inF = Fix
+    outF = unFix
 
 instance FixPoint (ListF a) [a] where
-  inF N = []
-  inF (C x xs) = x : xs
-  outF [] = N
-  outF (x : xs) = C x xs
+    inF N = []
+    inF (C x xs) = x : xs
+    outF [] = N
+    outF (x : xs) = C x xs
 
 instance FixPoint NatF Integer where
-  inF Zero = 0
-  inF (Succ n) = n + 1
-  outF n
-    | n > 0 = Succ (n - 1)
-    | otherwise = Zero
+    inF Zero = 0
+    inF (Succ n) = n + 1
+    outF n
+        | n > 0 = Succ (n - 1)
+        | otherwise = Zero
 
 -- | anamorphism
-ana :: Functor f => Coalgebra f a -> a -> Fix f
+ana :: (Functor f) => Coalgebra f a -> a -> Fix f
 ana coalg = a
   where
     a = Fix . fmap a . coalg
@@ -222,18 +223,18 @@ ana coalg = a
 newtype Cofix f = Cofix {unCofix :: f (Cofix f)}
 
 -- | An alternative anamorphism type for codata; we'd need this in Agda, Coq
-ana' :: Functor f => Coalgebra f a -> a -> Cofix f
+ana' :: (Functor f) => Coalgebra f a -> a -> Cofix f
 ana' coalg = a
   where
     a = Cofix . fmap a . coalg
 
 data StreamF a r = S a r
-  deriving (Show)
+    deriving (Show)
 
 type Stream a = Cofix (StreamF a)
 
 instance Functor (StreamF a) where
-  fmap f (S x xs) = S x (f xs)
+    fmap f (S x xs) = S x (f xs)
 
 consS :: a -> Stream a -> Stream a
 consS x xs = Cofix (S x xs)
@@ -246,13 +247,13 @@ tailS (unCofix -> (S _ xs)) = xs
 
 dropS :: Int -> Stream a -> Stream a
 dropS n s
-  | n <= 0 = s
-  | otherwise = dropS (n - 1) (tailS s)
+    | n <= 0 = s
+    | otherwise = dropS (n - 1) (tailS s)
 
 takeS :: Int -> Stream a -> [a]
 takeS n s
-  | n <= 0 = []
-  | otherwise = headS s : takeS (n - 1) (tailS s)
+    | n <= 0 = []
+    | otherwise = headS s : takeS (n - 1) (tailS s)
 
 iterateS :: (a -> a) -> a -> Stream a
 iterateS f = ana' c
@@ -260,24 +261,24 @@ iterateS f = ana' c
     c x = S x (f x)
 
 -- | hylomorphism
-hylo :: Functor f => Algebra f b -> Coalgebra f a -> a -> b
+hylo :: (Functor f) => Algebra f b -> Coalgebra f a -> a -> b
 -- hylo f g = cata f . ana g
 hylo f g = h
   where
     h = f . fmap h . g
 
 data LTreeF a r = LeafF a | BinF r r
-  deriving (Eq, Ord, Show, Functor)
+    deriving (Eq, Ord, Show, Functor)
 
-merge :: Ord a => LTreeF a [a] -> [a]
+merge :: (Ord a) => LTreeF a [a] -> [a]
 merge (LeafF x) = [x]
 merge (BinF xs ys) = mergeList xs ys
   where
     mergeList [] bs = bs
     mergeList as [] = as
     mergeList (a : as) (b : bs)
-      | a <= b = a : b : mergeList as bs
-      | otherwise = b : a : mergeList as bs
+        | a <= b = a : b : mergeList as bs
+        | otherwise = b : a : mergeList as bs
 
 unflatten :: [a] -> LTreeF a [a]
 unflatten [x] = LeafF x
@@ -286,11 +287,11 @@ unflatten (half -> (xs, ys)) = BinF xs ys
 half :: [a] -> ([a], [a])
 half xs = splitAt (F.length xs `div` 2) xs
 
-msort :: Ord a => [a] -> [a]
+msort :: (Ord a) => [a] -> [a]
 msort = hylo merge unflatten
 
 -- | paramorphism
-para :: FixPoint f t => (f (a, t) -> a) -> t -> a
+para :: (FixPoint f t) => (f (a, t) -> a) -> t -> a
 -- para alg = fst . cataFP (alg &&& inF . fmap snd)
 para alg = alg . fmap (para alg &&& id) . outF
 
@@ -307,11 +308,11 @@ sliding n = para alg
     alg (C x (r, xs)) = take n (x : xs) : r
 
 cataTrace ::
-  forall f a.
-  (Functor f, Ord (f (Fix f)), Foldable f) =>
-  Algebra f a ->
-  Fix f ->
-  Map (Fix f) a
+    forall f a.
+    (Functor f, Ord (f (Fix f)), Foldable f) =>
+    Algebra f a ->
+    Fix f ->
+    Map (Fix f) a
 cataTrace alg = para phi
   where
     phi :: f (Map (Fix f) a, Fix f) -> Map (Fix f) a
@@ -323,23 +324,23 @@ cataTrace alg = para phi
 
 -- | The coproduct of pattern functors f and g
 data (f :+: g) r = Inl (f r) | Inr (g r)
-  deriving (Eq, Show, Functor)
+    deriving (Eq, Show, Functor)
 
 -- | The product of pattern functors f and g
 data (f :*: g) r = (:*:) (f r) (g r)
-  deriving (Eq, Show, Functor)
+    deriving (Eq, Show, Functor)
 
 -- | The free monad pattern functor
 data FreeF f a r = FreeF (f r) | Pure a
-  deriving (Eq, Show, Functor)
+    deriving (Eq, Show, Functor)
 
 -- | The cofree comonad pattern functor
 data CofreeF f a r = CofreeF (f r) a
-  deriving (Eq, Show, Functor)
+    deriving (Eq, Show, Functor)
 
 -- | A context is a term (f r) which can contain holes a
 data CtxF f a r = Term (f r) | Hole a
-  deriving (Show, Functor)
+    deriving (Show, Functor)
 
 -- | Context fixed-point type. A free monad.
 type Ctx f a = Fix (CtxF f a)
@@ -347,9 +348,9 @@ type Ctx f a = Fix (CtxF f a)
 -- | Deconstruct values of type @Ctx f a@
 unCtx :: Ctx f a -> Either a (f (Ctx f a))
 unCtx c =
-  case unFix c of
-    Hole x -> Left x
-    Term t -> Right t
+    case unFix c of
+        Hole x -> Left x
+        Term t -> Right t
 
 term :: f (Ctx f a) -> Ctx f a
 term = Fix . Term
@@ -357,14 +358,15 @@ term = Fix . Term
 hole :: a -> Ctx f a
 hole = Fix . Hole
 
--- | Fill all the holes of type @a@ in the template @Ctx f a@ using supplied
--- | function of type @ a -> Fix f@
+{- | Fill all the holes of type @a@ in the template @Ctx f a@ using supplied
+| function of type @ a -> Fix f@
+-}
 fillHoles ::
-  forall f a.
-  Functor f =>
-  (a -> Fix f) ->
-  Ctx f a ->
-  Fix f
+    forall f a.
+    (Functor f) =>
+    (a -> Fix f) ->
+    Ctx f a ->
+    Fix f
 fillHoles g = cata alg
   where
     alg :: CtxF f a (Fix f) -> Fix f
@@ -372,13 +374,13 @@ fillHoles g = cata alg
     alg (Hole a) = g a
 
 data JSValueF r
-  = JSNull
-  | JSBool Bool
-  | JSNumber Double
-  | JSString String
-  | JSArray [r]
-  | JSObject [(String, r)]
-  deriving (Show, Eq, Ord, Functor, Foldable)
+    = JSNull
+    | JSBool Bool
+    | JSNumber Double
+    | JSString String
+    | JSArray [r]
+    | JSObject [(String, r)]
+    deriving (Show, Eq, Ord, Functor, Foldable)
 
 type JSValue = Fix JSValueF
 
@@ -397,10 +399,10 @@ temp1 :: Ctx JSValueF Name
 temp1 = parse' pJSTemplate "[{\"foo\": ${a}}]"
 
 vLookup ::
-  Ord a =>
-  Map a JSValue ->
-  a ->
-  JSValue
+    (Ord a) =>
+    Map a JSValue ->
+    a ->
+    JSValue
 vLookup env = fromMaybe (Fix JSNull) . (`M.lookup` env)
 
 j1 :: Map String JSValue
@@ -408,8 +410,8 @@ j1 = M.fromList [("a", Fix $ JSNumber 42)]
 
 -- | Annotate @(f r)@ with attribute @a@
 newtype AnnF f a r
-  = AnnF (f r, a)
-  deriving (Functor)
+    = AnnF (f r, a)
+    deriving (Functor)
 
 -- | Annotated fixed-point type. A cofree comonad
 type Ann f a = Fix (AnnF f a)
@@ -424,9 +426,9 @@ strip (unFix -> AnnF (x, _)) = x
 
 -- | Strip all attributes
 stripAll ::
-  Functor f =>
-  Ann f a ->
-  Fix f
+    (Functor f) =>
+    Ann f a ->
+    Fix f
 stripAll = cata alg
   where
     alg (AnnF (x, _)) = Fix x
@@ -439,7 +441,7 @@ ann = Fix . AnnF
 unAnn :: Ann f a -> (f (Ann f a), a)
 unAnn (unFix -> AnnF a) = a
 
-synthesize :: forall f a. Functor f => Algebra f a -> Fix f -> Ann f a
+synthesize :: forall f a. (Functor f) => Algebra f a -> Fix f -> Ann f a
 synthesize f = cata alg
   where
     alg :: f (Ann f a) -> Ann f a
@@ -448,12 +450,12 @@ synthesize f = cata alg
 sizes :: (Functor f, Foldable f) => Fix f -> Ann f Int
 sizes = synthesize $ (+ 1) . F.sum
 
-pprAnn :: Pretty a => Ann ExprF a -> Doc
+pprAnn :: (Pretty a) => Ann ExprF a -> Doc
 pprAnn = cata alg
   where
     alg (AnnF (d, a)) = pprAlg d <+> text "@" <+> pretty a
 
-inherit :: forall f a. Functor f => (Fix f -> a -> a) -> a -> Fix f -> Ann f a
+inherit :: forall f a. (Functor f) => (Fix f -> a -> a) -> a -> Fix f -> Ann f a
 inherit f root n = para alg n root
   where
     alg :: f (a -> Ann f a, Fix f) -> (a -> Ann f a)
@@ -462,7 +464,7 @@ inherit f root n = para alg n root
         a = f (Fix k) p
         k' = fmap ($ a) ff
 
-depths :: Functor f => Fix f -> Ann f Int
+depths :: (Functor f) => Fix f -> Ann f Int
 depths = inherit (const (+ 1)) 0
 
 cataM :: (Monad m, Traversable f) => (f a -> m a) -> Fix f -> m a
@@ -480,11 +482,11 @@ eval' env = (`runReaderT` env) . cataM algM
     algM (Mul x y) = return $! x * y
     algM (IfNeg t x y) = return $! bool x y (t < 0)
 
-memoize :: Memo k v m => (k -> m v) -> k -> m v
+memoize :: (Memo k v m) => (k -> m v) -> k -> m v
 memoize f x =
-  lookup x >>= (`maybe` return) (f x >>= \r -> insert x r >> return r)
+    lookup x >>= (`maybe` return) (f x >>= \r -> insert x r >> return r)
 
-memoFix :: Memo k v m => ((k -> m v) -> k -> m v) -> k -> m v
+memoFix :: (Memo k v m) => ((k -> m v) -> k -> m v) -> k -> m v
 memoFix f = mf
   where
     mf = memoize (f mf)
@@ -498,36 +500,36 @@ memoCata :: (Eq (f (Fix f)), Traversable f, Hashable (Fix f)) => Algebra f a -> 
 memoCata f x = runMemo $ memoFix (\r -> fmap f . mapM r . unFix) x
 
 -- | apomorphism
-apo :: FixPoint f t => (a -> f (Either a t)) -> a -> t
+apo :: (FixPoint f t) => (a -> f (Either a t)) -> a -> t
 apo coa = inF . fmap (apo coa ||| id) . coa
 
-insertElem :: forall a. Ord a => ListF a [a] -> [a]
+insertElem :: forall a. (Ord a) => ListF a [a] -> [a]
 insertElem = apo c
   where
     c :: ListF a [a] -> ListF a (Either (ListF a [a]) [a])
     c N = N
     c (C x []) = C x (Left N)
     c (C x (y : xs))
-      | x <= y = C x (Right (y : xs))
-      | x > y = C y (Left (C x xs))
+        | x <= y = C x (Right (y : xs))
+        | x > y = C y (Left (C x xs))
     c _ = error "How did I get here?"
 
-insertionSort :: Ord a => [a] -> [a]
+insertionSort :: (Ord a) => [a] -> [a]
 insertionSort = cataFP insertElem
 
-algZygo :: Functor f => Algebra f b -> (f (a, b) -> a) -> f (a, b) -> (a, b)
+algZygo :: (Functor f) => Algebra f b -> (f (a, b) -> a) -> f (a, b) -> (a, b)
 algZygo f g = g &&& f . fmap snd
 
-zygo :: Functor f => Algebra f b -> (f (a, b) -> a) -> Fix f -> a
+zygo :: (Functor f) => Algebra f b -> (f (a, b) -> a) -> Fix f -> a
 zygo f g = fst . cata (algZygo f g)
 
 discontAlg :: ExprF (Sum Int, Maybe Int) -> Sum Int
 discontAlg (IfNeg (t, tv) (x, xv) (y, yv))
-  | isJust xv,
-    isJust yv,
-    xv == yv =
-    t <> x <> y
-  | otherwise = maybe (Sum 1 <> t <> x <> y) (bool (t <> y) (t <> x) . (< 0)) tv
+    | isJust xv
+    , isJust yv
+    , xv == yv =
+        t <> x <> y
+    | otherwise = maybe (Sum 1 <> t <> x <> y) (bool (t <> y) (t <> x) . (< 0)) tv
 discontAlg e = F.fold . fmap fst $ e
 
 -- | Number of live conditionals
@@ -538,7 +540,7 @@ e2 :: Expr
 e2 = ifNeg (var "b") e1 (int 4)
 
 -- | Histomorphism
-histo :: FixPoint f t => (f (Ann f a) -> a) -> t -> a
+histo :: (FixPoint f t) => (f (Ann f a) -> a) -> t -> a
 histo alg = attr . cataFP (ann . (id &&& alg))
 
 fib :: Integer -> Integer
@@ -558,39 +560,39 @@ evens = histo alg
     alg (C _ (strip -> C x y)) = x : attr y
     alg _ = error "How did I get here?"
 
-futu :: Functor f => (a -> f (Ctx f a)) -> a -> Cofix f
+futu :: (Functor f) => (a -> f (Ctx f a)) -> a -> Cofix f
 futu coa = ana' ((coa ||| id) . unCtx) . hole
 
 exch :: Stream a -> Stream a
 exch = futu coa
   where
     coa xs =
-      S (headS $ tailS xs) (term $ S (headS xs) (hole $ tailS $ tailS xs))
+        S (headS $ tailS xs) (term $ S (headS xs) (hole $ tailS $ tailS xs))
 
 -- Runnable Main
 main :: IO ()
 main = do
-  print $ eval testEnv e1
-  print $ ppr e1
-  print $ freeVars e1
-  print $ freeVars . substitute (M.fromList [("b", var "a")]) $ e1
-  print $ ppr $ optimiseFast e1
-  let s1 = iterateS (+ 1) (1::Int)
-  print $ takeS 6 s1
-  print $ msort [7, 6, 3, 1, 5, 4, 2::Int]
-  print $ fact 10
-  print $ sliding 3 [1 .. 5::Int]
-  let m = cataTrace (evalAlg testEnv) $ optimiseFast e1
-  print $ map (first ppr) $ M.toList m
-  print $ fillHoles (vLookup j1) temp1
-  print $ pprAnn $ sizes e1
-  print $ pprAnn $ depths e1
-  print $ freeVars e2
-  print $ ppr . optimiseFast $ e2
-  print $ disconts (M.fromList [("b", -1)]) e2
-  print $ fib 100
-  print $ evens [1 .. 6::Int]
-  print $ takeS 10 $ exch s1
+    print $ eval testEnv e1
+    print $ ppr e1
+    print $ freeVars e1
+    print $ freeVars . substitute (M.fromList [("b", var "a")]) $ e1
+    print $ ppr $ optimiseFast e1
+    let s1 = iterateS (+ 1) (1 :: Int)
+    print $ takeS 6 s1
+    print $ msort [7, 6, 3, 1, 5, 4, 2 :: Int]
+    print $ fact 10
+    print $ sliding 3 [1 .. 5 :: Int]
+    let m = cataTrace (evalAlg testEnv) $ optimiseFast e1
+    print $ map (first ppr) $ M.toList m
+    print $ fillHoles (vLookup j1) temp1
+    print $ pprAnn $ sizes e1
+    print $ pprAnn $ depths e1
+    print $ freeVars e2
+    print $ ppr . optimiseFast $ e2
+    print $ disconts (M.fromList [("b", -1)]) e2
+    print $ fib 100
+    print $ evens [1 .. 6 :: Int]
+    print $ takeS 10 $ exch s1
 
 -- JSON Appendix
 pJSValueF :: CharParser () r -> CharParser () (JSValueF r)
@@ -598,8 +600,8 @@ pJSValueF r = spaces *> pValue r
 
 pSeries :: Char -> CharParser () r -> Char -> CharParser () [r]
 pSeries left parser right =
-  between (char left <* spaces) (char right) $
-    (parser <* spaces) `sepBy` (char ',' <* spaces)
+    between (char left <* spaces) (char right) $
+        (parser <* spaces) `sepBy` (char ',' <* spaces)
 
 pArray :: CharParser () r -> CharParser () [r]
 pArray r = pSeries '[' r ']'
@@ -616,23 +618,23 @@ pValue :: CharParser () r -> CharParser () (JSValueF r)
 pValue r = value <* spaces
   where
     value =
-      choice
-        [ JSString <$> pString,
-          JSNumber <$> pNumber,
-          JSObject <$> pObject r,
-          JSArray <$> pArray r,
-          JSBool <$> pBool,
-          JSNull <$ string "null"
-        ]
+        choice
+            [ JSString <$> pString
+            , JSNumber <$> pNumber
+            , JSObject <$> pObject r
+            , JSArray <$> pArray r
+            , JSBool <$> pBool
+            , JSNull <$ string "null"
+            ]
 
 pNumber :: CharParser () Double
 pNumber =
-  getInput
-    >>= ( \s ->
-            case readSigned readFloat s of
-              [(n, s')] -> n <$ setInput s'
-              _ -> empty
-        )
+    getInput
+        >>= ( \s ->
+                case readSigned readFloat s of
+                    [(n, s')] -> n <$ setInput s'
+                    _ -> empty
+            )
 
 pString :: CharParser () String
 pString = between (char '\"') (char '\"') (many jchar)
@@ -646,24 +648,25 @@ pEscape = choice (zipWith decode "bnfrt\\\"/" "\b\n\f\r\t\\\"/")
 
 -- Memo Appendix
 class
-  Monad m =>
-  Memo k v m
-    | m -> k,
-      m -> v where
-  lookup :: k -> m (Maybe v)
-  insert :: k -> v -> m ()
+    (Monad m) =>
+    Memo k v m
+        | m -> k
+        , m -> v
+    where
+    lookup :: k -> m (Maybe v)
+    insert :: k -> v -> m ()
 
 -- | HashTable-based Memo monad
 instance (Eq k, Hashable k, HashTable h) => Memo k v (ReaderT (h s k v) (ST s)) where
-  lookup k = ask >>= \h -> lift $ H.lookup h k
-  insert k v = ask >>= \h -> lift $ H.insert h k v
+    lookup k = ask >>= \h -> lift $ H.lookup h k
+    insert k v = ask >>= \h -> lift $ H.insert h k v
 
 instance Hashable Expr where
-  hashWithSalt s = F.foldl hashWithSalt s . unFix
+    hashWithSalt s = F.foldl hashWithSalt s . unFix
 
-instance Hashable r => Hashable (ExprF r) where
-  hashWithSalt s (Const c) = 1 `hashWithSalt` s `hashWithSalt` c
-  hashWithSalt s (Var i) = 2 `hashWithSalt` s `hashWithSalt` i
-  hashWithSalt s (Add x y) = 3 `hashWithSalt` s `hashWithSalt` (x, y)
-  hashWithSalt s (Mul x y) = 4 `hashWithSalt` s `hashWithSalt` (x, y)
-  hashWithSalt s (IfNeg t x y) = 5 `hashWithSalt` s `hashWithSalt` (t, x, y)
+instance (Hashable r) => Hashable (ExprF r) where
+    hashWithSalt s (Const c) = 1 `hashWithSalt` s `hashWithSalt` c
+    hashWithSalt s (Var i) = 2 `hashWithSalt` s `hashWithSalt` i
+    hashWithSalt s (Add x y) = 3 `hashWithSalt` s `hashWithSalt` (x, y)
+    hashWithSalt s (Mul x y) = 4 `hashWithSalt` s `hashWithSalt` (x, y)
+    hashWithSalt s (IfNeg t x y) = 5 `hashWithSalt` s `hashWithSalt` (t, x, y)

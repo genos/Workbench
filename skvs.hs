@@ -28,8 +28,8 @@ import System.Environment (getArgs)
 import Prelude hiding (lookup)
 
 type API =
-  "get" :> Capture "key" Text :> Get '[JSON] (Maybe Value)
-    :<|> "put" :> Capture "key" Text :> ReqBody '[JSON] Value :> Put '[JSON] Text
+    "get" :> Capture "key" Text :> Get '[JSON] (Maybe Value)
+        :<|> "put" :> Capture "key" Text :> ReqBody '[JSON] Value :> Put '[JSON] Text
 
 type Store = IORef (HashMap Text Value)
 
@@ -38,13 +38,13 @@ server store = getValue store :<|> putValue store
 
 getValue :: Store -> Text -> Handler (Maybe Value)
 getValue store key = do
-  liftIO . putStrLn $ "Looking for " <> show key <> "…"
-  liftIO $ lookup key <$> readIORef store
+    liftIO . putStrLn $ "Looking for " <> show key <> "…"
+    liftIO $ lookup key <$> readIORef store
 
 putValue :: Store -> Text -> Value -> Handler Text
 putValue store key value = do
-  liftIO . putStrLn $ "Putting " <> show key <> " = " <> show value
-  liftIO $ atomicModifyIORef' store f
+    liftIO . putStrLn $ "Putting " <> show key <> " = " <> show value
+    liftIO $ atomicModifyIORef' store f
   where
     f kv = (insert key value kv, key)
 
