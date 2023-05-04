@@ -3,16 +3,10 @@
 # elliptic curve factorization
 
 from collections import namedtuple
-from fractions import gcd
-from math import sqrt, log
+from math import gcd, isqrt, log
 
 
-# Point = namedtuple("Point", ["x", "z"])
 Point = namedtuple("Point", "x z")
-
-
-def isqrt(n):
-    return int(sqrt(n))
 
 
 def ilog(n, b):
@@ -30,10 +24,10 @@ def bits(n):
 
 def sieve(n):
     b, p, ps = [True] * (n + 1), 2, []
-    for p in xrange(2, n + 1):
+    for p in range(2, n + 1):
         if b[p]:
             ps.append(p)
-            for i in xrange(p, n + 1, p):
+            for i in range(p, n + 1, p):
                 b[i] = False
     return ps
 
@@ -44,16 +38,16 @@ def primes(lo, hi, delta):
     ps = sieve(isqrt(hi))[1:]
     m = len(ps)
     qs = [0] * m
-    for i in xrange(m):
-        qs[i] = ((lo + ps[i] + 1) / -2) % ps[i]
+    for i in range(m):
+        qs[i] = ((lo + ps[i] + 1) // -2) % ps[i]
     while lo < hi:
-        for i in xrange(delta):
+        for i in range(delta):
             bits[i] = True
-        for i in xrange(m):
-            for j in xrange(qs[i], delta, ps[i]):
+        for i in range(m):
+            for j in range(qs[i], delta, ps[i]):
                 bits[j] = False
             qs[i] = (qs[i] - delta) % ps[i]
-        for i in xrange(delta):
+        for i in range(delta):
             t = lo + 2 * i + 1
             if bits[i] and t < hi:
                 result.append(t)
@@ -109,14 +103,14 @@ def factor(n, b1, b2, m, s):
     b = [Point(0, 0)] * (m + 1)
     c[1] = double(q, an, ad, n)
     c[2] = double(c[1], an, ad, n)
-    for i in xrange(1, m + 1):
+    for i in range(1, m + 1):
         if i > 2:
             c[i] = add(c[i - 1], c[1], c[i - 2], n)
         b[i] = (c[i].x * c[i].z) % n
     g = 1
     t = mul(b1 - 1 - 2 * m, q, an, ad, n)
     r = mul(b1 - 1, q, an, ad, n)
-    for i in xrange(b1 - 1, b2, 2 * m):
+    for i in range(b1 - 1, b2, 2 * m):
         a = (r.x * r.z) % n
         for p in primes(i + 2, i + 2 * m, m):
             d = (p - i) // 2

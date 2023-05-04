@@ -17,7 +17,7 @@ e1 = add (lit 1) (add (lit 2) (lit 3))
 newtype Eval = Eval {eval :: Int}
 
 instance ExpAlg Eval where
-    lit n = Eval n
+    lit = Eval
     add x y = Eval $ eval x + eval y
 
 v1 :: Int

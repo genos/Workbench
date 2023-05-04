@@ -8,7 +8,7 @@ import System.Environment (getArgs)
 import qualified System.Posix.Files as P
 
 fileSize :: FilePath -> IO Integer
-fileSize path = (toInteger . P.fileSize) <$> P.getFileStatus path
+fileSize path = toInteger . P.fileSize <$> P.getFileStatus path
 
 dirSize :: FilePath -> IO Integer
 dirSize = fileSize
@@ -21,11 +21,7 @@ dirEntries path = f <$> getDirectoryContents path
   where
     f = map ((path ++ "/") ++) . drop 2
 
-data FS r
-    = File FilePath
-    | Dir
-        FilePath
-        [r]
+data FS r = File FilePath | Dir FilePath [r]
 
 instance Functor FS where
     fmap _ (File x) = File x

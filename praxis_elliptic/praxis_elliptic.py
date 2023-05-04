@@ -2,8 +2,7 @@
 
 # elliptic curve factorization
 
-from fractions import gcd
-from math import log
+from math import gcd, log
 
 
 def ilog(n, b):
@@ -27,28 +26,28 @@ def genPrimes():
         while p * p <= 100000:
             if isPrime(p):
                 ps.insert(0, p)
-                qs.insert(0, p + (p - 1) / 2)
+                qs.insert(0, p + (p - 1) // 2)
                 m += 1
             p += 2
-        for i in xrange(m):
-            for j in xrange(qs[i], 50000, ps[i]):
+        for i in range(m):
+            for j in range(qs[i], 50000, ps[i]):
                 sieve[j] = False
         return m, ps, qs, sieve
 
     def advance(m, ps, qs, sieve, bottom):
-        for i in xrange(50000):
+        for i in range(50000):
             sieve[i] = True
-        for i in xrange(m):
+        for i in range(m):
             qs[i] = (qs[i] - 50000) % ps[i]
         p = ps[0] + 2
         while p * p <= bottom + 100000:
             if isPrime(p):
                 ps.insert(0, p)
-                qs.insert(0, (p * p - bottom - 1) / 2)
+                qs.insert(0, (p * p - bottom - 1) // 2)
                 m += 1
             p += 2
-        for i in xrange(m):
-            for j in xrange(qs[i], 50000, ps[i]):
+        for i in range(m):
+            for j in range(qs[i], 50000, ps[i]):
                 sieve[j] = False
         return m, ps, qs, sieve
 
@@ -124,17 +123,17 @@ def factor(n, b1, b2, m, s):
     b = [(0, 0)] * (m + 1)
     c[1] = double(q, an, ad, n)
     c[2] = double(c[1], an, ad, n)
-    for i in xrange(1, m + 1):
+    for i in range(1, m + 1):
         if i > 2:
             c[i] = add(c[i - 1], c[1], c[i - 2], n)
         b[i] = (c[i][0] * c[i][1]) % n
     g = 1
     t = mul(b1 - 1 - 2 * m, q, an, ad, n)
     r = mul(b1 - 1, q, an, ad, n)
-    for i in xrange(b1 - 1, b2, 2 * m):
+    for i in range(b1 - 1, b2, 2 * m):
         a = (r[0] * r[1]) % n
         while p <= i + 2 * m:
-            d = (p - i) / 2
+            d = (p - i) // 2
             g = g * (((r[0] - c[d][0]) * (r[1] + c[d][1])) - a + b[d]) % n
             p = next(prime)
         r, t = add(r, c[m], t, n), r

@@ -9,9 +9,7 @@ import System.Environment (getArgs)
 fizzbuzz :: (Integral a, Show a) => a -> String
 fizzbuzz i =
     fromMaybe (show i) $
-        ["fizz" | i `rem` 3 == 0]
-            <> ["buzz" | i `rem` 5 == 0]
-            <> ["bazz" | i `rem` 7 == 0]
+        ["fizz" | i `rem` 3 == 0] <> ["buzz" | i `rem` 5 == 0] <> ["bazz" | i `rem` 7 == 0]
 
 main :: IO ()
 main = do

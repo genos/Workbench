@@ -2,16 +2,12 @@
 
 # elliptic curve factorization
 
-from fractions import gcd
-from math import sqrt, floor, log
+from math import gcd, isqrt, floor, log
 
 
 def square(x):
     return x * x
 
-
-def isqrt(n):
-    return int(floor(sqrt(n)))
 
 
 def ilog(n, b):
@@ -26,10 +22,10 @@ def bits(n):
 
 def sieve(n):
     b, p, ps = [True] * (n + 1), 2, []
-    for p in xrange(2, n + 1):
+    for p in range(2, n + 1):
         if b[p]:
             ps.append(p)
-            for i in xrange(p, n + 1, p):
+            for i in range(p, n + 1, p):
                 b[i] = False
     return ps
 
@@ -41,7 +37,7 @@ def primes(lo, hi, delta):
     m = len(ps)
     qs = [0] * m
     for i in range(m):
-        qs[i] = ((lo + ps[i] + 1) / -2) % ps[i]
+        qs[i] = ((lo + ps[i] + 1) // -2) % ps[i]
     while lo < hi:
         for i in range(delta):
             bits[i] = True
@@ -114,7 +110,7 @@ def factor(n, b1, b2, m, s):
     for i in range(b1 - 1, b2, 2 * m):
         a = (r[0] * r[1]) % n
         for p in primes(i + 2, i + 2 * m, m):
-            d = (p - i) / 2
+            d = (p - i) // 2
             g = g * (((r[0] - c[d][0]) * (r[1] + c[d][1])) - a + b[d]) % n
         r, t = add(r, c[m], t, n), r
     g = gcd(g, n)
