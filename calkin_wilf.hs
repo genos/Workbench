@@ -11,8 +11,7 @@ type ℚ = Ratio Natural
 cw :: [[ℚ]]
 cw = iterate (concatMap f) [1 % 1]
   where
-    f r =
-        let (n, d) = (numerator r, denominator r) in [n % (n + d), (n + d) % d]
+    f r = let (n, d) = (numerator r, denominator r) in [n % (n + d), (n + d) % d]
 
 -- Original
 qq :: [[(ℕ, ℕ)]]

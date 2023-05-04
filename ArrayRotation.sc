@@ -1,3 +1,4 @@
+/// "Hey Graham, can you write array rotation in an imperative (instead of that nonsensical functional) style?
 object ArrayRotation {
 
   /**
