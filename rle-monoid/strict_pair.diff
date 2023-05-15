@@ -1,0 +1,27 @@
+diff --git a/rle-monoid/src/RLEMonoid.hs b/rle-monoid/src/RLEMonoid.hs
+index 10c8613..7618864 100644
+--- a/rle-monoid/src/RLEMonoid.hs
++++ b/rle-monoid/src/RLEMonoid.hs
+@@ -3,17 +3,18 @@ module RLEMonoid (rle) where
+ import Data.Foldable (toList)
+ import Data.Sequence (Seq (..), fromList, singleton)
+ 
+-newtype Pairs a = Pairs {unPairs :: Seq (a, Word)}
++data Pair a = P !a {-# UNPACK #-} !Word deriving (Eq)
++newtype Pairs a = Pairs {unPairs :: Seq (Pair a)}
+ 
+ instance (Eq a) => Semigroup (Pairs a) where
+     x <> (Pairs Empty) = x
+     (Pairs Empty) <> y = y
+-    (Pairs (xs :|> (a1, c1))) <> (Pairs ((a2, c2) :<| ys)) = Pairs (xs <> mid <> ys)
++    (Pairs (xs :|> P a1 c1)) <> (Pairs (P a2 c2 :<| ys)) = Pairs (xs <> mid <> ys)
+       where
+-        mid = if a1 == a2 then singleton (a1, c1 + c2) else fromList [(a1, c1), (a2, c2)]
++        mid = if a1 == a2 then singleton (P a1 (c1 + c2)) else fromList [P a1 c1, P a2 c2]
+ 
+ instance (Eq a) => Monoid (Pairs a) where
+     mempty = Pairs mempty
+ 
+ rle :: (Foldable f, Eq a) => f a -> [(a, Word)]
+-rle = toList . unPairs . foldMap (Pairs . singleton . (,1))
++rle = toList . fmap (\(P a c) -> (a, c)) . unPairs . foldMap (Pairs . singleton . (`P` 1))
