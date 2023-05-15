@@ -9,13 +9,9 @@ license:               MIT
 license-file:          LICENSE
 author:                Graham Enos
 maintainer:            Graham Enos <graham.enos@gmail.com>
-homepage:              https://github.com/genos/rle-monoid
+homepage:              https://github.com/genos/Workbench/rle-monoid
 category:              Algorithm
 extra-source-files:    README.md
-
-source-repository head
-  type: git
-  location: https://github.com/genos/rle-monoid
 
 common common
   build-depends:       base ^>= 4.16.4.0
