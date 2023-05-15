@@ -1,0 +1,41 @@
+cabal-version:         3.6
+name:                  rle-monoid
+version:               0.0.0.0
+synopsis:              Run-length encoding using a monoid.
+description:
+    Run-length encoding using a monoid.
+    See <https://okmij.org/ftp/Algorithms/grasping-all-apples-at-once.html Oleg's writings>.
+license:               MIT
+license-file:          LICENSE
+author:                Graham Enos
+maintainer:            Graham Enos <graham.enos@gmail.com>
+homepage:              https://github.com/genos/rle-monoid
+category:              Algorithm
+extra-source-files:    README.md
+
+source-repository head
+  type: git
+  location: https://github.com/genos/rle-monoid
+
+common common
+  build-depends:       base ^>= 4.16.4.0
+  ghc-options:         -Wall
+                       -Wcompat
+                       -Wincomplete-record-updates
+                       -Wincomplete-uni-patterns
+                       -Wredundant-constraints
+  default-language:    Haskell2010
+  default-extensions:  TupleSections
+
+library
+  import:              common
+  hs-source-dirs:      src
+  exposed-modules:     RLEMonoid
+  build-depends:       containers ^>= 0.6.7
+
+test-suite test
+  import:              common
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Test.hs
+  build-depends:       rle-monoid, tasty ^>= 1.4.3, tasty-hunit ^>= 0.10.0.3
