@@ -1,0 +1,15 @@
+diff --git a/src/lib.rs b/src/lib.rs
+index 3b04a74..68c600c 100644
+--- a/src/lib.rs
++++ b/src/lib.rs
+@@ -7,9 +7,9 @@ pub enum Expr {
+     Y,
+     SinPi(Box<Expr>),
+     CosPi(Box<Expr>),
+-    Mul(Box<Mul>),
+-    Avg(Box<Avg>),
+-    Thresh(Box<Thresh>),
++    Mul { e1: Box<Expr>, e2: Box<Expr> },
++    Avg { e1: Box<Expr>, e2: Box<Expr> },
++    Thresh { e1: Box<Expr, e2: Box<Expr>, e3: Box<Expr>, e4: Box<Expr> },
+ }
