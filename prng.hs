@@ -31,8 +31,8 @@ bbs :: Integer -> Integer -> [Integer]
 bbs n x = x' `mod` 2 : bbs n x' where x' = (x ^ 2) `mod` n
 
 -- helper #1 for bgEnc and bgDec
-xor :: (Integral a) => (a, a) -> a
-xor (a, b) = if a == b then 0 else 1
+xor :: (Integral a) => a -> a -> a
+xor a b = if a == b then 0 else 1
 
 -- helper #2; adapted from Wikipedia's recursive version
 xgcd :: (Integral a) => a -> a -> [a]
