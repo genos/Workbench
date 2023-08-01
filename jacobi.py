@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# from http://en.literateprograms.org/Jacobi_Symbol_(Python)
+# from https://literateprograms.org/jacobi_symbol__python_.html
 
 
 def jacobi(a, n):
@@ -25,5 +25,5 @@ def jacobi(a, n):
 
 
 if __name__ == "__main__":
-    for (a, n) in [(127, 703), (11, 91), (2, 7), (5, 7), (14, 7)]:
+    for a, n in [(127, 703), (11, 91), (2, 7), (5, 7), (14, 7)]:
         print(jacobi(a, n))
