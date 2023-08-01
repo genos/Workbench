@@ -7,8 +7,8 @@ A simple feed-forward neural network, inspired by:
 - mattmazur.com/2015/03/17/a-step-by-step-backpropagation-example/
 """
 from dataclasses import dataclass, field
-from typing import List
 import numpy as np
+from numpy.typing import NDArray
 
 
 def sigma(x):
@@ -35,18 +35,15 @@ class NeuralNetwork:
         weights (list of arrays, set in `__post_init__`): weights of our network
     """
 
-    shape: List[int]
+    shape: list[int]
     learning_rate: float = 1.0
     iterations: int = int(1e4)
     seed: int = 1729
-    weights: List[np.ndarray] = field(init=False)
+    weights: list[NDArray[np.float64]] = field(init=False)
 
     def __post_init__(self):
         """Validate attributes, then initialize `weights`"""
         # error checking
-        assert isinstance(
-            self.shape, (tuple, list, np.ndarray)
-        ), f"{self.shape} is not array-like"
         assert np.ndim(self.shape) == 1, f"{self.shape} is not one dimensional"
         assert len(self.shape) > 2, f"{self.shape} too short; length should be > 2"
         assert all(

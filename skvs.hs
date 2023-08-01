@@ -1,6 +1,6 @@
 #!/usr/bin/env stack
 {- stack
-    --resolver lts-14.22
+    --resolver lts-21.5
     --install-ghc runghc
     --package aeson
     --package servant-server

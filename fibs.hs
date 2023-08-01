@@ -1,5 +1,5 @@
 #!/usr/bin/env stack
--- stack --resolver lts-14.22 script
+-- stack --resolver lts-21.5 script
 
 {-# LANGUAGE BangPatterns #-}
 
