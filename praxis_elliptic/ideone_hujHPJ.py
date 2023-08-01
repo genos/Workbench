@@ -9,7 +9,6 @@ def square(x):
     return x * x
 
 
-
 def ilog(n, b):
     return int(floor(log(n) / log(b)))
 

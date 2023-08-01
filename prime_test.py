@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+
 # Phil Bewig's sieve
 def sieve(n):
     m = (n - 1) // 2
