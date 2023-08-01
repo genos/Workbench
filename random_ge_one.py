@@ -31,14 +31,15 @@ def single_run():
 # Takes the average of n "single runs"
 def n_runs_average(n):
     total = 0.0
-    for i in xrange(n):
+    for i in range(n):
         total += single_run()
     return total / n
 
 
 # Main execution
 if __name__ == "__main__":
+
     try:
         print(n_runs_average(int(sys.argv[1])))
-    except:
+    except (IndexError, ValueError):
         print(n_runs_average(1000))
