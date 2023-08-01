@@ -1,5 +1,4 @@
-#!/usr/bin/env python3
-
+#!/usr/bin/env python
 """random_ge_one.py
 
 Add up uniformly distributed random numbers between zero and one, counting how

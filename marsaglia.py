@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 from collections import deque
 
@@ -8,10 +8,9 @@ def mwc(a, b, xs, c):
     http://en.wikipedia.org/wiki/Multiply-with-carry
     Example:
     >>> prng = mwc(7, 10, [1], 3)
-    >>> [next(prng) for _ in xrange(20)]
+    >>> [next(prng) for _ in range(20)]
     [1, 0, 1, 7, 9, 7, 5, 0, 4, 8, 8, 1, 3, 2, 6, 3, 5, 7, 2, 9]
     """
-    r = len(xs)
     xs = deque(xs)
     while True:
         x_out = xs.popleft()
@@ -25,7 +24,7 @@ def xor128():
     """Xorshift PRNG; see http://en.wikipedia.org/wiki/Xorshift
     Example:
     >>> prng = xor128()
-    >>> [next(prng) for _ in xrange(4)]
+    >>> [next(prng) for _ in range(4)]
     [252977563114L, 646616338854L, 476657867818L, 294684809458L]
     """
     x = 123456789

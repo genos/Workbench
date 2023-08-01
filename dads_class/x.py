@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 # If you can't run Python programs yourself, try one of the following websites:
 # http://repl.it/

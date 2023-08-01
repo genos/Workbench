@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 
 def gcd(a, b):
@@ -45,12 +45,12 @@ def is_prime(n):
     def is_spsp(n, a):
         d, s = n - 1, 0
         while d % 2 == 0:
-            d /= 2
+            d //= 2
             s += 1
             if pow(a, d, n) == 1:
                 return True
             else:
-                for r in xrange(s):
+                for r in range(s):
                     if pow(a, d * pow(2, r), n) == n - 1:
                         return True
                     return False

@@ -1,4 +1,6 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
+
+import itertools as it
 
 
 # Phil Bewig's sieve
@@ -24,13 +26,12 @@ def sieve(n):
 
 
 # revised version of Python Cookbook recipe
-from itertools import count, takewhile
 
 
 def erat2():
     D = {}
     yield 2
-    for q in count(3, 2):
+    for q in it.count(3, 2):
         p = D.pop(q, None)
         if p is None:
             D[q * q] = q
@@ -43,10 +44,7 @@ def erat2():
 
 
 def primes(n):
-    return takewhile(lambda p: p < n, erat2())
-
-
-import itertools as it
+    return it.takewhile(lambda p: p < n, erat2())
 
 
 def erat3():

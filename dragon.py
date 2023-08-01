@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 from pylab import scatter, show
 
@@ -9,7 +9,7 @@ g = lambda z: 1 - (1 - 1j) * z / 2
 
 def heighway(n):
     s = set([0, 1])
-    for _ in xrange(n):
+    for _ in range(n):
         s = set(map(f, s)) | set(map(g, s))
     return s
 
@@ -18,7 +18,8 @@ def plot(n):
     h = heighway(n)
     x, y = [], []
     for z in h:
-        x.append(z.real), y.append(z.imag)
+        x.append(z.real)
+        y.append(z.imag)
     scatter(x, y)
     show()
 

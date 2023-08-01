@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 """
 Pseudorandom Number Generators and Probabilistic Encryption in Python (originally 2.4)
 

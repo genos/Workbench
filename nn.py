@@ -1,5 +1,4 @@
-#!/usr/bin/env python3
-# coding: utf-8
+#!/usr/bin/env python
 """nn.py
 A simple feed-forward neural network, inspired by:
 - iamtrask.github.io/2015/07/12/basic-python-network/

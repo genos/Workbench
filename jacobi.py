@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 # from https://literateprograms.org/jacobi_symbol__python_.html
 
