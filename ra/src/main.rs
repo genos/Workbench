@@ -32,8 +32,8 @@ fn main() {
         args.width,
         if args.rgb { "rgb" } else { "grey" }
     );
-    let to_real = |i, n| (i as f64) / (n as f64);
-    let to_intensity = |f| (127.5 + (127.5 * f)) as u8;
+    let to_real = |i: u32, n: u32| f64::from(i) / f64::from(n);
+    let to_intensity = |f: f64| unsafe { (127.5 + (127.5 * f)).to_int_unchecked::<u8>() };
     let mut rng = StdRng::seed_from_u64(args.seed);
     if args.rgb {
         let r = build(&mut rng, args.depth);

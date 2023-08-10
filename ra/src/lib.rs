@@ -146,6 +146,9 @@ peg::parser! { grammar parser() for str {
     }
 }
 
+/// # Panics
+/// If the parsing fails in any way
+#[must_use]
 pub fn parse(input: &str) -> Expr {
     match parser::expr(input) {
         Ok(expr) => expr,
@@ -178,6 +181,12 @@ mod test {
     use proptest::prelude::*;
     use std::mem::size_of_val;
 
+    macro_rules! assert_close {
+        ($left:expr, $right:expr) => {
+            assert!(($left - $right).abs() < std::f64::EPSILON);
+        };
+    }
+
     #[test]
     fn to_string() {
         assert_eq!(
@@ -188,9 +197,12 @@ mod test {
 
     #[test]
     fn evaluation() {
-        assert_eq!(sin_pi(avg(x(), y())).eval(0.5, -0.5), 0.0);
-        assert_eq!(sin_pi(avg(x(), y())).eval(0.3, 0.3), 0.8090169943749475);
-        assert_eq!(
+        assert_close!(sin_pi(avg(x(), y())).eval(0.5, -0.5), 0.0);
+        assert_close!(
+            sin_pi(avg(x(), y())).eval(0.3, 0.3),
+            0.809_016_994_374_947_5
+        );
+        assert_close!(
             cos_pi(sin_pi(mul(
                 cos_pi(avg(
                     cos_pi(x()),
@@ -202,7 +214,7 @@ mod test {
                 y()
             )))
             .eval(0.5, 0.2),
-            0.11861257281463063
+            0.118_612_572_814_630_63
         );
     }
 
@@ -229,7 +241,7 @@ mod test {
 
         #[test]
         fn size_of(e in arb_expr()) {
-            assert_eq!(size_of_val(&e), 16)
+            assert_eq!(size_of_val(&e), 16);
         }
     }
 }
