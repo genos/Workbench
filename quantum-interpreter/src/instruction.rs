@@ -54,7 +54,6 @@ peg::parser! {
         pub(super) rule program() -> Program =
             instructions:(instruction() ** "\n") { Program { instructions } }
         pub(super) rule instruction() -> Instruction = measure() / gate()
-        rule space() = quiet!{[' ' | '\t']+}
         rule measure() -> Instruction = "MEASURE" { Instruction::Measure }
         rule gate() -> Instruction = i() / swap() / h() / cnot() / cphase()
         rule i() -> Instruction =
@@ -78,5 +77,6 @@ peg::parser! {
         rule float() -> f64 =
             f:$((['-']?['0'..='9']+)("." ['0'..='9']+)?)
             {? f.parse::<f64>().or(Err("float")) }
+        rule space() = quiet!{[' ' | '\t']+}
     }
 }
