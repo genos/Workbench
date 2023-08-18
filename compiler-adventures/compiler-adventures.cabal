@@ -1,0 +1,19 @@
+cabal-version:      3.6
+name:               compiler-adventures
+version:            0.1.0.0
+license:            MIT
+category:           Compilers
+maintainer:         Graham Enos
+synopsis:           AoC 2021 Day 24
+description:        https://github.com/obi1kenobi/monad_compiler
+
+executable compiler-adventures
+    main-is:          Main.hs
+    build-depends:    base ^>=4.18.0.0
+                      , attoparsec ^>= 0.14.4
+                      , containers ^>= 0.6.7
+                      , lens ^>= 5.2
+                      , text ^>= 2.0.2
+                      , transformers ^>= 0.6.1.0
+    default-language: Haskell2010
+    ghc-options:      -Wall -Wextra
