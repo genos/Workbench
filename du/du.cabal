@@ -1,11 +1,4 @@
-cabal-version: 1.12
-
--- This file has been generated from package.yaml by hpack version 0.31.2.
---
--- see: https://github.com/sol/hpack
---
--- hash: 65dce3e184025d8ecb67acc7b3c6a2ae4b15a3de8216338afd04e898ff0723d2
-
+cabal-version:  3.8
 name:           du
 version:        0.1.0.0
 synopsis:       du in Haskell
@@ -15,16 +8,10 @@ homepage:       https://github.com/genos/du#readme
 author:         Graham Enos
 maintainer:     graham.enos@gmail.com
 copyright:      Graham Enos
-license:        BSD3
-license-file:   LICENSE
-build-type:     Simple
+license:        MIT
 
 executable du
   main-is: Main.hs
-  other-modules:
-      Paths_du
-  hs-source-dirs:
-      src
   ghc-options: -Wall -Werror
   build-depends:
       base >=4.7 && <5

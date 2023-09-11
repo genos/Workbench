@@ -38,7 +38,7 @@ v2 = eval e2
 newtype View = View {view :: Text}
 
 instance ExpAlg View where
-    lit n = View . T.pack $ show n
+    lit = View . T.pack . show
     add x y = View $ "(" <> view x <> " + " <> view y <> ")"
 
 s1 :: Text

@@ -1,11 +1,4 @@
-cabal-version: 2.4
-
--- This file has been generated from package.yaml by hpack version 0.31.2.
---
--- see: https://github.com/sol/hpack
---
--- hash: 7f3b41b9d847e3ef0be777f74d29db80a48b80db0000f5e23639fa16449d73a8
-
+cabal-version:  3.8
 name:           form
 version:        0.0.0
 synopsis:       https://wickstrom.tech/programming/2019/11/17/time-travelling-and-fixing-bugs-with-property-based-testing.html
@@ -13,17 +6,12 @@ author:         Graham Enos
 maintainer:     graham.enos@gmail.com
 copyright:      2019 Graham Enos
 license:        MIT
-license-file:   LICENSE
-build-type:     Simple
 
 library
   exposed-modules:
       Form
-  other-modules:
-      Paths_form
   hs-source-dirs:
       src
-  ghc-options: -Wall -O2
   build-depends:
       base >=4.12 && <5
     , text
@@ -33,11 +21,8 @@ library
 test-suite form-test
   type: exitcode-stdio-1.0
   main-is: Main.hs
-  other-modules:
-      Paths_form
   hs-source-dirs:
       test
-  ghc-options: -Wall -O2
   build-depends:
       base >=4.12 && <5
     , form

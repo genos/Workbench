@@ -4,10 +4,10 @@
 module Main where
 
 import Data.Monoid ((<>))
-import Data.Random
 import Data.Text (Text, breakOn)
 import qualified Data.Text.IO as T
 import System.Exit (die)
+import System.Random
 import Text.HTML.Scalpel
 
 data Tweet = Tweet {_text :: {-# UNPACK #-} !Text, _image :: {-# UNPACK #-} !Text, _href :: {-# UNPACK #-} !Text}
@@ -25,12 +25,15 @@ allTweets = chroots ("div" @: [hasClass "content"]) $ do
     _image <- attr "data-image-url" $ "div" @: [hasClass "js-adaptive-photo"]
     return Tweet{_text, _image, _href}
 
-randomTweet :: [Tweet] -> IO Tweet
-randomTweet ts = runRVar (randomElement ts) StdRandom
+randomTweet :: [Tweet] -> Tweet
+randomTweet ts =
+    let g = mkStdGen 1729
+        i = fst $ uniformR (0 :: Int, length ts - 1) g
+     in ts !! i
 
 main :: IO ()
 main = do
     mts <- scrapeURL url allTweets
     case mts of
         Nothing -> die "Unable to scrape tweets"
-        Just ts -> T.putStrLn . fmt =<< randomTweet ts
+        Just ts -> if null ts then die "Empty tweets" else T.putStrLn . fmt $ randomTweet ts

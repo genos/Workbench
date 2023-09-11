@@ -97,7 +97,6 @@ outOf k xs = [x : xs' | x <- xs, xs' <- (k - 1) `outOf` delete x xs]
 main :: IO ()
 main = traverse_ print round2
   where
-    owners :: [Owner]
     owners =
         [ Owner h n b c p
         | h <- allValues
@@ -106,12 +105,10 @@ main = traverse_ print round2
         , c <- allValues
         , p <- allValues
         ]
-    round1 :: [Owner]
     round1 =
         filter
             (hint1 /\ hint2 /\ hint3 /\ hint5 /\ hint6 /\ hint7 /\ hintC /\ hintD)
             owners
-    round2 :: [Street]
     round2 =
         mapMaybe (hint4 /^\ hint8 /^\ hint9 /^\ hintA /^\ hintB /^\ hintE /^\ hintF) $
             outOf 5 round1

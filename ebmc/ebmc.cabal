@@ -1,11 +1,4 @@
-cabal-version: 1.12
-
--- This file has been generated from package.yaml by hpack version 0.31.2.
---
--- see: https://github.com/sol/hpack
---
--- hash: 25a3122d25a2e9e7c75382eec616605c28ddc007d900dd556eaee7fa1d458559
-
+cabal-version:  3.8
 name:           ebmc
 version:        0.1.0.0
 synopsis:       Random tweet by @evilbmcats
@@ -16,19 +9,12 @@ author:         Graham Enos
 maintainer:     graham.enos@gmail.com
 copyright:      Graham Enos
 license:        MIT
-license-file:   LICENSE
-build-type:     Simple
 
 executable ebmc
   main-is: Main.hs
-  other-modules:
-      Paths_ebmc
-  hs-source-dirs:
-      src
-  ghc-options: -Wall -O2
   build-depends:
       base >=4.7 && <5
-    , random-fu
+    , random
     , scalpel
     , text
   default-language: Haskell2010

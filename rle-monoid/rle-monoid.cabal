@@ -6,7 +6,6 @@ description:
     Run-length encoding using a monoid.
     See <https://okmij.org/ftp/Algorithms/grasping-all-apples-at-once.html Oleg's writings>.
 license:               MIT
-license-file:          LICENSE
 author:                Graham Enos
 maintainer:            Graham Enos <graham.enos@gmail.com>
 homepage:              https://github.com/genos/Workbench/rle-monoid
@@ -14,7 +13,7 @@ category:              Algorithm
 extra-source-files:    README.md
 
 common common
-  build-depends:       base ^>= 4.16.4.0
+  build-depends:       base >= 4.7 && < 5
   ghc-options:         -Wall
                        -Wcompat
                        -Wincomplete-record-updates

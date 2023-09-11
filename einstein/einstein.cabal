@@ -1,11 +1,4 @@
-cabal-version: 1.12
-
--- This file has been generated from package.yaml by hpack version 0.31.2.
---
--- see: https://github.com/sol/hpack
---
--- hash: a606c8cdac9c9f9585a34694ec6203422a1665734b11316355e0ccd1dd57d548
-
+cabal-version:  3.8
 name:           einstein
 version:        0.1.0.0
 synopsis:       Einstein's Problem in Haskell
@@ -16,16 +9,8 @@ author:         Graham Enos
 maintainer:     graham.enos@gmail.com
 copyright:      Graham Enos
 license:        MIT
-license-file:   LICENSE
-build-type:     Simple
 
 executable einstein
   main-is: Main.hs
-  other-modules:
-      Paths_einstein
-  hs-source-dirs:
-      src
-  ghc-options: -Wall -O2
-  build-depends:
-      base >=4.7 && <5
+  build-depends: base >=4.7 && <5
   default-language: Haskell2010
