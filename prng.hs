@@ -1,7 +1,7 @@
 {-
  - prng.hs
  -
- - A port of my the PRNG code originally written in Python for my final project
+ - A port of the PRNG code originally written in Python for my final project
  - in Applied Cryptography.
  - Most of these are derived from pseudocode given in Stinson's "Cryptography:
  - Theory and Practice," 3rd edition.
