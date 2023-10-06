@@ -1,18 +1,14 @@
 -- from http://mathlesstraveled.com/2011/01/06/prime-time-in-haskell/
 import Control.Arrow ((&&&), (>>>))
+import Data.Function ((&))
 import Data.List (find, intercalate, tails)
 import Data.Numbers.Primes (isPrime, primes)
-
--- backwards function application
-infixl 0 >$>
-
-x >$> f = f x
 
 -- Finds runs of consecutive primes that sum to n
 primeSums :: Int -> [(Int, Int)]
 primeSums n =
     primes
-        >$> takeWhile (< n)
+        & takeWhile (< n)
         >>> tails
         >>> init
         >>> map (scanl (+) 0 >>> tail >>> takeWhile (<= n) >>> length &&& last)
@@ -22,7 +18,7 @@ primeSums n =
 
 -- Expands a run into list of primes
 expandRun :: (Int, Int) -> [Int]
-expandRun (i, n) = primes >$> drop i >>> take n
+expandRun (i, n) = primes & drop i >>> take n
 
 -- Self explanatory
 isSumOfConsecutivePrimes :: Int -> Bool
