@@ -1,11 +1,23 @@
+//! quantum-interpreter
+//!
+//! A Rust implementation of `stylewarning's` _wonderful_ [tutorial quantum
+//! interpreter](https://www.stylewarning.com/posts/quantum-interpreter/), with some inspiration
+//! taken from [this OCaml version](https://github.com/sheganinans/QVM-ocaml-mini).
+
+#![deny(clippy::all)]
+#![warn(clippy::pedantic)]
+#![warn(clippy::nursery)]
+#![deny(missing_docs)]
+#![deny(unsafe_code)]
 use rand::{rngs::StdRng, Rng, SeedableRng};
 
 mod instruction;
 mod matrices;
 
-pub use instruction::{Gate, Instruction, Program};
-use matrices::{kronecker_expt, lift, Matrix, Vector, I, SWAP};
+pub use crate::instruction::{Gate, Instruction, Program};
+use crate::matrices::{kronecker_expt, lift, Matrix, Vector, I, SWAP};
 
+/// A quantum interpreter.
 pub struct Machine {
     num_qubits: usize,
     state: Vector,
@@ -14,38 +26,49 @@ pub struct Machine {
 }
 
 impl Machine {
-    #[must_use]
-    pub fn new(num_qubits: usize, seed: u64) -> Self {
-        let mut state =
-            Vector::zeros(2usize.pow(u32::try_from(num_qubits).expect("Should be small enough")));
+    /// Create a new machine
+    ///
+    /// # Errors
+    ///
+    /// If `num_qubits` is bigger than can fit into a `u32`, this will error.
+    pub fn new(num_qubits: usize, seed: u64) -> Result<Self, String> {
+        let mut state = Vector::zeros(
+            2usize.pow(u32::try_from(num_qubits).map_err(|_| "num_qubits should fit into a u32")?),
+        );
         state[0] = 1.0.into();
-        Self {
+        Ok(Self {
             num_qubits,
             state,
             register: 0,
             rng: StdRng::seed_from_u64(seed),
-        }
+        })
     }
 
-    pub fn run(&mut self, program: &Program) -> usize {
-        program.instructions.iter().for_each(|i| match i {
-            Instruction::Gate { gate, qubits } => self.apply(&gate.to_matrix(), qubits),
-            Instruction::Measure => {
-                let b = self.sample();
-                self.state.fill(0.0.into());
-                self.state[0] = 1.0.into();
-                self.register = b;
+    /// Run the given `Program` on this `Machine`.
+    ///
+    /// # Errors
+    ///
+    /// If any instruction in the program addresses a qubit bigger than the number of qubits in
+    /// this machine, this will error.
+    pub fn run(&mut self, program: &Program) -> Result<usize, String> {
+        for i in &program.instructions {
+            match i {
+                Instruction::Gate { gate, qubits } => self.apply(&gate.to_matrix(), qubits)?,
+                Instruction::Measure => {
+                    let b = self.sample();
+                    self.state.fill(0.0.into());
+                    self.state[0] = 1.0.into();
+                    self.register = b;
+                }
             }
-        });
-        self.register
+        }
+        Ok(self.register)
     }
 
-    fn apply(&mut self, u: &Matrix, qs: &[usize]) {
-        assert!(
-            qs.iter().all(|&q| q < self.num_qubits),
-            "This machine only has {} qubits.",
-            self.num_qubits
-        );
+    fn apply(&mut self, u: &Matrix, qs: &[usize]) -> Result<(), String> {
+        if !qs.iter().all(|&q| q < self.num_qubits) {
+            return Err(format!("This machine only has {} qubits.", self.num_qubits));
+        }
         if let [q] = qs {
             self.state = lift(u, *q, self.num_qubits).dot(&self.state);
         } else {
@@ -67,6 +90,7 @@ impl Machine {
             let u = to_from.dot(&lift(u, 0, self.num_qubits).dot(&from_to));
             self.state = u.dot(&self.state);
         }
+        Ok(())
     }
 
     fn sample(&mut self) -> usize {

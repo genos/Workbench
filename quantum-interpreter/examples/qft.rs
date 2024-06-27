@@ -14,7 +14,7 @@ fn _bit_rev(qs: &[usize]) -> Vec<Instruction> {
 fn _qft(qs: &[usize]) -> Vec<Instruction> {
     match qs.split_first() {
         None => vec![],
-        Some((h, ts)) if ts.is_empty() => vec![Instruction::Gate {
+        Some((h, [])) => vec![Instruction::Gate {
             gate: Gate::H,
             qubits: vec![*h],
         }],
@@ -42,12 +42,13 @@ fn qft(qubits: &[usize]) -> Program {
     Program { instructions }
 }
 
-fn main() {
-    let mut machine = Machine::new(4, 2_718_281_828);
+fn main() -> Result<(), String> {
+    let mut machine = Machine::new(4, 2_718_281_828)?;
     let prog = qft(&[0, 1, 2, 3]);
     let mut counts = vec![0; 16];
     for _ in 0..1000 {
-        counts[machine.run(&prog)] += 1;
+        counts[machine.run(&prog)?] += 1;
     }
     println!("{counts:?}");
+    Ok(())
 }
