@@ -15,12 +15,13 @@ fn ghz(n: usize) -> Program {
     }
 }
 
-fn main() {
-    let mut machine = Machine::new(3, 42);
+fn main() -> Result<(), String> {
+    let mut machine = Machine::new(3, 42)?;
     let prog = ghz(3);
     let mut counts = vec![0; 8];
     for _ in 0..1000 {
-        counts[machine.run(&prog)] += 1;
+        counts[machine.run(&prog)?] += 1;
     }
     println!("{counts:?}");
+    Ok(())
 }
