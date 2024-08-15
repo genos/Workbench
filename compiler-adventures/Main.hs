@@ -1,21 +1,20 @@
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE TemplateHaskell #-}
 
 module Main where
 
-import Control.Lens
-import Control.Monad.Trans.State.Strict
-import Data.Attoparsec.Text
+import Control.Lens (Lens', makeLenses, use, uses, (%=), (+=), (.=), (^?))
+import Control.Monad.Trans.State.Strict (State, evalState)
+import Data.Attoparsec.Text (choice, decimal, parseOnly, sepBy1', signed)
 import Data.Either (fromRight)
 import Data.Foldable (traverse_)
 import Data.Functor (($>))
 import Data.IntMap.Strict (IntMap)
-import qualified Data.IntMap.Strict as M
+import Data.IntMap.Strict qualified as M
 import Data.Maybe (catMaybes)
 import Data.Text (Text)
-import qualified Data.Text.IO as T
+import Data.Text.IO qualified as T
 
 data Value
     = Exact {_vid :: {-# UNPACK #-} !Int, _value :: {-# UNPACK #-} !Int}
@@ -57,13 +56,13 @@ data ALU = ALU
     { _registers :: !Registers
     , _nextVID :: {-# UNPACK #-} !Int
     , _nextInput :: {-# UNPACK #-} !Int
-    , _valueRanges :: IntMap InclusiveRange
+    , _valueRanges :: !(IntMap InclusiveRange)
     }
     deriving (Show)
 makeLenses ''ALU
 
-createALU :: ALU
-createALU =
+create :: ALU
+create =
     let rs = Registers (Exact 0 0) (Exact 1 0) (Exact 2 0) (Exact 3 0)
         vs = M.fromList [(v, Range 0 0) | v <- [0 .. 3]]
      in ALU rs 4 0 vs
@@ -94,37 +93,35 @@ newInput = do
 valueRange :: Int -> State ALU InclusiveRange
 valueRange v = uses valueRanges (M.! v)
 
-evaluate :: Operator -> Value -> Value -> State ALU Value
-evaluate Add l (Exact _ 0) = pure l
-evaluate Add (Exact _ 0) r = pure r
-evaluate Add (Exact _ l) (Exact _ r) = newExact $! l + r
-evaluate Mul (Exact _ 0) _ = newExact 0
-evaluate Mul _ (Exact _ 0) = newExact 0
-evaluate Mul (Exact _ l) (Exact _ r) = newExact $! l * r
-evaluate Mul l (Exact _ 1) = pure l
-evaluate Mul (Exact _ 1) r = pure r
-evaluate Div l (Exact _ 1) = pure l
-evaluate Div l@(Exact _ 0) _ = pure l
-evaluate Div (Exact _ l) (Exact _ r) = newExact $! l `div` r
-evaluate Mod l@(Exact _ 0) _ = pure l
-evaluate Mod _ r@(Exact _ 1) = pure r
-evaluate Mod (Exact _ l) (Exact _ r) = newExact $! l `mod` r
-evaluate Mod _ (Exact _ r) = newUnknown (Range 0 (r - 1))
-evaluate Eql (Exact _ l) (Exact _ r) = if l == r then newExact 1 else newExact 0
-evaluate Eql l r = do
+eval :: Operator -> Value -> Value -> State ALU Value
+eval Add l (Exact _ 0) = pure l
+eval Add (Exact _ 0) r = pure r
+eval Add (Exact _ l) (Exact _ r) = newExact $! l + r
+eval Mul (Exact _ 0) _ = newExact 0
+eval Mul _ (Exact _ 0) = newExact 0
+eval Mul (Exact _ l) (Exact _ r) = newExact $! l * r
+eval Mul l (Exact _ 1) = pure l
+eval Mul (Exact _ 1) r = pure r
+eval Div l (Exact _ 1) = pure l
+eval Div l@(Exact _ 0) _ = pure l
+eval Div (Exact _ l) (Exact _ r) = newExact $! l `div` r
+eval Mod l@(Exact _ 0) _ = pure l
+eval Mod _ r@(Exact _ 1) = pure r
+eval Mod (Exact _ l) (Exact _ r) = newExact $! l `mod` r
+eval Mod _ (Exact _ r) = newUnknown (Range 0 (r - 1))
+eval Eql (Exact _ l) (Exact _ r) = if l == r then newExact 1 else newExact 0
+eval Eql l r = do
     lRange <- valueRange (_vid l)
     rRange <- valueRange (_vid r)
-    let l2Hi = _lo lRange > _hi rRange
-        r2Hi = _lo rRange > _hi lRange
-    if l2Hi || r2Hi then newExact 0 else newUnknown (Range 0 1)
-evaluate _ _ _ = newUnknown $! Range minBound maxBound
+    if (_lo lRange > _hi rRange) || (_lo rRange > _hi lRange) then newExact 0 else newUnknown (Range 0 1)
+eval _ _ _ = newUnknown $! Range minBound maxBound
 
 traverseProgram ::
     (Instruction -> State ALU a) ->
     (Instruction -> Value -> Value -> State ALU a) ->
     Program ->
     [a]
-traverseProgram f g p = evalState (traverse step p) createALU
+traverseProgram f g p = evalState (traverse step p) create
   where
     step i@(Inp r) = do
         v <- newInput
@@ -135,7 +132,7 @@ traverseProgram f g p = evalState (traverse step p) createALU
         right <- case operand of
             Left n -> newExact n
             Right r -> use (registers . reg r)
-        new <- evaluate operator left right
+        new <- eval operator left right
         g i new left
 
 constantPropagation :: Program -> Program

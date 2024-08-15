@@ -57,7 +57,7 @@ bgDec p q ys s = zipWith xor ys bbsnr
   where
     n = p * q
     k = length ys
-    [a, b] = tail (xgcd p q)
+    [a, b] = drop 1 (xgcd p q)
     d1 = (((p + 1) `div` 4) ^ (k + 1)) `mod` (p - 1)
     d2 = (((q + 1) `div` 4) ^ (k + 1)) `mod` (q - 1)
     u = (s ^ d1) `mod` p
@@ -82,6 +82,5 @@ main = do
     n = p * q
     r = 159201
     bgEncMessage = bgEnc n r xs
-    ys = fst bgEncMessage
-    s = snd bgEncMessage
+    (ys, s) = bgEncMessage
     bgDecMessage = bgDec p q ys s
