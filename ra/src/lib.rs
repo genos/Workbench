@@ -183,7 +183,7 @@ mod test {
 
     macro_rules! assert_close {
         ($left:expr, $right:expr) => {
-            assert!(($left - $right).abs() < std::f64::EPSILON);
+            assert!(($left - $right).abs() < f64::EPSILON);
         };
     }
 

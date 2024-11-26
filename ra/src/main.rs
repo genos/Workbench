@@ -48,7 +48,7 @@ fn main() {
             ])
         })
         .save(name)
-        .expect("Unable to save color image");
+        .expect("Unable to save RGB image");
     } else {
         let e = build(&mut rng, args.depth);
         ImageBuffer::from_fn(args.width, args.height, |x, y| {
