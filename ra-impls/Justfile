@@ -1,0 +1,52 @@
+# List all recipes
+default:
+  @just --list
+
+# PBT for equivalence
+test:
+  cargo nextest run
+
+# Clippy is your friend
+check:
+  cargo clippy --all-targets
+
+# Benchmark basic vs. branch vs. flat vs. stack
+bench:
+  hyperfine  {{ _bench_str }}
+
+# JSON bench data
+json:
+  hyperfine --export-json bench.json {{ _bench_str }}
+
+# Plot bench data
+plot:
+  #!/usr/bin/env python
+  import json
+  import matplotlib.pyplot as plt
+  import pandas as pd
+  import seaborn as sns
+
+  with open("./bench.json") as f:
+      df = pd.DataFrame(
+          {"Command": r["command"], "Time (s)": t}
+          for r in json.load(f)["results"]
+          for t in r["times"]
+      )
+  sns.set_theme(
+      context="talk",
+      style="white",
+      palette=["#02818a"],
+      rc={"axes.facecolor": "#fafafa", "figure.facecolor": "#fafafa"},
+      font="Equity B",
+  )
+  sns.catplot(df, alpha=0.75, x="Command", y="Time (s)")
+  sns.despine(left=True, bottom=True)
+  plt.savefig("bench.png", dpi=300)
+
+_bench_str := "--warmup 1 --runs 20 \
+  --prepare 'cargo build --release --quiet' \
+  --command-name 'basic' './target/release/ra-impls --method basic' \
+  --command-name 'branch' './target/release/ra-impls --method branch' \
+  --command-name 'flat' './target/release/ra-impls --method flat' \
+  --command-name 'stack' './target/release/ra-impls --method stack'
+"
