@@ -1,0 +1,17 @@
+[package]
+name = "vish"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+clap = { version = "4.5.26", features = ["derive"] }
+rand = { version = "0.8.5", features = ["small_rng"] }
+rayon = "1.10.0"
+
+[profile.dev]
+debug = 0
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = "abort"
