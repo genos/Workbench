@@ -6,7 +6,7 @@ use rayon::prelude::*;
 #[derive(Debug, Parser)]
 #[command(version, about, long_about = None)]
 struct Args {
-    /// # Of runs to perform
+    /// Number of runs to perform
     #[arg(long, short, default_value_t = 1<<20)]
     num_runs: usize,
     /// Chunk size for processing
@@ -15,7 +15,7 @@ struct Args {
     /// Length of a single run
     #[arg(long, short, default_value_t = 1024)]
     length: u16,
-    /// PRNG Seed
+    /// PRNG seed
     #[arg(long, short, default_value_t = 1729)]
     seed: u64,
 }
