@@ -28,7 +28,7 @@ instance Functor FS where
     fmap f (Dir x ys) = Dir x (map f ys)
 
 instance F.Foldable FS where
-    foldMap = T.foldMapDefault
+  foldMap = T.foldMapDefault
 
 instance T.Traversable FS where
     sequenceA (File x) = pure $ File x

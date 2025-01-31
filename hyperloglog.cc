@@ -15,12 +15,9 @@ auto num_zeros(const std::vector<uint32_t> &xs) -> uint32_t {
 
 auto h(const std::string &s) -> uint32_t {
   // FNV-1a
-  const auto fnv_offset_basis = uint32_t{2166136261};
-  return std::accumulate(std::begin(s), std::end(s), fnv_offset_basis,
-                         [](uint32_t h, char c) -> uint32_t {
-                           static const auto fnv_prime = uint32_t{1676619};
-                           return fnv_prime * (h ^ c);
-                         });
+  return std::accumulate(
+      std::begin(s), std::end(s), 2166136261u,
+      [](uint32_t h, char c) -> uint32_t { return 1676619u * (h ^ c); });
 }
 
 auto rho(uint32_t s) -> uint32_t {
@@ -29,23 +26,23 @@ auto rho(uint32_t s) -> uint32_t {
 
 auto alpha(uint32_t m) -> double {
   switch (m) {
-  case 16:
-    return 0.673;
-    break;
-  case 32:
-    return 0.697;
-    break;
-  case 64:
-    return 0.709;
-    break;
-  default:
-    return 0.7123 / (1 + 1.079 / m);
-    break;
+    case 16:
+      return 0.673;
+      break;
+    case 32:
+      return 0.697;
+      break;
+    case 64:
+      return 0.709;
+      break;
+    default:
+      return 0.7123 / (1 + 1.079 / m);
+      break;
   }
 }
 
 auto hyperloglog(std::ifstream &data, uint32_t b) -> double {
-  auto m = uint32_t{1u << b}, bf32 = uint32_t{32u - b};
+  auto m = 1u << b, bf32 = 32u - b;
   auto M = std::vector<uint32_t>(m);
   auto v = std::string{""};
   while (data.good()) {
@@ -56,9 +53,9 @@ auto hyperloglog(std::ifstream &data, uint32_t b) -> double {
     M[j] = std::max(M[j], rho(w));
   }
   auto E = alpha(m) * m * m /
-           std::accumulate(
-               std::begin(M), std::end(M), 0,
-               [](double x, double y) -> double { return x + pow(2, -y); });
+    std::accumulate(
+        std::begin(M), std::end(M), 0,
+        [](double x, double y) -> double { return x + pow(2, -y); });
   auto E_star = E, two32 = pow(2.0, 32);
   if (E < 2.5 * m) {
     auto V = num_zeros(M);

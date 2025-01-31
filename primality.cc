@@ -4,23 +4,23 @@
 using number = uintmax_t;
 
 // square root computation, using binary search
-template <number num, number begin = 0, number end = num> class sqrt {
+template <number num, number begin = 0, number end = num> class Sqrt {
 private:
   const static number mid = (begin + end) / 2;
   const static number midsqr = mid * mid;
 
 public:
-  const static number res = sqrt < num, (midsqr < num) ? mid + 1 : begin,
+  const static number res = Sqrt < num, (midsqr < num) ? mid + 1 : begin,
                       (midsqr < num) ? end : mid > ::res;
 };
 
 // specialization for base case
-template <number num, number lim> struct sqrt<num, lim, lim> {
+template <number num, number lim> struct Sqrt<num, lim, lim> {
   const static number res = lim;
 };
 
 // check for divisors
-template <number num, number begin = 2, number end = sqrt<num>::res>
+template <number num, number begin = 2, number end = Sqrt<num>::res>
 struct has_any_divs {
   const static bool res =
       !(num % begin) || has_any_divs<num, begin + 1, end>::res;
