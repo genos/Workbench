@@ -41,14 +41,14 @@ pub fn interpret(e: &Expr, x: f64, y: f64) -> f64 {
 
 pub fn build(rng: &mut impl Rng, depth: u32) -> Expr {
     if depth == 0 {
-        if rng.gen() {
+        if rng.random() {
             Expr::X
         } else {
             Expr::Y
         }
     } else {
         let d = depth - 1;
-        match rng.gen_range(0..5) {
+        match rng.random_range(0..5) {
             0 => Expr::SinPi(build(rng, d).into()),
             1 => Expr::CosPi(build(rng, d).into()),
             2 => Expr::Mul(Mul(build(rng, d), build(rng, d)).into()),

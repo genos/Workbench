@@ -158,14 +158,14 @@ pub fn parse(input: &str) -> Expr {
 
 pub fn build(rng: &mut impl Rng, depth: u64) -> Expr {
     if depth == 0 {
-        if rng.gen() {
+        if rng.random() {
             x()
         } else {
             y()
         }
     } else {
         let d = depth - 1;
-        match rng.gen_range(0..5) {
+        match rng.random_range(0..5) {
             0 => sin_pi(build(rng, d)),
             1 => cos_pi(build(rng, d)),
             2 => mul(build(rng, d), build(rng, d)),

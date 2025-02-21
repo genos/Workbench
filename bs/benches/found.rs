@@ -3,10 +3,10 @@ use criterion::{black_box, criterion_group, criterion_main, BenchmarkId, Criteri
 use rand::Rng;
 
 fn setup(size: usize) -> (u64, Vec<u64>) {
-    let mut rng = rand::thread_rng();
-    let mut xs = (0..size).map(|_| rng.gen()).collect::<Vec<_>>();
+    let mut rng = rand::rng();
+    let mut xs = (0..size).map(|_| rng.random()).collect::<Vec<_>>();
     xs.sort();
-    let i = rng.gen_range(0..size);
+    let i = rng.random_range(0..size);
     let n = xs[i];
     (n, xs)
 }
@@ -17,9 +17,11 @@ fn found(c: &mut Criterion) {
         let (n, xs) = setup(size);
         let ys = xs.clone();
         let zs = ys.clone();
-        group.bench_with_input(BenchmarkId::new("our binary", size), &(n, xs), |b, (n, xs)| {
-            b.iter(|| black_box(binary_search(n, xs)))
-        });
+        group.bench_with_input(
+            BenchmarkId::new("our binary", size),
+            &(n, xs),
+            |b, (n, xs)| b.iter(|| black_box(binary_search(n, xs))),
+        );
         group.bench_with_input(
             BenchmarkId::new("lib linear", size),
             &(n, ys),

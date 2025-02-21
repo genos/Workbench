@@ -14,7 +14,9 @@ fn view(app: &App, frame: Frame) {
     ];
     let mut p = {
         // random point inside triangle https://stackoverflow.com/questions/19654251
-        let [a, b, c] = points[0..3] else { unreachable!() };
+        let [a, b, c] = points[0..3] else {
+            unreachable!()
+        };
         let (r1, r2): (f32, f32) = (random(), random());
         (1.0 - r1.sqrt()) * a + (r1.sqrt() * (1.0 - r2)) * b + (r1.sqrt() * r2) * c
     };

@@ -85,7 +85,7 @@ struct Args {
 fn main() {
     let args = Args::parse();
     let mut rng = SmallRng::seed_from_u64(args.seed);
-    let x = rng.gen();
-    let y = rng.gen();
+    let x = rng.random();
+    let y = rng.random();
     println!("{}", args.method.run(&mut rng, args.depth, x, y));
 }

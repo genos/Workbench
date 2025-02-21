@@ -24,7 +24,7 @@ fn single_run(length: u16, seed: u64) -> f64 {
     let mut rng = SmallRng::seed_from_u64(seed);
     let (mut a, mut b) = (1f64, 1f64);
     for _ in 0..length {
-        let t = a + (if rng.gen() { 1.0 } else { -1.0 }) * b;
+        let t = a + (if rng.random() { 1.0 } else { -1.0 }) * b;
         a = b;
         b = t;
     }

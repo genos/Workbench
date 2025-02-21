@@ -24,14 +24,14 @@ impl ExprPool {
 
     fn build(&mut self, rng: &mut impl Rng, depth: u32) {
         if depth == 0 {
-            if rng.gen() {
+            if rng.random() {
                 self.push(Expr::X);
             } else {
                 self.push(Expr::Y);
             }
         } else {
             let d = depth - 1;
-            match rng.gen_range(0..5) {
+            match rng.random_range(0..5) {
                 0 => {
                     self.build(rng, d);
                     self.push(Expr::SinPi);

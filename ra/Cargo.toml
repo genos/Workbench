@@ -1,16 +1,16 @@
 [package]
 name = "ra"
-version = "0.1.0"
-edition = "2021"
+version = "0.2.0"
+edition = "2024"
 
 [dependencies]
-clap = { version = "4.5.21", features = ["derive"] }
+clap = { version = "4.5.30", features = ["derive"] }
 image = "0.25.5"
 peg = "0.8.4"
-rand = "0.8.5"
+rand = "0.9.0"
 
 [dev-dependencies]
-proptest = "1.5.0"
+proptest = "1.6.0"
 
 [profile.release]
 codegen-units = 1
