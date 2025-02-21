@@ -1,11 +1,12 @@
 use std::cmp::Ordering;
 
-/// Searches the sorted `xs` for the given element `x`.
+/// Searches the sorted xs for the given element x.
 ///
 /// # Errors
-///     If `x` isn't found, returns the index where it should be inserted.
+///
+/// If x isn't found, returns the index where it should be inserted.
 pub fn binary_search<T: Ord>(x: &T, xs: &[T]) -> Result<usize, usize> {
-    if let [] = xs {
+    if xs.is_empty() {
         Err(0)
     } else {
         let i = xs.len() >> 1;

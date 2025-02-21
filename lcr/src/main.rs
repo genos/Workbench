@@ -96,7 +96,7 @@ impl Game {
                 _ => 3,
             };
             for _ in 0..num_dice {
-                match self.rng.gen_range(0..=4) {
+                match self.rng.random_range(0..=4) {
                     0 => {
                         print!("L");
                         self.players[t] = self.players[t].saturating_sub(1);

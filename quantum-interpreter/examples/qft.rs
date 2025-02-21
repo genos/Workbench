@@ -1,6 +1,6 @@
 use quantum_interpreter::{Gate, Instruction, Machine, Program};
 
-fn _bit_rev(qs: &[usize]) -> Vec<Instruction> {
+fn bit_rev(qs: &[usize]) -> Vec<Instruction> {
     let n = qs.len() / 2;
     qs.iter()
         .zip(qs.iter().rev())
@@ -11,14 +11,14 @@ fn _bit_rev(qs: &[usize]) -> Vec<Instruction> {
         })
         .collect()
 }
-fn _qft(qs: &[usize]) -> Vec<Instruction> {
+fn qft_helper(qs: &[usize]) -> Vec<Instruction> {
     match qs.split_first() {
         None => vec![],
         Some((h, [])) => vec![Instruction::Gate {
             gate: Gate::H,
             qubits: vec![*h],
         }],
-        Some((h, ts)) => _qft(ts)
+        Some((h, ts)) => qft_helper(ts)
             .into_iter()
             .chain(ts.iter().enumerate().map(|(i, t)| {
                 let angle = 2f64.powi(i32::try_from(ts.len() - i).expect("Should be small enough"));
@@ -36,8 +36,8 @@ fn _qft(qs: &[usize]) -> Vec<Instruction> {
 }
 
 fn qft(qubits: &[usize]) -> Program {
-    let mut instructions = _qft(qubits);
-    instructions.append(&mut _bit_rev(qubits));
+    let mut instructions = qft_helper(qubits);
+    instructions.append(&mut bit_rev(qubits));
     instructions.push(Instruction::Measure);
     Program { instructions }
 }

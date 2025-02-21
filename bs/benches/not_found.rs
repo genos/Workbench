@@ -3,11 +3,11 @@ use criterion::{black_box, criterion_group, criterion_main, BenchmarkId, Criteri
 use rand::Rng;
 
 fn setup(size: usize) -> (u32, Vec<u32>) {
-    let mut rng = rand::thread_rng();
-    let mut xs = (0..size).map(|_| rng.gen()).collect::<Vec<_>>();
+    let mut rng = rand::rng();
+    let mut xs = (0..size).map(|_| rng.random()).collect::<Vec<_>>();
     xs.sort();
     loop {
-        let n = rng.gen::<u32>();
+        let n = rng.random::<u32>();
         if !xs.contains(&n) {
             return (n, xs);
         }

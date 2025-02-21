@@ -1,12 +1,12 @@
 [package]
 name = "lcr"
-version = "0.1.0"
-edition = "2021"
+version = "0.2.0"
+edition = "2024"
 
 [dependencies]
-clap = { version = "4.5.26", features = ["derive"] }
-rand = { version = "0.8.5", features = ["small_rng"] }
-tabled = { version = "0.17.0", features = ["ansi"] }
+clap = { version = "4.5.30", features = ["derive"] }
+rand = "0.9.0"
+tabled = { version = "0.18.0", features = ["ansi"] }
 
 [profile.dev]
 debug = 0

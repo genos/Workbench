@@ -94,7 +94,7 @@ impl Machine {
     }
 
     fn sample(&mut self) -> usize {
-        let mut r = self.rng.gen::<f64>();
+        let mut r = self.rng.random::<f64>();
         for (i, psi) in self.state.iter().enumerate() {
             r -= psi.norm_sqr();
             if r < 0.0 {
