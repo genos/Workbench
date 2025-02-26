@@ -2,7 +2,7 @@ use bs::binary_search;
 use criterion::{black_box, criterion_group, criterion_main, BenchmarkId, Criterion};
 use rand::Rng;
 
-fn setup(size: usize) -> (u64, Vec<u64>) {
+fn setup(size: usize) -> (u32, Vec<u32>) {
     let mut rng = rand::rng();
     let mut xs = (0..size).map(|_| rng.random()).collect::<Vec<_>>();
     xs.sort_unstable();
