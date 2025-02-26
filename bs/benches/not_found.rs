@@ -5,7 +5,7 @@ use rand::Rng;
 fn setup(size: usize) -> (u32, Vec<u32>) {
     let mut rng = rand::rng();
     let mut xs = (0..size).map(|_| rng.random()).collect::<Vec<_>>();
-    xs.sort();
+    xs.sort_unstable();
     loop {
         let n = rng.random::<u32>();
         if !xs.contains(&n) {

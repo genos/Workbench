@@ -47,7 +47,7 @@ mod tests {
     fn item_in_sorted_vec() -> impl Strategy<Value = (u32, Vec<u32>)> {
         prop::collection::vec(u32::MIN..=u32::MAX, 1..1000)
             .prop_flat_map(|mut xs| {
-                xs.sort();
+                xs.sort_unstable();
                 let len = xs.len();
                 (0..len, Just(xs))
             })
@@ -59,7 +59,7 @@ mod tests {
 
     fn item_not_in_sorted_vec() -> impl Strategy<Value = (u32, Vec<u32>)> {
         prop::collection::vec(u32::MIN..=u32::MAX, 0..1000).prop_flat_map(|mut xs| {
-            xs.sort();
+            xs.sort_unstable();
             let ys = xs.clone();
             let n = (u32::MIN..=u32::MAX).prop_filter("filter out", move |k| !ys.contains(k));
             (n, Just(xs))

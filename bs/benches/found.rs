@@ -5,7 +5,7 @@ use rand::Rng;
 fn setup(size: usize) -> (u64, Vec<u64>) {
     let mut rng = rand::rng();
     let mut xs = (0..size).map(|_| rng.random()).collect::<Vec<_>>();
-    xs.sort();
+    xs.sort_unstable();
     let i = rng.random_range(0..size);
     let n = xs[i];
     (n, xs)
