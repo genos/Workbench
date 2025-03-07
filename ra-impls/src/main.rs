@@ -55,9 +55,8 @@ mod test {
                         fn [<$m1:lower _equiv_ $m2:lower>](
                             seed: u64, depth in 0u32..=20, x in 0.0..=1.0, y in 0.0..=1.0
                         ) {
-                            let rng = SmallRng::seed_from_u64(seed);
-                            let z1 = crate::Method::$m1.run(&mut rng.clone(), depth, x, y);
-                            let z2 = crate::Method::$m2.run(&mut rng.clone(), depth, x, y);
+                            let z1 = crate::Method::$m1.run(&mut SmallRng::seed_from_u64(seed), depth, x, y);
+                            let z2 = crate::Method::$m2.run(&mut SmallRng::seed_from_u64(seed), depth, x, y);
                             prop_assert!((z1 - z2).abs() < f64::EPSILON);
                         }
                     }
