@@ -1,0 +1,13 @@
+cabal-version: 3.8
+name: fractran
+version: 0.1.0.0
+synopsis: https://raganwald.com/2020/05/03/fractran.html
+license: MIT
+author: Graham Enos
+maintainer: graham.enos@gmail.com
+
+executable fractran
+  ghc-options: -Wall
+  main-is: Main.hs
+  build-depends: base ^>=4.20.0.0
+  default-language: GHC2024
