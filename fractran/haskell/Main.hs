@@ -1,6 +1,7 @@
 module Main where
 
-import Data.Maybe (listToMaybe, mapMaybe)
+import Data.Foldable (traverse_)
+import Data.Maybe (fromMaybe, listToMaybe, mapMaybe)
 import Data.Ratio (denominator, numerator, (%))
 
 data FRACTRAN a = FT
@@ -15,16 +16,14 @@ firstJust = (listToMaybe .) . mapMaybe
 eval :: FRACTRAN a -> Integer -> a
 eval (FT fs s f) = f . run [] . s
   where
-    run ks k = case firstJust (step k) fs of
-        Nothing -> ks
-        Just k' -> run (k' : ks) k'
+    run ks k = maybe ks (run =<< (: ks)) $ firstJust (step k) fs
     step a b =
         let ab = (a % 1) * b
             n = numerator ab
             d = denominator ab
          in if d == 1 then Just n else Nothing
 
-iLog2 :: Integer -> Maybe Integer
+iLog2 :: (Integral a) => a -> Maybe Word
 iLog2 = go 0
   where
     go l n
@@ -32,7 +31,7 @@ iLog2 = go 0
         | odd n || n < 1 = Nothing
         | otherwise = go (succ l) (n `div` 2)
 
-fib :: FRACTRAN (Maybe Integer)
+fib :: FRACTRAN (Maybe Word)
 fib =
     FT
         { _fractions = [17 % 65, 133 % 34, 17 % 19, 23 % 17, 2233 % 69, 23 % 29, 31 % 23, 74 % 341, 31 % 37, 41 % 31, 129 % 287, 41 % 43, 13 % 41, 1 % 13, 1 % 3]
@@ -40,7 +39,7 @@ fib =
         , _finish = firstJust iLog2
         }
 
-collatz :: FRACTRAN [Integer]
+collatz :: FRACTRAN [Word]
 collatz =
     FT
         { _fractions = [165 % 14, 11 % 63, 38 % 21, 13 % 7, 34 % 325, 1 % 13, 184 % 95, 1 % 19, 7 % 11, 13 % 17, 19 % 23, 1575 % 4]
@@ -50,5 +49,5 @@ collatz =
 
 main :: IO ()
 main = do
-    print . mapMaybe (eval fib) $ [1..10]
+    traverse_ (print . fromMaybe 0 . eval fib) [1 .. 15]
     print $ eval collatz 7

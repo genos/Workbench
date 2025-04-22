@@ -59,7 +59,7 @@ fn collatz(i: u32) -> impl Iterator<Item = u64> {
 }
 
 fn main() {
-    for i in 1..=10 {
+    for i in 1..=15 {
         println!("Fib({}) = {}", i, fib(i));
     }
     println!("Collatz sequence for 7:");
