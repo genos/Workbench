@@ -49,5 +49,5 @@ collatz =
 
 main :: IO ()
 main = do
-    traverse_ (print . fromMaybe 0 . eval fib) [1 .. 15]
+    traverse_ (print . fromMaybe 0 . eval fib) [1 .. 20]
     print $ eval collatz 7

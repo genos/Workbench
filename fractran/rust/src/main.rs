@@ -80,7 +80,7 @@ fn collatz(i: u32) -> Vec<u32> {
 }
 
 fn main() {
-    for i in 1..=15 {
+    for i in 1..=20 {
         println!("Fib({}) = {}", i, fib(i));
     }
     println!("Collatz sequence for 7:");
