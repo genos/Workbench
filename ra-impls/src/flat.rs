@@ -77,7 +77,7 @@ pub fn interpret(pool: &ExprPool, x: f64, y: f64) -> f64 {
             Expr::SinPi(e) => f64::sin(PI * state[e.0 as usize]),
             Expr::CosPi(e) => f64::cos(PI * state[e.0 as usize]),
             Expr::Mul(e1, e2) => state[e1.0 as usize] * state[e2.0 as usize],
-            Expr::Avg(e1, e2) => (state[e1.0 as usize] + state[e2.0 as usize]) / 2.0,
+            Expr::Avg(e1, e2) => f64::midpoint(state[e1.0 as usize], state[e2.0 as usize]),
             Expr::Thresh(e1, e2, e3, e4) => {
                 if state[e1.0 as usize] < state[e2.0 as usize] {
                     state[e3.0 as usize]

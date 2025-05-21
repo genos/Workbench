@@ -86,7 +86,7 @@ pub fn interpret(pool: &ExprPool, x: f64, y: f64) -> f64 {
             Expr::Avg => {
                 let b = stack.pop().expect("Empty stack");
                 let a = stack.pop().expect("Empty stack");
-                stack.push((a + b) / 2.0);
+                stack.push(f64::midpoint(a, b));
             }
             Expr::Thresh => {
                 let d = stack.pop().expect("Empty stack");

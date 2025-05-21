@@ -2,7 +2,7 @@
 #![warn(clippy::pedantic)]
 #![warn(clippy::nursery)]
 use clap::{Parser, ValueEnum};
-use rand::{rngs::SmallRng, Rng, SeedableRng};
+use rand::{Rng, SeedableRng, rngs::SmallRng};
 use std::fmt;
 
 mod basic;

@@ -19,7 +19,7 @@ pub fn interpret(e: &Expr, x: f64, y: f64) -> f64 {
         Expr::SinPi(e) => f64::sin(PI * interpret(e, x, y)),
         Expr::CosPi(e) => f64::cos(PI * interpret(e, x, y)),
         Expr::Mul(e1, e2) => interpret(e1, x, y) * interpret(e2, x, y),
-        Expr::Avg(e1, e2) => (interpret(e1, x, y) + interpret(e2, x, y)) / 2.0,
+        Expr::Avg(e1, e2) => f64::midpoint(interpret(e1, x, y), interpret(e2, x, y)),
         Expr::Thresh(e1, e2, e3, e4) => {
             if interpret(e1, x, y) < interpret(e2, x, y) {
                 interpret(e3, x, y)
@@ -32,11 +32,7 @@ pub fn interpret(e: &Expr, x: f64, y: f64) -> f64 {
 
 pub fn build(rng: &mut impl Rng, depth: u32) -> Expr {
     if depth == 0 {
-        if rng.random() {
-            Expr::X
-        } else {
-            Expr::Y
-        }
+        if rng.random() { Expr::X } else { Expr::Y }
     } else {
         let d = depth - 1;
         match rng.random_range(0..5) {
