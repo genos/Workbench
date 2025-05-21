@@ -1,13 +1,13 @@
 [package]
 name = "ra"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2024"
 
 [dependencies]
-clap = { version = "4.5.30", features = ["derive"] }
-image = "0.25.5"
-peg = "0.8.4"
-rand = "0.9.0"
+clap = { version = "4.5.38", features = ["derive"] }
+image = "0.25.6"
+peg = "0.8.5"
+rand = "0.9.1"
 
 [dev-dependencies]
 proptest = "1.6.0"

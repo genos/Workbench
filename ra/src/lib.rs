@@ -71,7 +71,7 @@ pub struct Avg {
 
 impl Eval for Avg {
     fn eval(&self, x: f64, y: f64) -> f64 {
-        (self.e1.eval(x, y) + self.e2.eval(x, y)) / 2.0
+        f64::midpoint(self.e1.eval(x, y), self.e2.eval(x, y))
     }
 }
 
