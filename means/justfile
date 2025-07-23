@@ -1,0 +1,57 @@
+# List all recipes
+default:
+  @just --list
+
+# Clean up
+clean:
+  cargo clean
+  rm data.csv means.{png,svg}
+
+# Run unit tests
+test:
+  cargo test
+
+# Run the benchmarks & collate the results
+bench:
+  cargo bench
+  qsv cat rows --output data.csv $(fd --no-ignore --extension=csv | rg 'base')
+
+# Create plots
+plot:
+  #!/usr/bin/env -S uv run --script
+  # /// script
+  # requires-python=">=3.13"
+  # dependencies=["pandas","seaborn"]
+  # ///
+  from math import log10
+  import matplotlib.pyplot as plt
+  import pandas as pd
+  import seaborn as sns
+  sns.set_theme(
+      context="talk",
+      style="white",
+      palette="Paired",
+      rc={
+          "axes.facecolor": "#fafafa",
+          "axes.spines.top": False,
+          "axes.spines.right": False,
+          "figure.facecolor": "#fafafa",
+      },
+      font="Equity B",
+  )
+  df = pd.read_csv("./data.csv")
+  df["Version"] = pd.Categorical(
+      df["function"],
+      ["Seq", "Par"] +
+      [f"{m}Simd{n}" for m in ["Seq", "Par"] for n in [8, 16, 32, 64]]
+  )
+  df["# Floats"] = df["value"]
+  df["Time (ns)"] = df["sample_measured_value"] / df["iteration_count"]
+  fig, ax = plt.subplots(figsize=(16, 9), layout="constrained")
+  sns.lineplot(
+    df, x="# Floats", y="Time (ns)", hue="Version", marker="o", ax=ax
+  )
+  plt.xscale("log")
+  plt.yscale("log")
+  plt.savefig("means.png", dpi=300)
+  plt.savefig("means.svg")
