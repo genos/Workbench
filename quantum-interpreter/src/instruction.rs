@@ -1,7 +1,6 @@
 use crate::matrices::{Matrix, CNOT, H, I, SWAP};
-use num_complex::Complex64;
-use std::str::FromStr;
-use std::sync::Arc;
+use faer::c64;
+use std::{str::FromStr, sync::Arc};
 
 /// A quantum program to interpret
 pub struct Program {
@@ -58,8 +57,8 @@ impl Gate {
             Self::H => H.clone(),
             Self::CNot => CNOT.clone(),
             Self::Cphase(angle) => {
-                let mut u = Matrix::eye(4);
-                u[[3, 3]] = Complex64::cis(*angle);
+                let mut u = Matrix::identity(4, 4);
+                u[(3, 3)] = c64::cis(*angle);
                 Arc::new(u)
             }
         }

@@ -9,13 +9,13 @@
 #![warn(clippy::nursery)]
 #![deny(missing_docs)]
 #![deny(unsafe_code)]
-use rand::{rngs::StdRng, Rng, SeedableRng};
+use faer::stats::prelude::{Rng, SeedableRng, StdRng};
 
 mod instruction;
 mod matrices;
 
 pub use crate::instruction::{Gate, Instruction, Program};
-use crate::matrices::{kronecker_expt, lift, Matrix, Vector, I, SWAP};
+use crate::matrices::{I, Matrix, SWAP, Vector, kronecker_expt, lift};
 
 /// A quantum interpreter.
 pub struct Machine {
@@ -70,12 +70,12 @@ impl Machine {
             return Err(format!("This machine only has {} qubits.", self.num_qubits));
         }
         if let [q] = qs {
-            self.state = lift(u, *q, self.num_qubits).dot(&self.state);
+            self.state = lift(u, *q, self.num_qubits) * &self.state;
         } else {
             let trans_to_op = |t: &[usize]| {
                 t.iter()
                     .fold(kronecker_expt(&I, self.num_qubits), |acc, i| {
-                        acc.dot(&lift(&SWAP, *i, self.num_qubits))
+                        acc * lift(&SWAP, *i, self.num_qubits)
                     })
             };
             let from_space = qs
@@ -87,14 +87,14 @@ impl Machine {
             let trans = transpositions_to_adjacents(&permutation_to_transpositions(&from_space));
             let to_from = trans_to_op(&trans);
             let from_to = trans_to_op(&trans.into_iter().rev().collect::<Vec<_>>());
-            let u = to_from.dot(&lift(u, 0, self.num_qubits).dot(&from_to));
-            self.state = u.dot(&self.state);
+            let u = to_from * lift(u, 0, self.num_qubits) * from_to;
+            self.state = u * &self.state;
         }
         Ok(())
     }
 
     fn sample(&mut self) -> usize {
-        let mut r = self.rng.random::<f64>();
+        let mut r = self.rng.r#gen::<f64>();
         for (i, psi) in self.state.iter().enumerate() {
             r -= psi.norm_sqr();
             if r < 0.0 {
