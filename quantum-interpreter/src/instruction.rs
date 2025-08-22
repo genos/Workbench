@@ -1,4 +1,4 @@
-use crate::matrices::{Matrix, CNOT, H, I, SWAP};
+use crate::matrices::{CNOT, H, I, Matrix, SWAP};
 use faer::c64;
 use std::{str::FromStr, sync::Arc};
 
