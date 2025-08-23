@@ -1,41 +1,43 @@
-use quantum_interpreter::{Gate, Instruction, Machine, Program};
+use quantum_interpreter::{Gate, Instruction, Kind, Machine, Program};
 
-fn bit_rev(qs: &[usize]) -> Vec<Instruction> {
+fn bit_rev(qs: &[u32]) -> Vec<Instruction> {
     let n = qs.len() / 2;
     qs.iter()
         .zip(qs.iter().rev())
         .take(n)
-        .map(|(&a, &b)| Instruction::Gate {
-            gate: Gate::Swap,
-            qubits: vec![a, b],
+        .map(|(&a, &b)| {
+            Instruction::Gate(Gate::TwoQ {
+                kind: Kind::Swap,
+                qubits: (a, b),
+            })
         })
         .collect()
 }
-fn qft_helper(qs: &[usize]) -> Vec<Instruction> {
+fn qft_helper(qs: &[u32]) -> Vec<Instruction> {
     match qs.split_first() {
         None => vec![],
-        Some((h, [])) => vec![Instruction::Gate {
-            gate: Gate::H,
-            qubits: vec![*h],
-        }],
+        Some((h, [])) => vec![Instruction::Gate(Gate::OneQ {
+            kind: Kind::H,
+            qubit: *h,
+        })],
         Some((h, ts)) => qft_helper(ts)
             .into_iter()
             .chain(ts.iter().enumerate().map(|(i, t)| {
                 let angle = 2f64.powi(i32::try_from(ts.len() - i).expect("Should be small enough"));
-                Instruction::Gate {
-                    gate: Gate::Cphase(angle),
-                    qubits: vec![*h, *t],
-                }
+                Instruction::Gate(Gate::TwoQ {
+                    kind: Kind::Cphase(angle),
+                    qubits: (*h, *t),
+                })
             }))
-            .chain(std::iter::once(Instruction::Gate {
-                gate: Gate::H,
-                qubits: vec![*h],
-            }))
+            .chain(std::iter::once(Instruction::Gate(Gate::OneQ {
+                kind: Kind::H,
+                qubit: *h,
+            })))
             .collect(),
     }
 }
 
-fn qft(qubits: &[usize]) -> Program {
+fn qft(qubits: &[u32]) -> Program {
     let mut instructions = qft_helper(qubits);
     instructions.append(&mut bit_rev(qubits));
     instructions.push(Instruction::Measure);
@@ -43,11 +45,11 @@ fn qft(qubits: &[usize]) -> Program {
 }
 
 fn main() -> Result<(), String> {
-    let mut machine = Machine::new(4, 2_718_281_828)?;
+    let mut machine = Machine::new(4, 2_718_281_828);
     let prog = qft(&[0, 1, 2, 3]);
     let mut counts = vec![0; 16];
     for _ in 0..1000 {
-        counts[machine.run(&prog)?] += 1;
+        counts[machine.run(&prog)? as usize] += 1;
     }
     println!("{counts:?}");
     Ok(())

@@ -18,14 +18,27 @@ impl FromStr for Program {
 /// A quantum instruction
 pub enum Instruction {
     /// A gate instruction
-    Gate {
-        /// The kind of gate involved
-        gate: Gate,
-        /// The qubits to which this gate applies
-        qubits: Vec<usize>,
-    },
+    Gate(Gate),
     /// Measure all qubits
     Measure,
+}
+
+/// A gate instruction
+pub enum Gate {
+    /// A one-qubit gate instruction
+    OneQ {
+        /// The kind of gate involved
+        kind: Kind,
+        /// The qubit to which this gate applies
+        qubit: u32,
+    },
+    /// A two-qubit gate instruction
+    TwoQ {
+        /// The kind of gate involved
+        kind: Kind,
+        /// The qubit to which this gate applies
+        qubits: (u32, u32),
+    },
 }
 
 impl FromStr for Instruction {
@@ -36,7 +49,7 @@ impl FromStr for Instruction {
 }
 
 /// The gates supported by our quantum interpreter
-pub enum Gate {
+pub enum Kind {
     /// The I gate
     I,
     /// The SWAP gate
@@ -49,7 +62,7 @@ pub enum Gate {
     Cphase(f64),
 }
 
-impl Gate {
+impl Kind {
     pub(crate) fn to_matrix(&self) -> Arc<Matrix> {
         match self {
             Self::I => I.clone(),
@@ -73,23 +86,23 @@ peg::parser! {
         rule measure() -> Instruction = "MEASURE" { Instruction::Measure }
         rule gate() -> Instruction = i() / swap() / h() / cnot() / cphase()
         rule i() -> Instruction =
-            "I" space() qubits:one_qubit()
-            { Instruction::Gate { gate: Gate::I, qubits } }
+            "I" space() qubit:one_qubit()
+            { Instruction::Gate(Gate::OneQ { kind: Kind::I, qubit }) }
         rule swap() -> Instruction =
             "SWAP" space() qubits:two_qubits()
-            { Instruction::Gate { gate: Gate::Swap, qubits } }
+            { Instruction::Gate(Gate::TwoQ { kind: Kind::Swap, qubits }) }
         rule h() -> Instruction =
-            "H" space() qubits:one_qubit()
-            { Instruction::Gate { gate: Gate::H, qubits } }
+            "H" space() qubit:one_qubit()
+            { Instruction::Gate(Gate::OneQ { kind: Kind::H, qubit }) }
         rule cnot() -> Instruction =
             "CNOT" space() qubits:two_qubits()
-            { Instruction::Gate { gate: Gate::CNot, qubits } }
+            { Instruction::Gate(Gate::TwoQ { kind: Kind::CNot, qubits }) }
         rule cphase() -> Instruction =
-            "CPHASE(" angle:float() ")" space() qubits:one_qubit()
-            { Instruction::Gate { gate: Gate::Cphase(angle), qubits } }
-        rule one_qubit() -> Vec<usize> = q:int() { vec![q] }
-        rule two_qubits() -> Vec<usize> = p:int() space() q:int() { vec![p, q] }
-        rule int() -> usize = i:$(['0'..='9']+) {? i.parse::<usize>().or(Err("int")) }
+            "CPHASE(" angle:float() ")" space() qubit:one_qubit()
+            { Instruction::Gate(Gate::OneQ{ kind: Kind::Cphase(angle), qubit }) }
+        rule one_qubit() -> u32 = q:int() { q }
+        rule two_qubits() -> (u32, u32) = p:int() space() q:int() { (p, q) }
+        rule int() -> u32 = i:$(['0'..='9']+) {? i.parse::<u32>().or(Err("int")) }
         rule float() -> f64 =
             f:$((['-']?['0'..='9']+)("." ['0'..='9']+)?)
             {? f.parse::<f64>().or(Err("float")) }
