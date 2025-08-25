@@ -43,7 +43,7 @@ impl Method {
 #[cfg(test)]
 mod test {
     use super::*;
-    use paste::paste;
+    use pastey::paste;
     use proptest::prelude::*;
 
     macro_rules! test_equiv {
