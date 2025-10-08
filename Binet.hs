@@ -13,7 +13,7 @@ instance Num Q5 where
     signum x@(Q5 p q)
         | p > 0 && q > 0 = 1
         | p < 0 && q < 0 = -1
-        | q > 0 = Q5 (signum (-p * p / q * q + 5)) 0
+        | q > 0 = Q5 (signum (-(p * p / q * q + 5))) 0
         | otherwise = negate . signum $ negate x
     abs x = x * signum x
     fromInteger n = Q5 (fromInteger n) 0

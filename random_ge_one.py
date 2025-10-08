@@ -37,7 +37,6 @@ def n_runs_average(n):
 
 # Main execution
 if __name__ == "__main__":
-
     try:
         print(n_runs_average(int(sys.argv[1])))
     except (IndexError, ValueError):

@@ -1,5 +1,3 @@
-{-# LANGUAGE BangPatterns #-}
-
 {-
  - rws.hs
  -

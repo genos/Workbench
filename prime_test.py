@@ -48,29 +48,12 @@ def primes(n):
 
 
 def erat3():
-    D = {9: 3, 25: 5}
     yield 2
     yield 3
     yield 5
-    MASK = (
-        1,
-        0,
-        1,
-        1,
-        0,
-        1,
-        1,
-        0,
-        1,
-        0,
-        0,
-        1,
-        1,
-        0,
-        0,
-    )
-    MODULOS = frozenset((1, 7, 11, 13, 17, 19, 23, 29))
-
+    D = {9: 3, 25: 5}
+    MASK = [1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0]
+    MODULOS = {1, 7, 11, 13, 17, 19, 23, 29}
     for q in it.compress(it.islice(it.count(7), 0, None, 2), it.cycle(MASK)):
         p = D.pop(q, None)
         if p is None:
@@ -84,7 +67,7 @@ def erat3():
 
 
 def new_prime(n):
-    return takewhile(lambda p: p < n, erat3())
+    return it.takewhile(lambda p: p < n, erat3())
 
 
 if __name__ == "__main__":

@@ -5,6 +5,7 @@ A simple feed-forward neural network, inspired by:
 - rolisz.ro/2013/04/18/neural-networks-in-python
 - mattmazur.com/2015/03/17/a-step-by-step-backpropagation-example/
 """
+
 from dataclasses import dataclass, field
 import numpy as np
 from numpy.typing import NDArray
@@ -45,15 +46,15 @@ class NeuralNetwork:
         # error checking
         assert np.ndim(self.shape) == 1, f"{self.shape} is not one dimensional"
         assert len(self.shape) > 2, f"{self.shape} too short; length should be > 2"
-        assert all(
-            isinstance(s, int) and s > 0 for s in self.shape
-        ), f"{self.shape} should contain only positive integers"
-        assert (
-            isinstance(self.learning_rate, float) and self.learning_rate > 0
-        ), f"{self.learning_rate} is not a positive real number"
-        assert (
-            isinstance(self.iterations, int) and self.iterations > 0
-        ), f"{self.iterations} is not a positive integer"
+        assert all(isinstance(s, int) and s > 0 for s in self.shape), (
+            f"{self.shape} should contain only positive integers"
+        )
+        assert isinstance(self.learning_rate, float) and self.learning_rate > 0, (
+            f"{self.learning_rate} is not a positive real number"
+        )
+        assert isinstance(self.iterations, int) and self.iterations > 0, (
+            f"{self.iterations} is not a positive integer"
+        )
         assert isinstance(self.seed, int), f"{self.seed} is not an integer"
         # initialize weights
         rng = np.random.default_rng(self.seed)
@@ -131,9 +132,9 @@ weights:
         X = np.asarray(X)
         # error checking
         assert np.ndim(X) <= 2, "input should be at most two dimensional"
-        assert (
-            X.shape[0 if np.ndim(X) == 1 else 1] == self.shape[0]
-        ), "input shape doesn't match"
+        assert X.shape[0 if np.ndim(X) == 1 else 1] == self.shape[0], (
+            "input shape doesn't match"
+        )
         # feed forward
         y_hat = X
         for w in self.weights:
