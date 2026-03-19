@@ -1,6 +1,6 @@
 #![feature(portable_simd)]
 use rayon::prelude::*;
-use std::simd::{LaneCount, Simd, SupportedLaneCount};
+use std::simd::Simd;
 
 #[must_use]
 pub fn seq(xs: &[f32]) -> f32 {
@@ -35,13 +35,10 @@ pub fn par(xs: &[f32]) -> f32 {
 }
 
 #[must_use]
-pub fn seq_simd<const N: usize>(xs: &[f32]) -> f32
-where
-    LaneCount<N>: SupportedLaneCount,
-{
+pub fn seq_simd<const N: usize>(xs: &[f32]) -> f32 {
     let chunks = xs.len() / N;
     let left_over = xs.len() - (xs.len() % N);
-    let (mut ns, mut mus) = (Simd::splat(0.0), Simd::splat(0.0));
+    let (mut ns, mut mus) = (Simd::<f32, N>::splat(0.0), Simd::<f32, N>::splat(0.0));
     for i in 0..chunks {
         ns += Simd::splat(1.0);
         let ys = Simd::from_slice(&xs[i * N..(i + 1) * N]);
@@ -60,16 +57,13 @@ where
 }
 
 #[must_use]
-pub fn par_simd<const N: usize>(xs: &[f32]) -> f32
-where
-    LaneCount<N>: SupportedLaneCount,
-{
+pub fn par_simd<const N: usize>(xs: &[f32]) -> f32 {
     let chunks = xs.len() / N;
     let left_over = xs.len() - (xs.len() % N);
     let (ns, mus) = (0..chunks)
         .into_par_iter()
         .fold(
-            || (Simd::splat(0.0), Simd::splat(0.0)),
+            || (Simd::<f32, N>::splat(0.0), Simd::<f32, N>::splat(0.0)),
             |(ns_old, mus_old), i| {
                 let ns = ns_old + Simd::splat(1.0);
                 let ys = Simd::from_slice(&xs[i * N..(i + 1) * N]);
