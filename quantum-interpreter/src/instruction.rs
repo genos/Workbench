@@ -1,6 +1,6 @@
 use crate::matrices::{CNOT, H, I, Matrix, SWAP};
 use faer::c64;
-use std::{str::FromStr, sync::Arc};
+use std::str::FromStr;
 
 /// A quantum program to interpret
 pub struct Program {
@@ -63,7 +63,7 @@ pub enum Kind {
 }
 
 impl Kind {
-    pub(crate) fn to_matrix(&self) -> Arc<Matrix> {
+    pub(crate) fn to_matrix(&self) -> Matrix {
         match self {
             Self::I => I.clone(),
             Self::Swap => SWAP.clone(),
@@ -72,7 +72,7 @@ impl Kind {
             Self::Cphase(angle) => {
                 let mut u = Matrix::identity(4, 4);
                 u[(3, 3)] = c64::cis(*angle);
-                Arc::new(u)
+                u
             }
         }
     }
@@ -102,10 +102,14 @@ peg::parser! {
             { Instruction::Gate(Gate::OneQ{ kind: Kind::Cphase(angle), qubit }) }
         rule one_qubit() -> u32 = q:int() { q }
         rule two_qubits() -> (u32, u32) = p:int() space() q:int() { (p, q) }
-        rule int() -> u32 = i:$(['0'..='9']+) {? i.parse::<u32>().or(Err("int")) }
+        rule int() -> u32 =
+            quiet!{ i:$(['0'..='9']+) {? i.parse().or(Err("int")) } } /
+            expected!("a valid integer")
         rule float() -> f64 =
-            f:$((['-']?['0'..='9']+)("." ['0'..='9']+)?)
-            {? f.parse::<f64>().or(Err("float")) }
+            quiet!{
+                f:$((['-']?['0'..='9']+)("." ['0'..='9']+)?)
+                {? f.parse().or(Err("Not a valid float")) }
+            } / expected!("a valid floating point value")
         rule space() = quiet!{[' ' | '\t']+}
     }
 }

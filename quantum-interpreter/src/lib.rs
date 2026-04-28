@@ -73,8 +73,7 @@ impl Machine {
         }
     }
 
-    fn apply_2q(&mut self, u: &Matrix, qs: (u32, u32)) -> Result<(), String> {
-        let (q1, q2) = qs;
+    fn apply_2q(&mut self, u: &Matrix, (q1, q2): (u32, u32)) -> Result<(), String> {
         if q1 >= self.num_qubits || q2 >= self.num_qubits {
             Err(format!("This machine only has {} qubits.", self.num_qubits))
         } else {
@@ -98,7 +97,7 @@ impl Machine {
     }
 
     fn sample(&mut self) -> u32 {
-        let mut r = self.rng.r#gen::<f64>();
+        let mut r = self.rng.random::<f64>();
         for (i, psi) in self.state.iter().enumerate() {
             r -= psi.norm_sqr();
             if r < 0.0 {

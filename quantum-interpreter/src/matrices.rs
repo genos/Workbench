@@ -1,33 +1,31 @@
 use faer::{Col, Mat, c64, linalg::kron::kron, mat};
-use std::sync::{Arc, LazyLock};
+use std::sync::LazyLock;
 
 pub type Matrix = Mat<c64>;
 pub type Vector = Col<c64>;
 
 const _0: c64 = c64::ZERO;
 const _1: c64 = c64::ONE;
-pub static I: LazyLock<Arc<Matrix>> = LazyLock::new(|| Matrix::identity(2, 2).into());
-pub static SWAP: LazyLock<Arc<Matrix>> = LazyLock::new(|| {
+pub static I: LazyLock<Matrix> = LazyLock::new(|| Matrix::identity(2, 2));
+pub static SWAP: LazyLock<Matrix> = LazyLock::new(|| {
     mat![
         [_1, _0, _0, _0],
         [_0, _0, _1, _0],
         [_0, _1, _0, _0],
         [_0, _0, _0, _1]
     ]
-    .into()
 });
-pub static H: LazyLock<Arc<Matrix>> = LazyLock::new(|| {
+pub static H: LazyLock<Matrix> = LazyLock::new(|| {
     let s = c64::from(std::f64::consts::FRAC_1_SQRT_2);
-    mat![[s, s], [s, -s]].into()
+    mat![[s, s], [s, -s]]
 });
-pub static CNOT: LazyLock<Arc<Matrix>> = LazyLock::new(|| {
+pub static CNOT: LazyLock<Matrix> = LazyLock::new(|| {
     mat![
         [_1, _0, _0, _0],
         [_0, _1, _0, _0],
         [_0, _0, _0, _1],
         [_0, _0, _1, _0]
     ]
-    .into()
 });
 
 pub fn kronecker_expt(u: &Matrix, exp: u32) -> Matrix {

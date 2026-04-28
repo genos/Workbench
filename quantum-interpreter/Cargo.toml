@@ -1,10 +1,10 @@
 [package]
 name = "quantum-interpreter"
-version = "0.5.0"
+version = "0.6.0"
 edition = "2024"
 
 [dependencies]
-faer = "0.22.6"
+faer = "0.24.0"
 peg = "0.8.5"
 
 [profile.dev]
