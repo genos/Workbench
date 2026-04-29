@@ -20,7 +20,10 @@ json:
 
 # Plot bench data
 plot:
-  #!/usr/bin/env python
+  #!/usr/bin/env -S uv run --script
+  # /// script
+  # dependencies = ["matplotlib", "pandas", "seaborn"]
+  # ///
   import json
   import matplotlib.pyplot as plt
   import pandas as pd
@@ -36,10 +39,6 @@ plot:
       context="talk",
       style="white",
       palette=["#02818a"],
-      rc={
-          "axes.facecolor": "#fafafa",
-          "figure.facecolor": "#fafafa",
-      },
       font="Equity B",
   )
   sns.catplot(df, alpha=0.75, x="Version", y="Time (s)")
