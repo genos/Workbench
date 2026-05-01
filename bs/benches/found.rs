@@ -1,9 +1,10 @@
 use bs::binary_search;
-use criterion::{black_box, criterion_group, criterion_main, BenchmarkId, Criterion};
-use rand::Rng;
+use criterion::{BenchmarkId, Criterion, criterion_group, criterion_main};
+use rand::{RngExt, SeedableRng, rngs::SmallRng};
+use std::hint::black_box;
 
 fn setup(size: usize) -> (u32, Vec<u32>) {
-    let mut rng = rand::rng();
+    let mut rng = SmallRng::seed_from_u64(1729);
     let mut xs = (0..size).map(|_| rng.random()).collect::<Vec<_>>();
     xs.sort_unstable();
     let i = rng.random_range(0..size);
@@ -13,7 +14,7 @@ fn setup(size: usize) -> (u32, Vec<u32>) {
 
 fn found(c: &mut Criterion) {
     let mut group = c.benchmark_group("found");
-    for size in [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024] {
+    for size in [64, 128, 256, 512, 1024, 2048, 4096] {
         let (n, xs) = setup(size);
         let ys = xs.clone();
         let zs = ys.clone();

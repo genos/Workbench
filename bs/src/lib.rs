@@ -1,5 +1,3 @@
-use std::cmp::Ordering;
-
 /// Searches the sorted xs for the given element x.
 ///
 /// # Errors
@@ -10,10 +8,10 @@ pub fn binary_search<T: Ord>(x: &T, xs: &[T]) -> Result<usize, usize> {
         Err(0)
     } else {
         let i = xs.len() >> 1;
-        match Ord::cmp(x, &xs[i]) {
-            Ordering::Less => binary_search(x, &xs[..i]),
-            Ordering::Equal => Ok(i),
-            Ordering::Greater => binary_search(x, &xs[i + 1..])
+        match x.cmp(&xs[i]) {
+            std::cmp::Ordering::Less => binary_search(x, &xs[..i]),
+            std::cmp::Ordering::Equal => Ok(i),
+            std::cmp::Ordering::Greater => binary_search(x, &xs[i + 1..])
                 .map(|j| j + i + 1)
                 .map_err(|j| j + i + 1),
         }
@@ -23,7 +21,7 @@ pub fn binary_search<T: Ord>(x: &T, xs: &[T]) -> Result<usize, usize> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use proptest::prelude::*;
+    use proptest::{collection::vec, prelude::*};
     use rstest::rstest;
 
     #[rstest]
@@ -45,7 +43,7 @@ mod tests {
     }
 
     fn item_in_sorted_vec() -> impl Strategy<Value = (u32, Vec<u32>)> {
-        prop::collection::vec(u32::MIN..=u32::MAX, 1..1000)
+        vec(u32::MIN..=u32::MAX, 1..1000)
             .prop_flat_map(|mut xs| {
                 xs.sort_unstable();
                 let len = xs.len();
@@ -58,7 +56,7 @@ mod tests {
     }
 
     fn item_not_in_sorted_vec() -> impl Strategy<Value = (u32, Vec<u32>)> {
-        prop::collection::vec(u32::MIN..=u32::MAX, 0..1000).prop_flat_map(|mut xs| {
+        vec(u32::MIN..=u32::MAX, 0..1000).prop_flat_map(|mut xs| {
             xs.sort_unstable();
             let ys = xs.clone();
             let n = (u32::MIN..=u32::MAX).prop_filter("filter out", move |k| !ys.contains(k));
