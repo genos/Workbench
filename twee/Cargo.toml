@@ -1,0 +1,16 @@
+[package]
+name = "twee"
+version = "0.1.0"
+edition = "2024"
+
+[profile.dev]
+debug = 0
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[dev-dependencies]
+proptest = "1.11.0"
+uuid = { version = "1.23.5", features = ["v4"] }
