@@ -1,5 +1,7 @@
 use std::collections::{HashMap, VecDeque};
 
+/// A tree node with a single datum and (potentially) multiple children.
+///
 /// Invariant: `Id`s are unique.
 #[derive(Debug)]
 pub struct Node<Id, T> {
@@ -19,7 +21,8 @@ impl<Id, T> Node<Id, T> {
     }
 }
 
-/// A preprocessed lookup for searching which lives no longer than the original immutable tree.
+/// A preprocessed lookup for searching for the _k_-th parent `Node` of a given `Id`; lives no
+/// longer than the original immutable tree.
 pub struct Tome<'a, Id, T>(HashMap<&'a Id, (&'a Node<Id, T>, Vec<&'a Id>)>);
 
 impl<'a, Id: Eq + std::hash::Hash, T> From<&'a Node<Id, T>> for Tome<'a, Id, T> {
@@ -57,15 +60,18 @@ impl<'a, Id: Eq + std::hash::Hash, T> From<&'a Node<Id, T>> for Tome<'a, Id, T> 
 }
 
 impl<'a, Id: Eq + std::hash::Hash, T> Tome<'a, Id, T> {
+    /// Find the `k`-th parent `Node` of the `Id`, if it exists.
     pub fn find(&self, id: &'a Id, k: usize) -> Option<&Node<Id, T>> {
         self.find_impl(id, k, (), |()| ()).map(|(n, ())| n)
     }
 
     #[cfg(test)]
+    /// Find, counting the number of calls it takes.
     fn find_count_calls(&self, id: &'a Id, k: usize) -> Option<(&Node<Id, T>, usize)> {
         self.find_impl(id, k, 0, |calls| calls.saturating_add(1))
     }
 
+    /// Find the `k`-th parent `Node` of the `Id`, if it exists, updating `metadata` along the way.
     fn find_impl<M>(
         &self,
         id: &'a Id,
