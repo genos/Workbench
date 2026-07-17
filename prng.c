@@ -18,6 +18,6 @@ int lehmer(int x) { return (x * G) % L; }
 int main(int argc, char *argv[]) {
     prng ps[] = {bbs, lcg, lehmer};
     prng p = ps[atoi(argv[1])];
-    int x = atoi(argv[2]), i;
+    int x = atoi(argv[2]), i = 0;
     LOOP
 }
