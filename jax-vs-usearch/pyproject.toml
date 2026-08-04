@@ -1,0 +1,29 @@
+[project]
+name = "jax-vs-usearch"
+version = "0.3.0"
+description = "Comparing jax & usearch for L2 nearest neighbor search."
+readme = "README.md"
+authors = [
+    { name = "Graham Enos", email = "graham.enos@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "jax>=0.11.0",
+    "usearch>=2.26.0",
+]
+
+[dependency-groups]
+dev = [
+    "pandas>=3.0.5",
+    "pyright>=1.1.411",
+    "pytest>=9.1.1",
+    "pytest-benchmark>=5.2.3",
+    "ruff>=0.16.1",
+    "seaborn>=0.13.2",
+    "ty>=0.0.66",
+    "typer>=0.27.1",
+]
+
+[build-system]
+requires = ["uv_build>=0.11.11,<0.12.0"]
+build-backend = "uv_build"
