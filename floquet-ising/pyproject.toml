@@ -1,0 +1,33 @@
+[project]
+name = "floquet-ising"
+version = "0.1.0"
+description = "Simulating 2D transverse-field Ising model"
+readme = "README.md"
+authors = [
+    { name = "Graham Enos", email = "graham.enos@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "bluequbit>=0.18.11b1",
+    "numpy>=2.5.2",
+    "pandas[parquet,performance]>=3.0.5",
+    "pydantic>=2.13.4",
+    "qiskit>=2.5.2",
+]
+
+[build-system]
+requires = ["uv_build>=0.12.5,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "jupyter>=1.1.1",
+    "marimo>=0.24.0",
+    "matplotlib>=3.11.1",
+    "pyprojroot>=0.3.0",
+    "pyright>=1.1.411",
+    "pytest>=9.1.1",
+    "ruff>=0.16.3",
+    "seaborn>=0.13.2",
+    "ty>=0.0.73",
+]
