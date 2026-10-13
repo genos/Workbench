@@ -1,33 +1,33 @@
 [project]
 name = "floquet-ising"
-version = "0.1.0"
+version = "0.2.0"
 description = "Simulating 2D transverse-field Ising model"
 readme = "README.md"
 authors = [
     { name = "Graham Enos", email = "graham.enos@gmail.com" }
 ]
-requires-python = ">=3.13"
+requires-python = ">=3.14"
 dependencies = [
-    "bluequbit>=0.18.11b1",
+    "bluequbit>=0.18.12b1",
     "numpy>=2.5.2",
-    "pandas[parquet,performance]>=3.0.5",
-    "pydantic>=2.13.4",
+    "pandas[parquet,performance]>=3.0.6",
+    "pydantic>=2.14.1",
     "qiskit>=2.5.2",
 ]
 
 [build-system]
-requires = ["uv_build>=0.12.5,<0.13.0"]
+requires = ["uv_build>=0.13.0,<0.14.0"]
 build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
     "jupyter>=1.1.1",
-    "marimo>=0.24.0",
-    "matplotlib>=3.11.1",
+    "marimo>=0.25.1",
+    "matplotlib>=3.11.2",
     "pyprojroot>=0.3.0",
-    "pyright>=1.1.411",
+    "pyright>=1.1.414",
     "pytest>=9.1.1",
-    "ruff>=0.16.3",
+    "ruff>=0.17.0",
     "seaborn>=0.13.2",
-    "ty>=0.0.73",
+    "ty>=0.0.86",
 ]
